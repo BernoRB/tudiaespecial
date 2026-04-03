@@ -1,0 +1,21 @@
+{
+  "slug": "demo-boda-minimal",
+  "category": "bodas",
+  "template_key": "boda_minimal",
+  "honorees": "Facundo & Patricia",
+  "hero_message": "Nos casamos y queremos celebrarlo con vos",
+  "date": "2026-11-14",
+  "time": "19:30",
+  "venue_name": "Salón La Toscana",
+  "venue_address": "Av. Siempre Viva 123, Córdoba",
+  "maps_url": "https://maps.google.com",
+  "dress_code": "Elegante",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": true
+  }
+}

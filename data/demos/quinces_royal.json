@@ -1,0 +1,21 @@
+{
+  "slug": "demo-quinces-royal",
+  "category": "quinces",
+  "template_key": "quinces_glow",
+  "honorees": "Luz",
+  "hero_message": "Princesa por un día",
+  "date": "2026-10-15",
+  "time": "21:00",
+  "venue_name": "Salón Royal",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Formal chic",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": true
+  }
+}

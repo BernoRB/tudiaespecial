@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elegí cómo pagar · TuDiaEspecial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+    <a href="/" class="nav-cta">Inicio</a>
+  </nav>
+
+  <section style="padding-top:120px;padding-bottom:80px;background:var(--warm-white);">
+    <div class="section-header" style="max-width:720px;margin:0 auto 32px;">
+      <span class="section-label">Pago</span>
+      <h2 class="section-title">Elegí cómo querés pagar</h2>
+      <p class="section-sub">Tu pedido quedó registrado. Ahora elegí el método de pago para que podamos avanzar con tu invitación.</p>
+    </div>
+
+    <div style="max-width:640px;margin:0 auto;background:var(--offwhite);padding:28px 22px;border-radius:4px;border:1px solid var(--border);box-shadow:var(--shadow-soft);font-size:0.9rem;color:var(--muted);margin-bottom:24px;">
+      <p><strong>Pedido #<%= order.id %></strong></p>
+      <p>Tipo de evento: <strong><%= order.category %></strong></p>
+      <p>Plantilla elegida: <strong><%= order.template_key %></strong></p>
+      <p>Te vamos a contactar a: <strong><%= order.customer_email %></strong> · <strong><%= order.customer_whatsapp %></strong></p>
+    </div>
+
+    <form action="/pago/<%= order.id %>" method="post" style="max-width:640px;margin:0 auto;display:grid;gap:18px;">
+      <div>
+        <label style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:8px;display:block;">Método de pago</label>
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:0.92rem;color:var(--ink-soft);">
+          <input type="radio" name="payment_method" value="transferencia" required>
+          Transferencia bancaria
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--ink-soft);">
+          <input type="radio" name="payment_method" value="mercadopago" required>
+          MercadoPago (link de pago)
+        </label>
+      </div>
+
+      <button type="submit" class="plan-cta" style="max-width:260px;">
+        Continuar
+      </button>
+    </form>
+  </section>
+
+  <script src="/js/scripts.js"></script>
+</body>
+</html>
+

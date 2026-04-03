@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= event.honorees || "Nuestra boda" %> · Invitación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#f8f6f3;--card:#fff;--ink:#27221d;--muted:#7b7165;--line:rgba(39,34,29,.16);--accent:#b59667;--shadow:0 18px 42px rgba(50,40,27,.12)}
+    *{box-sizing:border-box} body{margin:0;font-family:"Jost",sans-serif;background:var(--bg);color:var(--ink)}
+    .page{max-width:1120px;margin:0 auto;padding:14px 12px 54px}
+    .hero{position:relative;min-height:64vh;border-radius:10px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,12,.7),rgba(20,16,12,.12) 50%,rgba(20,16,12,.36));z-index:1}
+    .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .hero-content{position:relative;z-index:2;min-height:64vh;display:flex;flex-direction:column;justify-content:flex-end;text-align:center;color:#f8f6f3;padding:24px 16px}
+    .hero-kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.74rem}
+    .hero-name{font-family:"Playfair Display",serif;font-size:clamp(2rem,8vw,3.2rem);margin:5px 0}
+    .hero-title{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1.05rem,3.5vw,1.35rem);margin:0 0 6px}
+    .hero-date{letter-spacing:.14em;text-transform:uppercase;font-size:.86rem}
+    .grid{display:grid;gap:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+    .card-inner{padding:20px 16px}
+    .title{font-family:"Playfair Display",serif;font-size:1.42rem;margin:0 0 6px}
+    .sub{margin:0 0 12px;color:var(--muted);font-size:.95rem;line-height:1.55}
+    .countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .count-box{border:1px solid var(--line);background:#fbfaf8;border-radius:8px;text-align:center;padding:8px 4px}
+    .count-number{display:block;font-family:"Playfair Display",serif;font-size:1.24rem;color:var(--ink)}
+    .count-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+    .calendar-btn,.send-btn{display:inline-block;border:none;background:var(--accent);color:#fff;border-radius:999px;padding:11px 16px;letter-spacing:.14em;text-transform:uppercase;font-size:.76rem;text-decoration:none;cursor:pointer}
+    .calendar-btn{margin-top:12px}
+    .info-list{display:grid;gap:8px;color:var(--muted);font-size:.94rem}
+    .map-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#eee}
+    .map-wrap iframe{display:block;width:100%;height:250px;border:0}
+    .gallery-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory}
+    .gallery-item{flex:0 0 72%;cursor:pointer;scroll-snap-align:start;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#eee}
+    .gallery-item img{width:100%;height:220px;object-fit:cover;display:block}
+    .gift-toggle{width:100%;border:1px solid var(--line);background:#fbfaf8;border-radius:8px;padding:10px 12px;text-align:left;cursor:pointer;color:var(--ink)}
+    .gift-box{display:none;margin-top:10px;border:1px dashed var(--line);border-radius:8px;padding:10px;color:var(--muted);font-size:.9rem;line-height:1.55}
+    .gift-box.visible{display:block}
+    .rsvp{padding:20px 16px 24px}
+    .rsvp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field label{display:block;margin-bottom:4px;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+    .field input,.field select,.field textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:.88rem}
+    .field textarea{min-height:70px;resize:vertical}
+    .full{grid-column:1/-1}
+    .send-btn{margin-top:12px;width:100%}
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(12,10,8,.84);z-index:9999;align-items:center;justify-content:center;padding:20px}
+    .lightbox.visible{display:flex}
+    .lightbox img{max-width:100%;max-height:85vh;border-radius:10px}
+    .lightbox-close{position:absolute;top:12px;right:14px;border:0;background:rgba(255,255,255,.16);color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.3rem}
+    @media (min-width:900px){.page{padding:20px 16px 70px}.hero,.hero-content{min-height:74vh}.hero-content{text-align:left;align-items:flex-start;padding:34px}.grid{grid-template-columns:1fr 1fr;gap:16px}.card-inner,.rsvp{padding:22px 20px}.gallery-item{flex-basis:48%}.gallery-item img{height:250px}.map-wrap iframe{height:320px}}
+  </style>
+</head>
+<body>
+  <%
+    const heroImage = event.hero_image || "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80";
+    const galleryImages =
+      gallery && Array.isArray(gallery) && gallery.length
+        ? gallery
+        : [
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?auto=format&fit=crop&w=1000&q=80"
+          ];
+    const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
+    const eventDateForCalendar = event.date || "2026-11-14";
+    const eventTimeForCalendar = event.time || "19:30";
+    const startLocal = new Date(`${eventDateForCalendar}T${eventTimeForCalendar}:00`);
+    const endLocal = new Date(startLocal.getTime() + 5 * 60 * 60 * 1000);
+    function toGoogleDate(d){const yyyy=d.getUTCFullYear();const mm=String(d.getUTCMonth()+1).padStart(2,"0");const dd=String(d.getUTCDate()).padStart(2,"0");const hh=String(d.getUTCHours()).padStart(2,"0");const mi=String(d.getUTCMinutes()).padStart(2,"0");const ss=String(d.getUTCSeconds()).padStart(2,"0");return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;}
+    const googleCalendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      `&text=${encodeURIComponent(`Boda - ${event.honorees || "Invitación"}`)}` +
+      `&dates=${toGoogleDate(startLocal)}/${toGoogleDate(endLocal)}` +
+      `&details=${encodeURIComponent("Nos encantaría contar con tu presencia en este día especial.")}` +
+      `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
+  %>
+  <main class="page">
+    <header class="hero">
+      <img src="<%= heroImage %>" alt="Foto principal de la boda">
+      <div class="hero-content">
+        <div class="hero-kicker">INVITACIÓN · BODA</div>
+        <h1 class="hero-name"><%= event.honorees || "Nombre & Nombre" %></h1>
+        <p class="hero-title"><%= event.hero_message || "Nos casamos y queremos compartirlo con vos" %></p>
+        <div class="hero-date"><%= event.date || "2026-11-14" %></div>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card"><div class="card-inner">
+        <h2 class="title">Cuenta regresiva</h2><p class="sub">Cada segundo nos acerca a nuestro gran día.</p>
+        <div class="countdown" id="countdown" data-date="<%= event.date || "" %>" data-time="<%= event.time || "" %>">
+          <div class="count-box"><span class="count-number" data-unit="days">--</span><span class="count-label">Días</span></div>
+          <div class="count-box"><span class="count-number" data-unit="hours">--</span><span class="count-label">Horas</span></div>
+          <div class="count-box"><span class="count-number" data-unit="minutes">--</span><span class="count-label">Minutos</span></div>
+          <div class="count-box"><span class="count-number" data-unit="seconds">--</span><span class="count-label">Segundos</span></div>
+        </div>
+        <a class="calendar-btn" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">Agregar al calendario</a>
+      </div></article>
+
+      <article class="card"><div class="card-inner">
+        <h2 class="title">Información del evento</h2><p class="sub">Guardá estos datos para ese día.</p>
+        <div class="info-list">
+          <div><strong>Lugar:</strong> <%= event.venue_name || "Lugar del evento" %></div>
+          <div><strong>Dirección:</strong> <%= event.venue_address || "Dirección" %></div>
+          <% if (sections && sections.dress_code && event.dress_code) { %><div><strong>Dress code:</strong> <%= event.dress_code %></div><% } %>
+        </div>
+      </div></article>
+
+      <% if (sections && sections.location) { %>
+      <article class="card"><div class="card-inner">
+        <h2 class="title">Cómo llegar</h2><p class="sub">Mapa interactivo del lugar del evento.</p>
+        <div class="map-wrap"><iframe title="Mapa del evento" src="https://www.google.com/maps?q=<%= mapsQuery %>&output=embed" loading="lazy"></iframe></div>
+      </div></article>
+      <% } %>
+
+      <% if (sections && sections.gallery) { %>
+      <article class="card"><div class="card-inner">
+        <h2 class="title">Galería</h2><p class="sub">Fotos de nuestra historia.</p>
+        <div class="gallery-track">
+          <% galleryImages.forEach(function(photo) { %><div class="gallery-item" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto galería boda"></div><% }) %>
+        </div>
+      </div></article>
+      <% } %>
+
+      <% if (sections && sections.gifts) { %>
+      <article class="card"><div class="card-inner">
+        <h2 class="title">Regalos</h2><p class="sub">Con tu presencia alcanza, pero si querés hacernos un regalo, podés hacerlo acá.</p>
+        <button type="button" class="gift-toggle" id="gift-toggle">Ver datos para regalo</button>
+        <div class="gift-box" id="gift-box">
+          <div><strong>Alias:</strong> <%= event.gift_alias || "boda.alias" %></div>
+          <div><strong>CBU:</strong> <%= event.gift_cbu || "0000000000000000000000" %></div>
+          <div><strong>Titular:</strong> <%= event.gift_holder || "Nombre titular" %></div>
+        </div>
+      </div></article>
+      <% } %>
+    </section>
+
+    <section class="card rsvp" style="margin-top:16px;">
+      <h2 class="title">Confirmar asistencia</h2><p class="sub">Por favor completá este formulario para ayudarnos a organizar mejor.</p>
+      <form action="/api/<%= event.slug %>/rsvp" method="post">
+        <div class="rsvp-grid">
+          <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input type="text" id="contact_name" name="contact_name" required></div>
+          <div class="field"><label for="people_count">¿Cuántas personas van?</label><input type="number" id="people_count" name="people_count" min="1" value="1" required></div>
+          <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Asistiremos</option><option value="declined">No podemos asistir</option></select></div>
+          <div class="field full"><label for="people_names">Nombre y apellido de todos los que te acompañan</label><textarea id="people_names" name="people_names" placeholder="Ej: Juan Pérez, Ana Gómez, Sofía López"></textarea></div>
+          <div class="field full"><label for="food_preferences">Preferencias de comida</label><textarea id="food_preferences" name="food_preferences" placeholder="Aclaraciones sobre alergias, vegetarianos, etc."></textarea></div>
+          <% if (sections && sections.music) { %><div class="field full"><label for="song_suggestions">Sugerencias de canciones</label><textarea id="song_suggestions" name="song_suggestions" placeholder="Temas que te gustaría escuchar en la fiesta"></textarea></div><% } %>
+          <div class="field full"><label for="comments">Comentarios adicionales</label><textarea id="comments" name="comments"></textarea></div>
+        </div>
+        <button type="submit" class="send-btn">Enviar confirmación</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">×</button><img src="" alt="Foto ampliada" id="lightbox-image"></div>
+  <script>
+    (function(){
+      const qs = new URLSearchParams(window.location.search);
+      if (qs.get("rsvp") === "ok") {
+        window.alert("Gracias por confirmar tu asistencia.");
+        qs.delete("rsvp");
+        const clean = window.location.pathname + (qs.toString() ? "?" + qs.toString() : "");
+        window.history.replaceState({}, "", clean);
+      }
+      const el=document.getElementById("countdown");
+      if(el){const ds=el.getAttribute("data-date");const ts=el.getAttribute("data-time")||"00:00";if(ds){const target=new Date(ds+"T"+ts+":00");function u(){const n=new Date();let d=target.getTime()-n.getTime();if(d<0)d=0;const days=Math.floor(d/(1000*60*60*24));const hours=Math.floor((d/(1000*60*60))%24);const minutes=Math.floor((d/(1000*60))%60);const seconds=Math.floor((d/1000)%60);const s=(k,v)=>{const node=el.querySelector('[data-unit="'+k+'"]');if(node)node.textContent=String(v).padStart(2,"0");};s("days",days);s("hours",hours);s("minutes",minutes);s("seconds",seconds);}u();setInterval(u,1000);}}
+      const gt=document.getElementById("gift-toggle"),gb=document.getElementById("gift-box"); if(gt&&gb){gt.addEventListener("click",function(){gb.classList.toggle("visible");gt.textContent=gb.classList.contains("visible")?"Ocultar datos para regalo":"Ver datos para regalo";});}
+      const lb=document.getElementById("lightbox"),lbi=document.getElementById("lightbox-image"),lbc=document.getElementById("lightbox-close"); document.querySelectorAll(".gallery-item").forEach(function(i){i.addEventListener("click",function(){const p=i.getAttribute("data-photo");if(!p||!lb||!lbi)return;lbi.src=p;lb.classList.add("visible");});}); if(lbc&&lb){lbc.addEventListener("click",function(){lb.classList.remove("visible");}); lb.addEventListener("click",function(e){if(e.target===lb)lb.classList.remove("visible");});}
+    })();
+  </script>
+</body>
+</html>
+

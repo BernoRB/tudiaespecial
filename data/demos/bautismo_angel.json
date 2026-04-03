@@ -1,0 +1,21 @@
+{
+  "slug": "demo-bautismo-angel",
+  "category": "bautismos",
+  "template_key": "boda_minimal",
+  "honorees": "Emma",
+  "hero_message": "Ángel guardián",
+  "date": "2026-05-10",
+  "time": "11:00",
+  "venue_name": "Parroquia Ángeles",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Blanco",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": false
+  }
+}

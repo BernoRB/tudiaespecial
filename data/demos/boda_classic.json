@@ -1,0 +1,21 @@
+{
+  "slug": "demo-boda-classic",
+  "category": "bodas",
+  "template_key": "boda_minimal",
+  "honorees": "Carla & Diego",
+  "hero_message": "Unidos para siempre",
+  "date": "2026-12-20",
+  "time": "20:00",
+  "venue_name": "Salón Classic",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Elegante",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": false
+  }
+}

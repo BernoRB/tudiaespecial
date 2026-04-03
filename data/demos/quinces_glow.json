@@ -1,0 +1,24 @@
+{
+  "slug": "demo-quinces-glow",
+  "category": "quinces",
+  "template_key": "quinces_glow",
+  "honorees": "Martina",
+  "hero_message": "La noche que soñé, para siempre",
+  "date": "2026-09-05",
+  "time": "21:00",
+  "venue_name": "Salón Las Estrellas",
+  "venue_address": "Calle Luna 456, Buenos Aires",
+  "maps_url": "https://maps.google.com",
+  "dress_code": "Chic de fiesta",
+  "gift_alias": "martina.15.regalo",
+  "gift_cbu": "0000000000000000000000",
+  "gift_holder": "Martina Perez",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": true
+  }
+}

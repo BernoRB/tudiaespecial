@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de invitación · TuDiaEspecial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+    <a href="/" class="nav-cta">Volver</a>
+  </nav>
+
+  <section style="padding-top:120px;padding-bottom:80px;background:var(--warm-white);">
+    <div class="section-header" style="max-width:720px;margin:0 auto 40px;">
+      <span class="section-label">Formulario</span>
+      <h2 class="section-title">Contanos sobre tu evento</h2>
+      <p class="section-sub">Con esta información preparamos tu invitación digital y luego coordinamos el pago.</p>
+    </div>
+
+    <form action="/solicitud" method="post" style="max-width:740px;margin:0 auto;background:var(--offwhite);padding:32px 24px;border-radius:4px;border:1px solid var(--border);box-shadow:var(--shadow-soft);display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;">
+      <!-- Categoría y template -->
+      <div>
+        <label for="category" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Tipo de evento</label>
+        <select id="category" name="category" required style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+          <option value="bodas">Boda</option>
+          <option value="quinces">Quinces</option>
+          <option value="bautismos">Bautismo</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="template_key" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Plantilla</label>
+        <select id="template_key" name="template_key" required style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+          <option value="boda_minimal">Boda Minimal</option>
+          <option value="boda_classic">Boda Classic</option>
+          <option value="quinces_glow">Quinces Glow</option>
+          <option value="quinces_royal">Quinces Royal</option>
+          <option value="bautismo_soft">Bautismo Soft</option>
+        </select>
+      </div>
+
+      <!-- Datos del evento -->
+      <div style="grid-column:1 / -1;margin-top:8px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px;">Datos del evento</h3>
+      </div>
+
+      <div>
+        <label for="honorees" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Nombres de los agasajados</label>
+        <input type="text" id="honorees" name="honorees" required placeholder="Ej: Facundo &amp; Patricia" style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="hero_message" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Frase principal (opcional)</label>
+        <input type="text" id="hero_message" name="hero_message" placeholder="Ej: Nos casamos" style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Fecha</label>
+        <input type="date" id="date" name="date" required style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Hora</label>
+        <input type="time" id="time" name="time" required style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="venue_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Lugar</label>
+        <input type="text" id="venue_name" name="venue_name" placeholder="Nombre del salón / iglesia" style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="venue_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Dirección</label>
+        <input type="text" id="venue_address" name="venue_address" placeholder="Dirección completa" style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label for="dress_code" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Dress code (opcional)</label>
+        <input type="text" id="dress_code" name="dress_code" placeholder="Ej: Elegante, informal chic, etc." style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <!-- Secciones -->
+      <div style="grid-column:1 / -1;margin-top:16px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px;">¿Qué secciones querés activar?</h3>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px;">Podés tildar solo lo que quieras que aparezca en tu invitación.</p>
+      </div>
+
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_gallery">
+          Galería de fotos (Enviar fotos por mail/whatsapp)
+        </label>
+      </div>
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_location">
+          Ubicación / mapa
+        </label>
+      </div>
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_itinerary">
+          Cronograma del evento
+        </label>
+      </div>
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_dress_code">
+          Dress code
+        </label>
+      </div>
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_gifts">
+          Sección de regalos / CBU (Indicar CBU en notas)
+        </label>
+      </div>
+      <div>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_music">
+          Sugerencias de canciones
+        </label>
+      </div>
+
+      <div style="grid-column:1 / -1;margin-top:4px;">
+        <label for="notes" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Notas / Comentarios</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Ej: detalles especiales, CBU/Alias para regalos, aclaraciones del evento, etc." style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;font-family:'Jost',sans-serif;"></textarea>
+      </div>
+
+      <!-- Contacto -->
+      <div style="grid-column:1 / -1;margin-top:16px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px;">¿Dónde te enviamos tu invitación?</h3>
+      </div>
+
+      <div>
+        <label for="contact_email" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Email</label>
+        <input type="email" id="contact_email" name="contact_email" required placeholder="tu@email.com" style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="contact_whatsapp" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">WhatsApp</label>
+        <input type="text" id="contact_whatsapp" name="contact_whatsapp" required placeholder="+54 9 ..." style="width:100%;margin-top:6px;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div style="grid-column:1 / -1;margin-top:12px;">
+        <button type="submit" class="plan-cta" style="margin-top:8px;">
+          Continuar
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <script src="/js/scripts.js"></script>
+</body>
+</html>
+

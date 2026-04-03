@@ -1,0 +1,21 @@
+{
+  "slug": "demo-bautismo-soft",
+  "category": "bautismos",
+  "template_key": "boda_minimal",
+  "honorees": "Santino",
+  "hero_message": "Con amor y fe",
+  "date": "2026-08-03",
+  "time": "11:00",
+  "venue_name": "Parroquia San José",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Elegante informal",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": false
+  }
+}

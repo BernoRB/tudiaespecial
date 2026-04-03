@@ -1,0 +1,21 @@
+{
+  "slug": "demo-boda-starlight",
+  "category": "bodas",
+  "template_key": "boda_minimal",
+  "honorees": "Sofía & Bruno",
+  "hero_message": "Estrellas alineadas",
+  "date": "2026-07-08",
+  "time": "20:00",
+  "venue_name": "Terraza Starlight",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Noches de verano",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": true
+  }
+}

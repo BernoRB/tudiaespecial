@@ -1,0 +1,21 @@
+{
+  "slug": "demo-bautismo-nature",
+  "category": "bautismos",
+  "template_key": "boda_minimal",
+  "honorees": "Tomás",
+  "hero_message": "Nueva vida",
+  "date": "2026-09-15",
+  "time": "11:00",
+  "venue_name": "Capilla del Bosque",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Natural",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": false
+  }
+}

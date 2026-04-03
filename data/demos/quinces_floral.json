@@ -1,0 +1,21 @@
+{
+  "slug": "demo-quinces-floral",
+  "category": "quinces",
+  "template_key": "quinces_glow",
+  "honorees": "Agostina",
+  "hero_message": "Floreciendo",
+  "date": "2026-11-10",
+  "time": "21:00",
+  "venue_name": "Salón Floral",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Primaveral",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": true
+  }
+}

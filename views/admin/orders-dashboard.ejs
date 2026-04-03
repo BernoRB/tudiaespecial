@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin pedidos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body style="background:var(--warm-white);">
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+  </nav>
+  <section style="padding-top:110px;padding-bottom:60px;">
+    <div style="max-width:980px;margin:0 auto;">
+      <h1 class="section-title" style="margin-bottom:8px;">Pedidos recibidos</h1>
+      <p class="section-sub" style="margin-bottom:18px;">Desde acá podés publicar una invitación y obtener el link final para enviar al cliente.</p>
+
+      <% if (published) { %>
+        <div style="background:#edf9f0;border:1px solid #b8e1c2;border-radius:6px;padding:12px 14px;margin-bottom:16px;font-size:0.9rem;">
+          <div><strong>Publicado pedido #<%= published.orderId %></strong></div>
+          <div>Slug: <code><%= published.slug %></code></div>
+          <div>PIN admin cliente: <code><%= published.adminPin %></code></div>
+          <div>Link invitación: <a href="<%= published.inviteUrl %>" target="_blank"><%= published.inviteUrl %></a></div>
+          <div>Link panel cliente: <a href="<%= published.adminUrl %>" target="_blank"><%= published.adminUrl %></a></div>
+        </div>
+      <% } %>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:6px;overflow:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;min-width:900px;">
+          <thead style="background:var(--offwhite);">
+            <tr>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">ID</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Fecha</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Categoría</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Template</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Contacto</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Pago</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Estado</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Notas</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">PIN</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Publicar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(function(order){ %>
+              <tr>
+                <td style="padding:9px;border-bottom:1px solid var(--border);">#<%= order.id %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.created_at %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.category %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.template_key %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.customer_email %><br/><%= order.customer_whatsapp %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.payment_method || "-" %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.status %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);white-space:pre-wrap;min-width:220px;"><%= order.notes || "-" %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.event_admin_pin || "-" %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);">
+                  <% if (!order.event_id) { %>
+                    <form method="post" action="/admin/orders/<%= order.id %>/publish" style="display:grid;gap:6px;min-width:250px;">
+                      <input type="text" name="custom_slug" placeholder="Slug (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
+                      <input type="url" name="hero_image" placeholder="URL foto portada" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
+                      <textarea name="gallery_urls" rows="3" placeholder="URLs galería, una por línea" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;"></textarea>
+                      <input type="text" name="gift_alias" placeholder="Alias regalo (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
+                      <input type="text" name="gift_cbu" placeholder="CBU regalo (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
+                      <input type="text" name="gift_holder" placeholder="Titular cuenta (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
+                      <button type="submit" style="background:var(--gold);border:none;border-radius:4px;padding:8px 10px;font-size:0.75rem;cursor:pointer;">Publicar invitación</button>
+                    </form>
+                  <% } else { %>
+                    <div style="display:grid;gap:6px;">
+                      <div>Publicado</div>
+                      <a href="/admin/events/<%= order.event_id %>/edit" style="font-size:0.75rem;color:var(--ink);">Editar invitación</a>
+                    </div>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
+

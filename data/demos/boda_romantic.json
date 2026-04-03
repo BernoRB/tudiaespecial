@@ -1,0 +1,21 @@
+{
+  "slug": "demo-boda-romantic",
+  "category": "bodas",
+  "template_key": "boda_minimal",
+  "honorees": "Lucía & Mateo",
+  "hero_message": "Amor en flor",
+  "date": "2026-02-14",
+  "time": "19:30",
+  "venue_name": "Jardín Las Rosas",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Romantic chic",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": true
+  }
+}

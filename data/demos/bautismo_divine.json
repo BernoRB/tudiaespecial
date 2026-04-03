@@ -1,0 +1,21 @@
+{
+  "slug": "demo-bautismo-divine",
+  "category": "bautismos",
+  "template_key": "boda_minimal",
+  "honorees": "Mía",
+  "hero_message": "Luz divina",
+  "date": "2026-11-18",
+  "time": "11:00",
+  "venue_name": "Parroquia Divina",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Pasteles suaves",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": false,
+    "music": false
+  }
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso administrador · <%= slug %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body style="background:var(--warm-white);">
+  <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;">
+    <div style="max-width:380px;width:100%;background:white;border-radius:4px;border:1px solid var(--border);box-shadow:var(--shadow-soft);padding:28px 24px;">
+      <div style="font-size:0.8rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Panel del evento</div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:16px;color:var(--ink);">
+        Acceso administrador
+      </h1>
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">
+        Ingresá el PIN que te enviamos junto con tu invitación para ver la lista de confirmados.
+      </p>
+
+      <% if (error) { %>
+        <div style="background:rgba(193,39,45,0.08);border:1px solid rgba(193,39,45,0.35);color:#C1272D;font-size:0.85rem;padding:8px 10px;border-radius:3px;margin-bottom:10px;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/<%= slug %>/admin/login" method="post" style="display:grid;gap:10px;">
+        <div>
+          <label for="pin" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:4px;display:block;">PIN</label>
+          <input type="password" id="pin" name="pin" required style="width:100%;padding:9px 10px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <button type="submit" class="plan-cta" style="margin-top:6px;">Ingresar</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
+

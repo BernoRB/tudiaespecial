@@ -1,0 +1,21 @@
+{
+  "slug": "demo-boda-ocean",
+  "category": "bodas",
+  "template_key": "boda_minimal",
+  "honorees": "Ana & Tomás",
+  "hero_message": "Amor infinito",
+  "date": "2026-01-03",
+  "time": "18:30",
+  "venue_name": "Club de Mar",
+  "venue_address": "Dirección demo",
+  "maps_url": "",
+  "dress_code": "Blanco & azul",
+  "sections": {
+    "gallery": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": false,
+    "gifts": true,
+    "music": true
+  }
+}

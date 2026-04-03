@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar invitación #<%= event.id %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body style="background:var(--warm-white);">
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+    <a href="/admin/orders" class="nav-cta">Volver a pedidos</a>
+  </nav>
+  <section style="padding-top:110px;padding-bottom:60px;">
+    <div style="max-width:960px;margin:0 auto;">
+      <h1 class="section-title" style="margin-bottom:8px;">Editar invitación #<%= event.id %></h1>
+      <p class="section-sub" style="margin-bottom:14px;">Podés editar todos los textos, secciones, fotos, regalos, slug, PIN y estado.</p>
+      <% if (saved) { %>
+        <div style="background:#edf9f0;border:1px solid #b8e1c2;border-radius:6px;padding:10px 12px;margin-bottom:14px;">Cambios guardados correctamente.</div>
+      <% } %>
+
+      <form method="post" action="/admin/events/<%= event.id %>/edit" style="display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;background:#fff;border:1px solid var(--border);padding:16px;border-radius:8px;">
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Slug</label>
+          <input name="slug" value="<%= event.slug || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">PIN admin cliente</label>
+          <input name="admin_pin" value="<%= event.admin_pin || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Categoría</label>
+          <input name="category" value="<%= event.category || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Template key</label>
+          <input name="template_key" value="<%= event.template_key || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Nombres agasajados</label>
+          <input name="honorees" value="<%= event.honorees || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Hero message</label>
+          <input name="hero_message" value="<%= event.hero_message || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Fecha</label>
+          <input type="date" name="date" value="<%= event.date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Hora</label>
+          <input type="time" name="time" value="<%= event.time || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Lugar</label>
+          <input name="venue_name" value="<%= event.venue_name || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Dirección</label>
+          <input name="venue_address" value="<%= event.venue_address || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Maps URL (opcional)</label>
+          <input name="maps_url" value="<%= event.maps_url || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Dress code</label>
+          <input name="dress_code" value="<%= event.dress_code || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Email cliente</label>
+          <input name="contact_email" value="<%= event.contact_email || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">WhatsApp cliente</label>
+          <input name="contact_whatsapp" value="<%= event.contact_whatsapp || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Foto portada (URL)</label>
+          <input name="hero_image" value="<%= event.hero_image || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Estado</label>
+          <select name="status" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            <option value="ready" <%= event.status === 'ready' ? 'selected' : '' %>>ready</option>
+            <option value="paid" <%= event.status === 'paid' ? 'selected' : '' %>>paid</option>
+            <option value="pending_payment" <%= event.status === 'pending_payment' ? 'selected' : '' %>>pending_payment</option>
+          </select>
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:4px;">Secciones activas</label>
+          <label style="margin-right:10px;"><input type="checkbox" name="section_gallery" <%= sections.gallery ? 'checked' : '' %>> Galería</label>
+          <label style="margin-right:10px;"><input type="checkbox" name="section_location" <%= sections.location ? 'checked' : '' %>> Ubicación</label>
+          <label style="margin-right:10px;"><input type="checkbox" name="section_dress_code" <%= sections.dress_code ? 'checked' : '' %>> Dress code</label>
+          <label style="margin-right:10px;"><input type="checkbox" name="section_itinerary" <%= sections.itinerary ? 'checked' : '' %>> Itinerario</label>
+          <label style="margin-right:10px;"><input type="checkbox" name="section_gifts" <%= sections.gifts ? 'checked' : '' %>> Regalos</label>
+          <label><input type="checkbox" name="section_music" <%= sections.music ? 'checked' : '' %>> Música</label>
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Alias regalo</label>
+          <input name="gift_alias" value="<%= event.gift_alias || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div>
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">CBU regalo</label>
+          <input name="gift_cbu" value="<%= event.gift_cbu || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Titular regalo</label>
+          <input name="gift_holder" value="<%= event.gift_holder || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">URLs galería (una por línea)</label>
+          <textarea name="gallery_urls" rows="6" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:monospace;"><%= galleryUrls || '' %></textarea>
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <button type="submit" class="plan-cta" style="margin-top:0;">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
+
