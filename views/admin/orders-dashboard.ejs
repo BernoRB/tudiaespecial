@@ -12,7 +12,7 @@
     <div class="nav-logo">TuDia<span>Especial</span></div>
   </nav>
   <section style="padding-top:110px;padding-bottom:60px;">
-    <div style="max-width:980px;margin:0 auto;">
+    <div style="max-width:1400px;margin:0 auto;padding:0 20px;">
       <h1 class="section-title" style="margin-bottom:8px;">Pedidos recibidos</h1>
       <p class="section-sub" style="margin-bottom:18px;">Desde acá podés publicar una invitación y obtener el link final para enviar al cliente.</p>
 
@@ -32,6 +32,7 @@
             <tr>
               <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">ID</th>
               <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Fecha</th>
+              <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Cliente</th>
               <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Categoría</th>
               <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Template</th>
               <th style="padding:10px;border-bottom:1px solid var(--border);text-align:left;">Contacto</th>
@@ -44,27 +45,47 @@
           </thead>
           <tbody>
             <% orders.forEach(function(order){ %>
+              <%
+                try {
+                  var formData = JSON.parse(order.raw_form_json || '{}');
+                } catch(e) {
+                  var formData = {};
+                }
+              %>
               <tr>
-                <td style="padding:9px;border-bottom:1px solid var(--border);">#<%= order.id %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);">#<%= order._id %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.created_at %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.customer_name || "-" %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.category %></td>
-                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.template_key %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.template_key || "-" %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.customer_email %><br/><%= order.customer_whatsapp %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.payment_method || "-" %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.status %></td>
-                <td style="padding:9px;border-bottom:1px solid var(--border);white-space:pre-wrap;min-width:220px;"><%= order.notes || "-" %></td>
+                <td style="padding:9px;border-bottom:1px solid var(--border);white-space:normal;min-width:280px;">
+                  <ul style="margin:0;padding-left:18px;list-style-type:disc;font-size:0.8rem;line-height:1.4;">
+                    <% if (formData.honorees) { %><li><strong>Agasajado:</strong> <%= formData.honorees %></li><% } %>
+                    <% if (formData.date) { %><li><strong>Fecha:</strong> <%= formData.date %></li><% } %>
+                    <% if (formData.time) { %><li><strong>Hora:</strong> <%= formData.time %></li><% } %>
+                    <% if (formData.venue_name) { %><li><strong>Lugar:</strong> <%= formData.venue_name %></li><% } %>
+                    <% if (formData.dress_code) { %><li><strong>Dress code:</strong> <%= formData.dress_code %></li><% } %>
+                    <% if (order.category === 'bodas') { %>
+                      <% if (formData.civil_enabled) { %><li><strong>Civil:</strong> <%= formData.civil_date || '-' %> <%= formData.civil_time || '-' %></li><% } %>
+                      <% if (formData.church_enabled) { %><li><strong>Iglesia:</strong> <%= formData.church_date || '-' %> <%= formData.church_time || '-' %></li><% } %>
+                      <% if (formData.party_enabled) { %><li><strong>Fiesta:</strong> <%= formData.party_date || '-' %> <%= formData.party_time || '-' %></li><% } %>
+                    <% } %>
+                    <% if (order.category === 'peques' || order.category === 'ninos') { %>
+                      <% if (formData.age_years) { %><li><strong>Edad:</strong> <%= formData.age_years %> años</li><% } %>
+                    <% } %>
+                    <% if (order.category === 'eventos') { %>
+                      <% if (formData.event_type) { %><li><strong>Tipo de evento:</strong> <%= formData.event_type %></li><% } %>
+                    <% } %>
+                    <% if (formData.notes) { %><li><strong>Notas:</strong> <%= formData.notes %></li><% } %>
+                  </ul>
+                </td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);"><%= order.event_admin_pin || "-" %></td>
                 <td style="padding:9px;border-bottom:1px solid var(--border);">
                   <% if (!order.event_id) { %>
-                    <form method="post" action="/admin/orders/<%= order.id %>/publish" style="display:grid;gap:6px;min-width:250px;">
-                      <input type="text" name="custom_slug" placeholder="Slug (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
-                      <input type="url" name="hero_image" placeholder="URL foto portada" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
-                      <textarea name="gallery_urls" rows="3" placeholder="URLs galería, una por línea" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;"></textarea>
-                      <input type="text" name="gift_alias" placeholder="Alias regalo (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
-                      <input type="text" name="gift_cbu" placeholder="CBU regalo (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
-                      <input type="text" name="gift_holder" placeholder="Titular cuenta (opcional)" style="padding:6px 7px;border:1px solid var(--border);border-radius:4px;font-size:0.75rem;">
-                      <button type="submit" style="background:var(--gold);border:none;border-radius:4px;padding:8px 10px;font-size:0.75rem;cursor:pointer;">Publicar invitación</button>
-                    </form>
+                    <a href="/admin/orders/<%= order._id %>/publish" style="background:var(--gold);border:none;border-radius:4px;padding:8px 10px;font-size:0.75rem;cursor:pointer;text-decoration:none;display:inline-block;">Publicar invitación</a>
                   <% } else { %>
                     <div style="display:grid;gap:6px;">
                       <div>Publicado</div>

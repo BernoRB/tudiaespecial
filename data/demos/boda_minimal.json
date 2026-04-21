@@ -10,12 +10,22 @@
   "venue_address": "Av. Siempre Viva 123, Córdoba",
   "maps_url": "https://maps.google.com",
   "dress_code": "Elegante",
+  "reserved_color": "dorado",
   "sections": {
     "gallery": true,
+    "gallery2": true,
     "dress_code": true,
     "location": true,
-    "itinerary": false,
+    "itinerary": true,
     "gifts": true,
     "music": true
+  },
+  "itinerary": {
+    "ceremony": "16:00",
+    "reception": "18:00",
+    "dinner": "21:00",
+    "party": "23:00",
+    "party_end": "06:00",
+    "civil": ""
   }
 }

@@ -1,0 +1,20 @@
+{
+  "slug": "demo-eventos-bbq",
+  "category": "eventos",
+  "template_key": "eventos_bbq",
+  "hero_image": "https://images.unsplash.com/photo-1606494554797-279096d01a9a?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "honorees": "Los pibes",
+  "event_type": "Asado Oficial",
+  "hero_message": "PEDI PERMISO",
+  "date": "2026-10-22",
+  "time": "16:00",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
+  "maps_url": "",
+  "sections_json": "{\"countdown\":true,\"gallery\":true,\"location\":true,\"rsvp\":true}",
+  "gallery": [
+    "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=1170&auto=format&fit=crop"
+  ]
+}

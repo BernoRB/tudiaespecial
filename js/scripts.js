@@ -25,20 +25,33 @@ function toggleFaq(el) {
   if (!isOpen) item.classList.add('open');
 }
 
+// Feature toggle
+function toggleFeature(el) {
+  const details = el.querySelector('.feature-details');
+  const isOpen = details.style.display === 'block';
+  details.style.display = isOpen ? 'none' : 'block';
+  el.classList.toggle('active');
+}
+
 // Carousel functionality
 const carouselPositions = {
   quinces: 0,
   bodas: 0,
-  bautismos: 0
+  bautismos: 0,
+  peques: 0,
+  ninos: 0,
+  eventos: 0
 };
 
 function moveCarousel(carouselId, direction) {
   const track = document.getElementById(`${carouselId}-track`);
-  const items = track.querySelectorAll('.carousel-item');
-  const itemWidth = 296; // 280px + 16px margin
-  const maxPosition = Math.max(0, items.length - Math.floor(track.parentElement.offsetWidth / itemWidth));
+  if (!track) return;
   
-  carouselPositions[carouselId] = Math.max(0, Math.min(maxPosition, carouselPositions[carouselId] + direction));
+  const itemWidth = 296; // 280px + 16px gap
+  const scrollAmount = itemWidth * direction;
   
-  track.style.transform = `translateX(-${carouselPositions[carouselId] * itemWidth}px)`;
+  track.scrollBy({
+    left: scrollAmount,
+    behavior: 'smooth'
+  });
 }

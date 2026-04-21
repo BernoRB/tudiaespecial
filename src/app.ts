@@ -1,6 +1,10 @@
 import express from "express";
 import path from "path";
 import cookieSession from "cookie-session";
+import dotenv from "dotenv";
+
+// Cargar variables de entorno desde .env
+dotenv.config();
 
 import publicRouter from "./routes/public";
 import eventsRouter from "./routes/events";

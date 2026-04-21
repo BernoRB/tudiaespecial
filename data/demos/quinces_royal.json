@@ -1,21 +1,31 @@
 {
   "slug": "demo-quinces-royal",
   "category": "quinces",
-  "template_key": "quinces_glow",
-  "honorees": "Luz",
-  "hero_message": "Princesa por un día",
+  "template_key": "quinces_royal",
+  "hero_image": "https://images.unsplash.com/photo-1714611302520-5afa2c3e26df?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "honorees": "Emilia",
+  "hero_message": "Una noche para recordar siempre",
   "date": "2026-10-15",
   "time": "21:00",
   "venue_name": "Salón Royal",
-  "venue_address": "Dirección demo",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
   "maps_url": "",
   "dress_code": "Formal chic",
+  "reserved_color": "morado",
   "sections": {
     "gallery": true,
+    "gallery2": true,
     "dress_code": true,
     "location": true,
     "itinerary": false,
-    "gifts": false,
+    "gifts": true,
     "music": true
-  }
+  },
+  "gallery2": [
+    "https://plus.unsplash.com/premium_photo-1698154383468-7778ad84d951?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1698154382891-d8a6c220c031?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1770404798084-06f039e1a467?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1661443610539-7da3691423cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1697477565509-da40487ede6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D"
+  ]
 }

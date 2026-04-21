@@ -1,0 +1,21 @@
+{
+  "slug": "demo-ninos-spiderman",
+  "category": "ninos",
+  "template_key": "ninos_spiderman",
+  "hero_image": "https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "honorees": "Pedro",
+  "hero_message": "Un día de poder y aventura",
+  "date": "2026-10-22",
+  "time": "16:00",
+  "venue_name": "Salón de fiestas",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Cómodo y feliz",
+  "sections_json": "{\"countdown\":true,\"gallery\":true,\"location\":true,\"rsvp\":true}",
+  "gallery": [
+    "https://images.unsplash.com/photo-1642456074142-92f75cb84533?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c3BpZGVybWFufGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1521714161819-15534968fc5f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3BpZGVybWFufGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHNwaWRlcm1hbnxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNwaWRlcm1hbnxlbnwwfHwwfHx8MA%3D%3D"
+  ]
+}

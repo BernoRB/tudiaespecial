@@ -1,0 +1,23 @@
+{
+  "slug": "demo-boda-ethereal",
+  "category": "bodas",
+  "template_key": "boda_ethereal",
+  "hero_image": "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1400&q=80",
+  "honorees": "Nicolás & Luna",
+  "hero_message": "Como un sueño que se hace realidad",
+  "date": "2027-04-15",
+  "time": "17:00",
+  "venue_name": "Salón Nubes",
+  "venue_address": "Av. Alvear 2345, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Romántico suave",
+  "reserved_color": "blanco",
+  "sections": {
+    "gallery": true,
+    "gallery2": true,
+    "dress_code": true,
+    "location": true,
+    "gifts": true,
+    "music": true
+  }
+}

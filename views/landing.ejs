@@ -4,76 +4,411 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TuDiaEspecial – Invitaciones Digitales Premium</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">TuDia<span>Especial</span></div>
-  <a href="#plan" class="nav-cta">Ver planes</a>
+<nav style="padding:8px 5vw;background:var(--gold);border-bottom:1px solid rgba(212,175,55,0.3);justify-content:center;">
+  <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);">GARANTÍA DE ENTREGA EN 24HS</div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="hero">
+<section class="hero" id="hero" style="padding:0;min-height:auto;align-items:flex-start;padding-top:100px;padding-bottom:80px;">
   <div class="hero-bg-pattern"></div>
   <!-- ACÁ PONÉ LA FOTO DEL HERO -->
   <div class="hero-image">
     <img src="/images/hero-photo.jpg" alt="Invitación digital elegante">
   </div>
   <div class="hero-inner">
-    <div class="hero-kicker reveal">Bodas · Quinces · Bautismos</div>
+    <div class="hero-kicker reveal">Bodas · Quinces · Eventos</div>
     <h1 class="reveal reveal-delay-1">
-      Tu evento comienza<br/>con <em>un click,</em><br/>no con un sobre
+      Tu <span class="slot-word" id="slotWord">evento</span> comienza<br/>con <em>un click,</em><br/>no con un sobre
     </h1>
-    <p class="hero-sub reveal reveal-delay-2">Invitaciones digitales interactivas para las celebraciones que importan. Elegancia, rapidez y confirmación en tiempo real.</p>
+    <p class="hero-sub reveal reveal-delay-2" style="font-family:'Inter',sans-serif;font-weight:500;">Invitaciones digitales interactivas para tu celebración especial </p>
+    <style>
+      @media (max-width: 768px) {
+        .hero-sub {
+          padding: 0 16px !important;
+        }
+      }
+      .slot-word {
+        color: var(--gold);
+        font-style: italic;
+        font-size: 1.1em;
+        font-weight: 700;
+        display: inline-block;
+        position: relative;
+        transition: all 0.5s ease;
+      }
+      .reveal.reveal-delay-1 {
+        /* padding: 0 20px; */
+      }
+      .slot-word.animating {
+        animation: slotSpin 0.5s ease-in-out;
+      }
+      @keyframes slotSpin {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+          filter: blur(0);
+        }
+        50% {
+          transform: translateY(-20px);
+          opacity: 0;
+          filter: blur(4px);
+        }
+        51% {
+          transform: translateY(20px);
+          opacity: 0;
+          filter: blur(4px);
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+          filter: blur(0);
+        }
+      }
+    </style>
     <div class="hero-buttons reveal reveal-delay-3">
-      <a href="#galeria" class="btn-primary">Ver Catálogo</a>
-      <a href="#plan" class="btn-secondary">Ver Planes</a>
+      <a href="#galeria" class="btn-primary" style="border-radius:4px;padding:10px 24px;text-transform:none;font-family:'Inter',sans-serif;font-size:14.4px;font-weight:500;;">Ver diseños</a>
+      <a href="https://wa.me/5491112345678" target="_blank" class="btn-secondary" style="border-radius:4px;padding:10px 24px;display:inline-flex;align-items:center;gap:8px;text-transform:none;font-family:'Inter',sans-serif;font-size:14.4px;font-weight:500;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Chatear por WhatsApp
+      </a>
     </div>
-    <div class="hero-scroll reveal reveal-delay-4">
-      <span>Deslizá</span>
-      <div class="scroll-line"></div>
-    </div>
-  </div>
 </section>
 
-<!-- POR QUÉ DIGITAL -->
-<section id="por-que">
-  <div class="section-header reveal">
-    <span class="section-label">La diferencia</span>
-    <h2 class="section-title">¿Por qué digital?</h2>
-    <p class="section-sub">Elegante, sustentable y pensado para el mundo en que vivimos.</p>
+<!-- GALERÍA -->
+<section id="galeria" style="padding:30px 3vw;">
+  <!-- <h2 style="font-family:'Inter',sans-serif;font-size:2rem;font-weight:500;color:var(--ink);margin-bottom:2px;">Diseños</h2> -->
+
+  <!-- CARRUSEL QUINCES -->
+  <div class="carousel-section reveal">
+    <div class="carousel-container">
+      <button class="carousel-nav carousel-prev" onclick="moveCarousel('quinces', -1)">‹</button>
+      <button class="carousel-nav carousel-next" onclick="moveCarousel('quinces', 1)">›</button>
+      <div class="carousel-track" id="quinces-track">
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Quinces Diamond</h4>
+          <a class="gallery-item" href="/demo/quinces/quinces_diamond" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/QuincesDiamante.jpg" alt="Quinces Diamond Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/quinces/quinces_diamond" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Quinces Royal</h4>
+          <a class="gallery-item" href="/demo/quinces/quinces_royal" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/QuincesRoyal.jpg" alt="Quinces Royal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/quinces/quinces_royal" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Quinces Velvet</h4>
+          <a class="gallery-item" href="/demo/quinces/quinces_velvet" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/QuincesVelvet.jpg" alt="Quinces Velvet Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/quinces/quinces_velvet" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Quinces Floral</h4>
+          <a class="gallery-item" href="/demo/quinces/quinces_floral" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/QuincesFloral.jpg" alt="Quinces Floral Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/quinces/quinces_floral" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Quinces Glow</h4>
+          <a class="gallery-item" href="/demo/quinces/quinces_glow" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/QuincesGlow.jpg" alt="Quinces Glow Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/quinces/quinces_glow" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="divider reveal">
-    <div class="divider-line"></div>
-    <span class="divider-ornament">✦</span>
-    <div class="divider-line"></div>
+  <!-- CARRUSEL BODAS -->
+  <div class="carousel-section reveal reveal-delay-1">
+    <div class="carousel-container">
+      <button class="carousel-nav carousel-prev" onclick="moveCarousel('bodas', -1)">‹</button>
+      <button class="carousel-nav carousel-next" onclick="moveCarousel('bodas', 1)">›</button>
+      <div class="carousel-track" id="bodas-track">
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Boda Midnight</h4>
+          <a class="gallery-item" href="/demo/bodas/boda_midnight" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/BodaMidnight.png" alt="Boda Midnight Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/bodas/boda_midnight" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Boda Eclipse</h4>
+          <a class="gallery-item" href="/demo/bodas/boda_eclipse" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/BodaEclipse.png" alt="Boda Eclipse Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/bodas/boda_eclipse" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Boda Garden</h4>
+          <a class="gallery-item" href="/demo/bodas/boda_garden" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/BodaGarden.png" alt="Boda Garden Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/bodas/boda_garden" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Boda Ethereal</h4>
+          <a class="gallery-item" href="/demo/bodas/boda_ethereal" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/BodaEthereal.png" alt="Boda Ethereal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/bodas/boda_ethereal" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Boda Minimal</h4>
+          <a class="gallery-item" href="/demo/bodas/boda_minimal" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/BodaMinimal.jpg" alt="Boda Minimal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/bodas/boda_minimal" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="cards-grid">
-    <div class="card reveal reveal-delay-1">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M7 9l5 5 5-5" stroke-linecap="round"/></svg>
+  <!-- CARRUSEL PEQUES + NIÑOS -->
+  <div class="carousel-section reveal reveal-delay-2">
+    <div class="carousel-container">
+      <button class="carousel-nav carousel-prev" onclick="moveCarousel('pequesninos', -1)">‹</button>
+      <button class="carousel-nav carousel-next" onclick="moveCarousel('pequesninos', 1)">›</button>
+      <div class="carousel-track" id="pequesninos-track">
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Niños Batman</h4>
+          <a class="gallery-item" href="/demo/ninos/ninos_batman" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/NinosBatman.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/ninos/ninos_batman" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Niños IronMan</h4>
+          <a class="gallery-item" href="/demo/ninos/ninos_ironman" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/NinosIronman.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/ninos/ninos_ironman" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Niños SpiderMan</h4>
+          <a class="gallery-item" href="/demo/ninos/ninos_spiderman" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/NinosSpiderman.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/ninos/ninos_spiderman" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Peques Soft</h4>
+          <a class="gallery-item" href="/demo/peques/peques_soft" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/PequesSoft.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/peques/peques_soft" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Peques Cloud</h4>
+          <a class="gallery-item" href="/demo/peques/peques_cloud" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/PequesCloud.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/peques/peques_cloud" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Peques Dream</h4>
+          <a class="gallery-item" href="/demo/peques/peques_dream" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/PequesDream.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/peques/peques_dream" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
       </div>
-      <h3>Eco-Friendly</h3>
-      <p>Sin papel, sin residuos. Tu invitación llega al instante y cuida el planeta. Cero impresiones, cero embalaje.</p>
     </div>
-    <div class="card reveal reveal-delay-2">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2" stroke-linecap="round"/></svg>
+  </div>
+
+  <!-- CARRUSEL OTROS EVENTOS -->
+  <div class="carousel-section reveal reveal-delay-3">
+    <div class="carousel-container">
+      <button class="carousel-nav carousel-prev" onclick="moveCarousel('eventos', -1)">‹</button>
+      <button class="carousel-nav carousel-next" onclick="moveCarousel('eventos', 1)">›</button>
+      <div class="carousel-track" id="eventos-track">
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Asado Oficial</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_bbq" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoAsado.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_bbq" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Aniversario</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_anniversary" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoAniversario.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_anniversary" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Mis 35</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_light" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoClaro.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_light" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Despedida Hombre</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_bachelor" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoDespedidaHombre.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_bachelor" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Despedida Mujer</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_bachelorette" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoDespedidaMujer.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_bachelorette" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <h4 class="template-preview-title">Mis 40</h4>
+          <a class="gallery-item" href="/demo/eventos/eventos_dark" target="_blank">
+            <div class="template-preview-card">
+              <img src="/images/templates/mocksTemplates/EventoOscuro.png" alt="Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+              <div class="template-preview-placeholder">Imagen no disponible</div>
+            </div>
+          </a>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
+            <a href="/demo/eventos/eventos_dark" class="template-preview-button" target="_blank" style="margin-top:0;">VER DEMO</a>
+            <a href="#plan" class="template-preview-button" style="margin-top:0;background:var(--ink);color:var(--warm-white);text-decoration:none;">LO QUIERO</a>
+          </div>
+        </div>
       </div>
-      <h3>Confirmación Instantánea</h3>
-      <p>Lista de invitados actualizada al segundo. Sabés en tiempo real quién confirma, sin llamadas ni hojas de cálculo.</p>
-    </div>
-    <div class="card reveal reveal-delay-3">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      </div>
-      <h3>Interactividad Total</h3>
-      <p>Ubicación con GPS, playlist de Spotify, cuenta regresiva animada y galería de fotos. Una experiencia, no un papel.</p>
     </div>
   </div>
 </section>
@@ -92,7 +427,7 @@
       <div class="plan-name">Full Experience</div>
       <div class="plan-price-row">
         <span class="plan-currency">$</span>
-        <span class="plan-price">25.000</span>
+        <span class="plan-price">29.000</span>
         <span class="plan-period">· pago único</span>
       </div>
       <p style="color:rgba(245,239,199,0.5);font-size:0.85rem;margin-bottom:0;">Entrega en <strong style="color:var(--gold)">24hs hábiles</strong> desde el envío de tus datos.</p>
@@ -104,286 +439,273 @@
       </a>
     </div>
 
-    <div class="reveal reveal-delay-1">
-      <p class="plan-features-title">Todo lo que incluye:</p>
-      <ul class="plan-features">
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Diseño 100% adaptado a celulares y computadores</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Confirmación de asistencia online</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Recopilación de datos del invitado (alimentación, mensajes, etc)</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Listado de confirmados en tiempo real</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Cuenta regresiva animada</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Ubicación y mapas</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Dress Code</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Canciones sugeridas</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Galería de fotos</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Sección de regalos con CBU/Alias</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Música de fondo opcional</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Botón "Agendar al Calendario"</li>
-        <li><span class="check-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>Entrega en 24hs hábiles garantizada</li>
+    <div class="plan-features-wrapper">
+      <div class="reveal reveal-delay-1">
+        <p class="plan-features-title">Todo lo que incluye:</p>
+        <ul class="plan-features">
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Diseño 100% adaptado a celulares y computadores</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Tu invitación se va a ver perfecta tanto en celulares como en computadoras de escritorio y cualquier otro dispositivo.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Confirmación de asistencia online</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Tus invitados podrán confirmar su asistencia dentro de la invitación sin salir de la experiencia.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Listado de confirmados en tiempo real</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Tendrás un panel de administración donde podrás ver los confirmados y todos sus detalles.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Recopilación de datos del invitado</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Tus invitados te podrán dejar mensajes, indicar restricciones alimentarias y cualquier información especial que quieras recolectar.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Cuenta regresiva animada</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Divertida cuenta regresiva al inicio del evento actualizada en tiempo real.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Ubicación y mapas</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Dirección de tu evento con un mapa interactivo integrado de cada ubicación.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Dress Code</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Informa a tus invitados el estilo de vestimenta, con opcional de reservar colores para los agasajados y de indicar una foto ejemplificativa del estilo.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Canciones sugeridas</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Tus invitados podrán sugerirte canciones que no pueden faltar en tu fiesta.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Galería de fotos</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Incluí en la tarjeta fotos de tu book, preboda o las que quieras para compartir con tus invitados.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Sección de regalos</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Podrás dejar el alias o CBU de tu cuenta bancaria para que quienes quieran te hagan llegar su obsequio.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Itinerario</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            En caso de que quieras y aplique, dejale saber a tus invitados el itinerario de tu evento: por ejemplo, hora y lugar diferenciada para civil, iglesia y fiesta en caso de boda o hora de cena y de fiesta en caso de XV.
+          </div>
+        </li>
+        <!--
+          <li><span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>Música de fondo opcional</li>
+          -->
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Agendar al Calendario</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Habrá un botón para que los invitados añadan tu evento al calendario de su celular.
+          </div>
+        </li>
       </ul>
+    </div>
+
+    <div class="reveal reveal-delay-2">
+      <p class="plan-features-title" style="margin-top: 16px;">Además:</p>
+      <ul class="plan-features">
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">Entrega en 24hs garantizada</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Una vez que completes tus datos, en menos de 24hs vas a recibir por WhatsApp o mail (donde prefieras) tu invitación lista para mandársela a tus invitados.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">¿Necesitás alguna otra sección?</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            No hay nada que no se pueda hacer o agregar. Contactate por WhatsApp, contame tu idea y lo armamos juntos.
+          </div>
+        </li>
+        <li class="feature-item" onclick="toggleFeature(this)">
+          <div class="feature-header">
+            <span class="feature-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <span class="feature-text">¿Querés hacer cambios luego?</span>
+          </div>
+          <div class="feature-details" style="display:none;">
+            Si una vez entregada la invitación querés modificar textos, imágenes, ubicaciones, etc, ¡no hay problema! todo se puede ajustar sin cargo.
+          </div>
+        </li>
+      </ul>
+    </div>
     </div>
   </div>
 </section>
 
-<!-- GALERÍA -->
-<section id="galeria">
+<!-- POR QUÉ DIGITAL -->
+<section id="por-que">
   <div class="section-header reveal">
-    <span class="section-label">El catálogo</span>
-    <h2 class="section-title">Plantillas con personalidad</h2>
-    <p class="section-sub">Múltiples diseños para cada tipo de celebración. Deslizá para ver más opciones.</p>
+    <span class="section-label">La diferencia</span>
+    <h2 class="section-title">¿Por qué digital?</h2>
+    <p class="section-sub">Elegante, sustentable y pensado para el mundo en que vivimos.</p>
   </div>
 
-  <!-- CARRUSEL QUINCES -->
-  <div class="carousel-section reveal">
-    <div class="carousel-header">
-      <h3 class="carousel-title">Quinces</h3>
-      <p class="carousel-subtitle">Diseños únicos para tu fiesta de 15</p>
+  <!--
+    <div class="divider reveal">
+      <div class="divider-line"></div>
+      <span class="divider-ornament">✦</span>
+      <div class="divider-line"></div>
     </div>
-    <div class="carousel-container">
-      <button class="carousel-nav carousel-prev" onclick="moveCarousel('quinces', -1)">‹</button>
-      <button class="carousel-nav carousel-next" onclick="moveCarousel('quinces', 1)">›</button>
-      <div class="carousel-track" id="quinces-track">
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/quinces/quinces_glow">
-            <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">✨</div>
-              <div class="gallery-mock-title">Quinces Glow</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#C69BC1);"></div>
-              <div class="gallery-mock-date">Sus 15 · 28 · VI</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"La fiesta que soñé"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/quinces/quinces_royal">
-            <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">👑</div>
-              <div class="gallery-mock-title">Quinces Royal</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#E91E63);"></div>
-              <div class="gallery-mock-date">Mis 15 · 15 · IX</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Princesa por un día"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/quinces/quinces_floral">
-            <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">🌸</div>
-              <div class="gallery-mock-title">Quinces Floral</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#FF69B4);"></div>
-              <div class="gallery-mock-date">Mis 15 · 10 · XI</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Floreciendo"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/quinces/quinces_diamond">
-            <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">💎</div>
-              <div class="gallery-mock-title">Quinces Diamond</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#9C27B0);"></div>
-              <div class="gallery-mock-date">Sus 15 · 22 · X</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Brillando con luz propia"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/quinces/quinces_butterfly">
-            <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">🦋</div>
-              <div class="gallery-mock-title">Quinces Butterfly</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#FF9800);"></div>
-              <div class="gallery-mock-date">Mis 15 · 05 · XII</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Libre como mariposa"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+    -->
 
-  <!-- CARRUSEL BODAS -->
-  <div class="carousel-section reveal reveal-delay-1">
-    <div class="carousel-header">
-      <h3 class="carousel-title">Bodas</h3>
-      <p class="carousel-subtitle">Elegancia y romance para tu día especial</p>
-    </div>
-    <div class="carousel-container">
-      <button class="carousel-nav carousel-prev" onclick="moveCarousel('bodas', -1)">‹</button>
-      <button class="carousel-nav carousel-next" onclick="moveCarousel('bodas', 1)">›</button>
-      <div class="carousel-track" id="bodas-track">
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bodas/boda_minimal">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">🤍</div>
-              <div class="gallery-mock-title">Boda Minimal</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">12 · IV · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Nos casamos"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
+  <div class="cards-grid">
+    <div class="card reveal reveal-delay-1">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
         </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bodas/boda_classic">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">💍</div>
-              <div class="gallery-mock-title">Boda Classic</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">20 · XII · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Unidos para siempre"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bodas/boda_romantic">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">🌹</div>
-              <div class="gallery-mock-title">Boda Romantic</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">14 · II · 2026</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Amor en flor"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bodas/boda_starlight">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">⭐</div>
-              <div class="gallery-mock-title">Boda Starlight</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">08 · VII · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Estrellas alineadas"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bodas/boda_ocean">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">🌊</div>
-              <div class="gallery-mock-title">Boda Ocean</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">03 · I · 2026</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Amor infinito"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
+        <h3>Rápido</h3>
       </div>
+      <p>Tendrás tu invitación lista para enviar en tan solo 24hs.</p>
     </div>
-  </div>
-
-  <!-- CARRUSEL BAUTISMOS -->
-  <div class="carousel-section reveal reveal-delay-2">
-    <div class="carousel-header">
-      <h3 class="carousel-title">Bautismos</h3>
-      <p class="carousel-subtitle">Dulzura y fe para celebrar una nueva vida</p>
-    </div>
-    <div class="carousel-container">
-      <button class="carousel-nav carousel-prev" onclick="moveCarousel('bautismos', -1)">‹</button>
-      <button class="carousel-nav carousel-next" onclick="moveCarousel('bautismos', 1)">›</button>
-      <div class="carousel-track" id="bautismos-track">
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bautismos/bautismo_soft">
-            <div class="gallery-mock gallery-mock-bautismo">
-              <div class="gallery-mock-ornament">🕊️</div>
-              <div class="gallery-mock-title">Bautismo Soft</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#556B2F);"></div>
-              <div class="gallery-mock-date">3 · VIII · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Con amor y fe"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
+    <div class="card reveal reveal-delay-2">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
         </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bautismos/bautismo_nature">
-            <div class="gallery-mock gallery-mock-bautismo">
-              <div class="gallery-mock-ornament">🌿</div>
-              <div class="gallery-mock-title">Bautismo Nature</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#8BC34A);"></div>
-              <div class="gallery-mock-date">15 · IX · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Nueva vida"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bautismos/bautismo_sky">
-            <div class="gallery-mock gallery-mock-bautismo">
-              <div class="gallery-mock-ornament">☁️</div>
-              <div class="gallery-mock-title">Bautismo Sky</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#87CEEB);"></div>
-              <div class="gallery-mock-date">22 · X · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Bendición celestial"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bautismos/bautismo_angel">
-            <div class="gallery-mock gallery-mock-bautismo">
-              <div class="gallery-mock-ornament">🤍</div>
-              <div class="gallery-mock-title">Bautismo Angel</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#FFB6C1);"></div>
-              <div class="gallery-mock-date">10 · V · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Ángel guardián"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
-        <div class="carousel-item">
-          <a class="gallery-item" href="/demo/bautismos/bautismo_divine">
-            <div class="gallery-mock gallery-mock-bautismo">
-              <div class="gallery-mock-ornament">✨</div>
-              <div class="gallery-mock-title">Bautismo Divine</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#DDA0DD);"></div>
-              <div class="gallery-mock-date">18 · XI · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Luz divina"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </a>
-        </div>
+        <h3>Sencillo</h3>
       </div>
+      <p>Podés compartir tu invitación facilmente por WhatsApp a todos tus invitados, sean la cantidad que sean.</p>
+    </div>
+    <div class="card reveal reveal-delay-3">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        </div>
+        <h3>Práctico</h3>
+      </div>
+      <p>No perdés tiempo ni dinero imprimiendo y entregando invitaciones de papel.</p>
+    </div>
+    <div class="card reveal reveal-delay-4">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="9" y1="18" x2="15" y2="18"></line>
+            <line x1="10" y1="22" x2="14" y2="22"></line>
+            <path d="M15.09 14c.18-.9.33-1.63.45-2.2A6.53 6.53 0 0 0 12 5c-2.6 0-4.91 1.64-5.76 4h-.1a6.5 6.5 0 0 0-6.5 6.5 6.5 6.5 0 0 0 6.5 6.5h8.85"></path>
+          </svg>
+        </div>
+        <h3>Inolvidable</h3>
+      </div>
+      <p>Una manera original y práctica de que tu evento sea recordado.</p>
+    </div>
+    <div class="card reveal reveal-delay-5">
+      <div class="card-header">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h3>Única</h3>
+      </div>
+      <p>Como tu invitación es completamente personalizada, cada una es única y especial.</p>
     </div>
   </div>
 </section>
 
 <!-- PASOS -->
-<section id="pasos" style="background:var(--offwhite);">
+<section id="pasos" style="background:var(--ink);">
   <div class="section-header reveal">
     <span class="section-label">El proceso</span>
     <h2 class="section-title">Segui estos pasos para tener tu invitación lista para compartir en menos de 24hs</h2>
@@ -392,18 +714,24 @@
 
   <div class="steps-row">
     <div class="step reveal reveal-delay-1">
-      <div class="step-number">01</div>
-      <h3>Presionar LO QUIERO!</h3>
+      <div class="step-header">
+        <div class="step-number">01</div>
+        <h3>Presionar LO QUIERO!</h3>
+      </div>
       <p>Presiona LO QUIERO arriba o comunicate por WhatsApp</p>
     </div>
     <div class="step reveal reveal-delay-2">
-      <div class="step-number">02</div>
-      <h3>Completá tus datos</h3>
-      <p>Completá el formulario que te enviamos con la información de tu evento</p>
+      <div class="step-header">
+        <div class="step-number">02</div>
+        <h3>Completá tus datos</h3>
+      </div>
+      <p>Completá el formulario que te aparecerá con la información de tu evento (no te preocupes que luego todo se puede modificar)</p>
     </div>
     <div class="step reveal reveal-delay-3">
-      <div class="step-number">03</div>
-      <h3>Señás y recibís</h3>
+      <div class="step-header">
+        <div class="step-number">03</div>
+        <h3>Señás y recibís</h3>
+      </div>
       <p>Señas con un 50% del precio y en menos de 24hs vas a recibir el link a tu invitación lista para compartir</p>
     </div>
   </div>
@@ -424,7 +752,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Recibirás un link único que podés compartir directamente por WhatsApp, grupos, historias de Instagram o donde prefieras. Es tan simple como copiar y pegar.</div>
+      <div class="faq-a">Recibirás un link único que podés compartir directamente por WhatsApp, grupos, Instagram, mail o donde prefieras. Es tan simple como copiar y pegar.</div>
     </div>
     <div class="faq-item reveal reveal-delay-1">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -433,7 +761,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">El link permanece activo hasta un mes después de la fecha del evento. Así tus invitados pueden volver a consultarlo cuando necesiten la dirección o el horario.</div>
+      <div class="faq-a">El link permanece activo hasta tres meses después del evento. Si querés que quede online más tiempo para recuerdo, comunicánoslo y lo dejamos.</div>
     </div>
     <div class="faq-item reveal reveal-delay-2">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -451,7 +779,52 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Sí. Incluimos una ronda de cambios gratuita en los 3 días posteriores a la entrega. Cambios adicionales tienen un pequeño costo según la complejidad.</div>
+      <div class="faq-a">Sí, no te preocupes. Luego de la entrega podés hacer los ajustes que creas necesarios de manera gratuita.</div>
+    </div>
+    <div class="faq-item reveal reveal-delay-4">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>¿Cuántas fotos puedo incluir?</span>
+        <span class="faq-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </div>
+      <div class="faq-a">No hay ningún límite de fotos a incluir. Recomendamos al menos una foto para la portada y 4 para la galería carrusel.</div>
+    </div>
+    <div class="faq-item reveal reveal-delay-5">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>¿Puedo elegir no incluir fotos?</span>
+        <span class="faq-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </div>
+      <div class="faq-a">Sí, podés elegir no incluir ninguna galería de fotos.</div>
+    </div>
+    <div class="faq-item reveal reveal-delay-6">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>¿Cómo se realiza el pago?</span>
+        <span class="faq-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </div>
+      <div class="faq-a">Podés pagar a través de MercadoPago, con tarjeta de débito o crédito o a través de transferencia bancaria. Se comienza a trabajar con una seña del 50% y abonás el resto cuando tu invitación quede exactamente como la querés.</div>
+    </div>
+    <div class="faq-item reveal reveal-delay-7">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>¿Puedo congelar el precio si mi evento es más adelante?</span>
+        <span class="faq-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </div>
+      <div class="faq-a">Claro! podés abonar sólo la seña y el resto al momento en que tengas la invitación lista, sea cuando sea.</div>
+    </div>
+    <div class="faq-item reveal reveal-delay-8">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>¿El precio es final?</span>
+        <span class="faq-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </div>
+      <div class="faq-a">Si. El monto es único y final y podés enviar la invitación a cuantas personas quieras.</div>
     </div>
   </div>
 </section>
@@ -460,7 +833,7 @@
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-logo">Invita<span>Ya</span></div>
+      <div class="footer-logo">TuDia<span>Especial</span></div>
       <div class="footer-tagline">Invitaciones digitales premium · Argentina</div>
     </div>
     <div class="footer-links">
@@ -491,6 +864,27 @@
 <a href="https://wa.me/?text=Hola!%20Quiero%20info%20sobre%20invitaciones%20digitales" class="wa-float" target="_blank" title="Consultanos por WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
+
+<script>
+  const words = ["evento", "boda", "cumple", "asado", "festejo"];
+  let currentIndex = 0;
+  const slotWord = document.getElementById("slotWord");
+
+  function rotateWord() {
+    slotWord.classList.add("animating");
+    
+    setTimeout(() => {
+      currentIndex = (currentIndex + 1) % words.length;
+      slotWord.textContent = words[currentIndex];
+    }, 250);
+
+    setTimeout(() => {
+      slotWord.classList.remove("animating");
+    }, 500);
+  }
+
+  setInterval(rotateWord, 2500);
+</script>
 
 <script src="/js/scripts.js"></script>
 </body>

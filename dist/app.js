@@ -6,6 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const cookie_session_1 = __importDefault(require("cookie-session"));
+const dotenv_1 = __importDefault(require("dotenv"));
+// Cargar variables de entorno desde .env
+dotenv_1.default.config();
 const public_1 = __importDefault(require("./routes/public"));
 const events_1 = __importDefault(require("./routes/events"));
 const admin_1 = __importDefault(require("./routes/admin"));

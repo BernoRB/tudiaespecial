@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= event.honorees || "Mi Cumple" %> · Invitación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f0f8ff;
+      --card: #ffffff;
+      --ink: #1a1a1a;
+      --muted: #666666;
+      --accent: #e63946;
+      --accent-soft: #ffe5e5;
+      --line: rgba(230, 57, 70, 0.3);
+      --shadow: 0 18px 45px rgba(230, 57, 70, 0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Open Sans", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #ffe5e5 0%, transparent 40%),
+        radial-gradient(circle at 100% 30%, #e5f0ff 0%, transparent 40%),
+        var(--bg);
+      color: var(--ink);
+    }
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 16px 60px;
+      text-align: center;
+    }
+    .hero {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 65vh;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      background: #fff;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.2) 40%, rgba(26, 26, 26, 0.4));
+      z-index: 1;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      min-height: 65vh;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .hero-kicker {
+      font-family: "Bangers", cursive;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.95;
+      color: var(--accent);
+    }
+    .hero-name {
+      font-family: "Bangers", cursive;
+      font-size: clamp(3rem, 12vw, 5rem);
+      margin: 0;
+      line-height: 1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: "Bangers", cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      margin: 0;
+      opacity: 0.95;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .countdown-section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .countdown-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 0%, rgba(230, 57, 70, 0.03) 100%);
+      z-index: 0;
+    }
+    .countdown-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .countdown-item {
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      border: 3px solid var(--accent);
+      border-radius: 15px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .countdown-number {
+      font-family: "Bangers", cursive;
+      font-size: 2.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .countdown-label {
+      font-family: "Open Sans", sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    @media (max-width: 899px) {
+      .countdown-number {
+        font-size: 2rem;
+      }
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .section-inner {
+      padding: 40px 28px;
+    }
+    .section-title {
+      font-family: "Bangers", cursive;
+      font-size: 2rem;
+      margin: 0 0 14px;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .section-sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .section-divider {
+      width: 100px;
+      height: 4px;
+      background: var(--accent);
+      margin: 0 auto 20px auto;
+      border-radius: 2px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 1.15rem;
+      line-height: 1.65;
+      text-align: center;
+    }
+    .calendar-btn {
+      margin-top: 12px;
+      border: none;
+      background: linear-gradient(90deg, #e63946, #c92a37);
+      color: #fff;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      font-family: "Bangers", cursive;
+    }
+
+    .map-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      min-height: 250px;
+      background: #f8f8f8;
+    }
+    .map-wrap iframe {
+      width: 100%;
+      height: 250px;
+      border: 0;
+      display: block;
+    }
+
+    .gallery-track {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding: 4px 4px 8px;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery-item {
+      flex: 0 0 72%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 4px solid var(--accent);
+      box-shadow: 0 12px 32px rgba(230, 57, 70, 0.25);
+      cursor: pointer;
+      scroll-snap-align: start;
+      background: #fff;
+      aspect-ratio: 4/5;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rsvp-section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 32px 28px 36px;
+    }
+    .rsvp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .rsvp-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      font-family: "Bangers", cursive;
+    }
+    .rsvp-field input,
+    .rsvp-field select,
+    .rsvp-field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font: inherit;
+      font-size: 1rem;
+      color: var(--ink);
+      background: #fff;
+      font-family: "Open Sans", sans-serif;
+    }
+    .rsvp-field textarea {
+      min-height: 72px;
+      resize: vertical;
+    }
+    .full { grid-column: 1 / -1; }
+    .send-btn {
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      background: linear-gradient(90deg, #e63946, #c92a37);
+      color: #fff;
+      border-radius: 30px;
+      padding: 16px;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: "Bangers", cursive;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 26, 0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.visible { display: flex; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(230, 57, 70, 0.3);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      border: 0;
+      background: rgba(230, 57, 70, 0.3);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .page { 
+        padding: 30px 20px 80px; 
+        max-width: 100%;
+      }
+      .hero {
+        width: 75%;
+        margin: 0 auto;
+      }
+      .hero, .hero-content { min-height: 60vh; }
+      .hero-content { padding: 48px 48px; }
+      .countdown-section {
+        width: 75%;
+        margin: 0 auto 24px;
+        padding: 40px 36px;
+      }
+      .countdown-grid {
+        gap: 32px;
+      }
+      .countdown-number {
+        font-size: 3.5rem;
+      }
+      .countdown-label {
+        font-size: 0.95rem;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .section-card {
+        width: 75%;
+        margin: 0 auto;
+      }
+      .section-inner { 
+        padding: 52px 48px; 
+        text-align: center;
+      }
+      .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 16px;
+      }
+      .section-sub {
+        font-size: 1.25rem;
+        margin-bottom: 24px;
+      }
+      .section-divider {
+        width: 120px;
+        height: 5px;
+        margin: 0 auto 32px auto;
+      }
+      .info-list {
+        font-size: 1.25rem;
+        gap: 16px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .gallery-track {
+        justify-content: center;
+      }
+      .gallery-item { 
+        flex-basis: 30%; 
+        aspect-ratio: 4/5; 
+      }
+      .gallery-item img { height: 100%; }
+      .map-wrap iframe { height: 380px; }
+      .rsvp-section { 
+        padding: 36px 32px 40px; 
+        width: 75%;
+        margin: 24px auto 0;
+      }
+      .rsvp-grid { 
+        gap: 24px;
+        text-align: center;
+      }
+      .rsvp-field label {
+        font-size: 0.95rem;
+        text-align: center;
+      }
+      .rsvp-field input,
+      .rsvp-field select,
+      .rsvp-field textarea {
+        font-size: 1.1rem;
+        padding: 14px 18px;
+        text-align: center;
+      }
+      .send-btn {
+        font-size: 1.05rem;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%
+    const heroImage =
+      event.hero_image ||
+      "https://images.unsplash.com/photo-1555252333-9f8e92e65df1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    const galleryImages =
+      event.gallery && Array.isArray(event.gallery) && event.gallery.length
+        ? event.gallery
+        : [
+            "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=1170&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1519452575417-567c566f1318?q=80&w=1170&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1544126562-807ade215a0b?q=80&w=1170&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=1170&auto=format&fit=crop"
+          ];
+    const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
+    const eventDateForCalendar = event.date || "2026-09-05";
+    const eventTimeForCalendar = event.time || "16:00";
+    const startLocal = new Date(`${eventDateForCalendar}T${eventTimeForCalendar}:00`);
+    const endLocal = new Date(startLocal.getTime() + 4 * 60 * 60 * 1000);
+    function toGoogleDate(d) {
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mi = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
+    }
+    const googleCalendarUrl =
+      "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      `&text=${encodeURIComponent(`Cumpleaños - ${event.honorees || "Invitación"}`)}` +
+      `&dates=${toGoogleDate(startLocal)}/${toGoogleDate(endLocal)}` +
+      `&details=${encodeURIComponent("Te esperamos para celebrar juntos este día especial.")}` +
+      `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
+    function formatDate(dateStr) {
+      if (!dateStr) return "22 de octubre de 2026";
+      const date = new Date(dateStr);
+      const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+      return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
+    }
+  %>
+
+  <main class="page">
+    <header class="hero">
+      <img src="<%= heroImage %>" alt="Foto principal del evento" />
+      <div class="hero-content">
+        <div class="hero-kicker">INVITACIÓN · MI CUMPLE</div>
+        <h1 class="hero-name">MI CUMPLE</h1>
+        <p class="hero-title"><%= event.honorees || "Peter" %></p>
+      </div>
+    </header>
+
+    <section class="countdown-section">
+      <h2 class="section-title">¿Cuánto falta?</h2>
+      <div class="section-divider"></div>
+      <div class="countdown-grid" id="countdown-grid" data-date="<%= event.date || "" %>" data-time="<%= event.time || "" %>">
+        <div class="countdown-item">
+          <div class="countdown-number" data-unit="days">--</div>
+          <div class="countdown-label">D</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" data-unit="hours">--</div>
+          <div class="countdown-label">H</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" data-unit="minutes">--</div>
+          <div class="countdown-label">M</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" data-unit="seconds">--</div>
+          <div class="countdown-label">S</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="section-card">
+        <div class="section-inner">
+          <h2 class="section-title">Fecha y hora</h2>
+          <div class="section-divider"></div>
+          <div class="info-list">
+            <div><%= formatDate(event.date) %></div>
+            <div><%= event.time || "16:00" %> hs</div>
+          </div>
+          <a class="calendar-btn" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">
+            Agregar al calendario
+          </a>
+        </div>
+      </article>
+
+      <article class="section-card">
+        <div class="section-inner">
+          <h2 class="section-title">¿Dónde?</h2>
+          <div class="section-divider"></div>
+          <div class="info-list">
+            <div><strong>Lugar:</strong> <%= event.venue_name || "Salón de fiestas" %></div>
+            <div><strong>Dirección:</strong> <%= event.venue_address || "Dirección del evento" %></div>
+          </div>
+        </div>
+      </article>
+
+      <% const sections = event.sections_json ? JSON.parse(event.sections_json) : (event.sections || {}); %>
+      <% if (sections && sections.location) { %>
+      <article class="section-card">
+        <div class="section-inner">
+          <h2 class="section-title">Cómo llegar</h2>
+          <div class="section-divider"></div>
+          <div class="map-wrap">
+            <iframe
+              title="Mapa del evento"
+              src="https://www.google.com/maps?q=<%= mapsQuery %>&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.gallery) { %>
+      <article class="section-card">
+        <div class="section-inner">
+          <h2 class="section-title">Galería</h2>
+          <div class="section-divider"></div>
+          <div class="gallery-track">
+            <% galleryImages.forEach(function(photo) { %>
+              <div class="gallery-item" data-photo="<%= photo %>">
+                <img src="<%= photo %>" alt="Foto de galería del evento" />
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <article class="section-card">
+        <div class="section-inner" style="text-align: center; padding: 32px 24px;">
+          <div style="border-top: 1px solid var(--line); margin-bottom: 20px;"></div>
+          <p style="font-family: 'Open Sans', sans-serif; font-weight: 500; font-size: 1.2rem; line-height: 1.7; margin: 0 0 20px; color: var(--ink); letter-spacing: 0.02em;">
+            Te espero en mi cumple para festejar,<br/>
+            donde cada momento es increíble,<br/>
+            y la diversión está en todos lados.
+          </p>
+          <div style="border-bottom: 1px solid var(--line);"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="rsvp-section" style="margin-top:16px;">
+      <h2 class="section-title">Confirmar asistencia</h2>
+      <div class="section-divider"></div>
+      <p class="section-sub">¡Quiero saber si vas a estar! Completá tus datos acá abajo.</p>
+      <form action="/api/<%= event.slug %>/rsvp" method="post">
+        <div class="rsvp-grid">
+          <div class="rsvp-field full">
+            <label for="contact_name">Nombre de quien confirma</label>
+            <input type="text" id="contact_name" name="contact_name" required>
+          </div>
+          <div class="rsvp-field">
+            <label for="people_count">¿Cuántos vienen?</label>
+            <input type="number" id="people_count" name="people_count" min="1" value="1" required>
+          </div>
+          <div class="rsvp-field">
+            <label for="status">Asistencia</label>
+            <select id="status" name="status">
+              <option value="confirmed">Voy / Vamos</option>
+              <option value="declined">No puedo ir</option>
+            </select>
+          </div>
+          <div class="rsvp-field full">
+            <label for="people_names">Nombre y apellido de todos los que te acompañan</label>
+            <textarea id="people_names" name="people_names" placeholder="Ej: Juan Pérez, Ana Gómez, Sofía López"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="send-btn">Enviar confirmación</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">×</button>
+    <img src="" alt="Foto ampliada de la galería" id="lightbox-image" />
+  </div>
+
+  <script>
+    (function() {
+      const qs = new URLSearchParams(window.location.search);
+      if (qs.get("rsvp") === "ok") {
+        window.alert("Gracias por confirmar tu asistencia.");
+        qs.delete("rsvp");
+        const clean = window.location.pathname + (qs.toString() ? "?" + qs.toString() : "");
+        window.history.replaceState({}, "", clean);
+      }
+
+      const el = document.getElementById("countdown-grid");
+      if (el) {
+        const dateStr = el.getAttribute("data-date");
+        const timeStr = el.getAttribute("data-time") || "00:00";
+        if (dateStr) {
+          const target = new Date(dateStr + "T" + timeStr + ":00");
+          function update() {
+            const now = new Date();
+            let diff = target.getTime() - now.getTime();
+            if (diff < 0) diff = 0;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            const set = (unit, value) => {
+              const node = el.querySelector('[data-unit="' + unit + '"]');
+              if (node) node.textContent = String(value).padStart(2, "0");
+            };
+            set("days", days);
+            set("hours", hours);
+            set("minutes", minutes);
+            set("seconds", seconds);
+          }
+          update();
+          setInterval(update, 1000);
+        }
+      }
+
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightbox-image");
+      const lightboxClose = document.getElementById("lightbox-close");
+      document.querySelectorAll(".gallery-item").forEach(function(item) {
+        item.addEventListener("click", function() {
+          const photo = item.getAttribute("data-photo");
+          if (!photo || !lightbox || !lightboxImage) return;
+          lightboxImage.src = photo;
+          lightbox.classList.add("visible");
+        });
+      });
+      if (lightboxClose && lightbox) {
+        lightboxClose.addEventListener("click", function() {
+          lightbox.classList.remove("visible");
+        });
+        lightbox.addEventListener("click", function(e) {
+          if (e.target === lightbox) lightbox.classList.remove("visible");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

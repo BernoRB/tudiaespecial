@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= event.honorees || "Nuestra boda" %> · Invitación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf5f8;
+      --card: #ffffff;
+      --ink: #3d2a3a;
+      --muted: #8b7b8b;
+      --line: rgba(183, 110, 121, 0.4);
+      --accent: #b76e79;
+      --accent-soft: rgba(183, 110, 121, 0.15);
+      --shadow: 0 18px 42px rgba(183, 110, 121, 0.15);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Jost", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    .page {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 12px 54px;
+      text-align: center;
+    }
+    .hero {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      min-height: 64vh;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      background: #faf5f8;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(61, 42, 58, 0.85), rgba(61, 42, 58, 0.3) 50%, rgba(61, 42, 58, 0.5));
+      z-index: 1;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      min-height: 64vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      text-align: center;
+      color: #f5f0eb;
+      padding: 24px 16px;
+    }
+    .hero-kicker {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+    }
+    .hero-name {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      margin: 5px 0;
+    }
+    .hero-title {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+      margin: 0 0 6px;
+    }
+    .hero-date {
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    .card-inner {
+      padding: 40px 28px;
+    }
+    .title {
+      font-family: "Playfair Display", serif;
+      font-size: 1.65rem;
+      margin: 0 0 14px;
+      letter-spacing: 0.05em;
+    }
+    .sub {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.6;
+    }
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .count-box {
+      border: 1px solid var(--line);
+      background: #faf5f8;
+      border-radius: 8px;
+      text-align: center;
+      padding: 12px 8px;
+    }
+    .count-number {
+      display: block;
+      font-family: "Playfair Display", serif;
+      font-size: 1.4rem;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .count-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .calendar-btn,
+    .send-btn {
+      display: inline-block;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      padding: 11px 16px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .calendar-btn {
+      margin-top: 12px;
+    }
+    .info-list {
+      display: grid;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.65;
+      text-align: center;
+    }
+    .map-wrap {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #faf5f8;
+    }
+    .map-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 250px;
+      border: 0;
+    }
+    .gallery-track {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+    .gallery-item {
+      flex: 0 0 72%;
+      cursor: pointer;
+      scroll-snap-align: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #faf5f8;
+      aspect-ratio: 4/5;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gift-toggle {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--accent-soft);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .gift-box {
+      display: none;
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+    .gift-box.visible {
+      display: block;
+    }
+    .rsvp {
+      padding: 20px 16px 24px;
+    }
+    .rsvp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font: inherit;
+      font-size: 0.88rem;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      opacity: 0.5;
+    }
+    .field textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .full {
+      grid-column: 1/-1;
+    }
+    .send-btn {
+      margin-top: 12px;
+      width: 100%;
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(61, 42, 58, 0.95);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.visible {
+      display: flex;
+    }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 10px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      border: 0;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+    .divider {
+      width: 80px;
+      height: 2px;
+      background: var(--accent);
+      margin: 0 auto 20px auto;
+      border-radius: 1px;
+    }
+    .section-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 22px auto;
+      object-fit: contain;
+      display: block;
+      background: #4a3538;
+      border-radius: 50%;
+      padding: 8px;
+      border: 2px solid var(--accent);
+    }
+
+    @media (min-width: 900px) {
+      .page { 
+        padding: 30px 20px 80px; 
+        max-width: 100%;
+        text-align: center;
+      }
+      .hero {
+        width: 75%;
+        margin: 0 auto;
+      }
+      .hero,
+      .hero-content {
+        min-height: 70vh;
+      }
+      .hero-content {
+        text-align: center;
+        align-items: center;
+        padding: 40px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .card {
+        width: 75%;
+        margin: 0 auto;
+      }
+      .card-inner {
+        padding: 52px 48px;
+        text-align: center;
+      }
+      .title {
+        font-size: 2rem;
+        margin-bottom: 16px;
+      }
+      .sub {
+        font-size: 1.2rem;
+        margin-bottom: 24px;
+      }
+      .divider {
+        width: 100px;
+        height: 3px;
+        margin: 0 auto 32px auto;
+      }
+      .info-list {
+        font-size: 1.2rem;
+        gap: 16px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .gallery-track {
+        justify-content: center;
+      }
+      .gallery-item {
+        flex-basis: 30%;
+        aspect-ratio: 4/5;
+        border: 2px solid var(--card);
+      }
+      .gallery-item img {
+        height: 100%;
+      }
+      .map-wrap iframe {
+        height: 380px;
+      }
+      .rsvp {
+        padding: 32px 28px 36px;
+        width: 75%;
+        margin: 24px auto 0;
+      }
+      .rsvp-grid {
+        gap: 18px;
+        text-align: left;
+      }
+      .field label {
+        font-size: 0.8rem;
+        text-align: left;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        font-size: 1rem;
+        padding: 12px 14px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%
+    const heroImage = event.hero_image || "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80";
+    const galleryImages =
+      event.gallery && Array.isArray(event.gallery) && event.gallery.length
+        ? event.gallery
+        : [
+            "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
+            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80",
+          ];
+    const gallery2Images =
+      event.gallery2 && Array.isArray(event.gallery2) && event.gallery2.length
+        ? event.gallery2
+        : [
+            "https://images.unsplash.com/photo-1591604442449-ecc9943efabf?auto=format&fit=crop&w=1000&q=80",
+            "https://plus.unsplash.com/premium_photo-1664530453104-68710b5f517c?auto=format&fit=crop&w=1000&q=80",
+            "https://plus.unsplash.com/premium_photo-1664297755132-af79f91c26df?auto=format&fit=crop&w=1000&q=80",
+            "https://img.freepik.com/fotos-premium/imagen-emocional-pareja-recien-casada-pie-campo-besandose-rio-fondo-objetivos-pareja_232070-4172.jpg"
+          ];
+    const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
+    const eventDateForCalendar = event.date || "2026-11-14";
+    const eventTimeForCalendar = event.time || "19:30";
+    const startLocal = new Date(`${eventDateForCalendar}T${eventTimeForCalendar}:00`);
+    const endLocal = new Date(startLocal.getTime() + 5 * 60 * 60 * 1000);
+    function toGoogleDate(d) {
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+      const dd = String(d.getUTCDate()).padStart(2, "0");
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mi = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
+    }
+    const googleCalendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      `&text=${encodeURIComponent(`Boda - ${event.honorees || "Invitación"}`)}` +
+      `&dates=${toGoogleDate(startLocal)}/${toGoogleDate(endLocal)}` +
+      `&details=${encodeURIComponent("Nos encantaría contar con tu presencia en este día especial.")}` +
+      `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
+  %>
+  <main class="page">
+    <header class="hero">
+      <img src="<%= heroImage %>" alt="Foto principal de la boda">
+      <div class="hero-content">
+        <div class="hero-kicker">INVITACIÓN · BODA</div>
+        <h1 class="hero-name"><%= event.honorees || "Nombre & Nombre" %></h1>
+        <p class="hero-title"><%= event.hero_message || "Nos casamos y queremos compartirlo con vos" %></p>
+        <div class="hero-date"><%= event.date || "2026-11-14" %></div>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <div class="card-inner">
+          <h2 class="title">Cuenta regresiva</h2>
+          <div class="divider"></div>
+          <p class="sub">Cada segundo nos acerca a nuestro gran día.</p>
+          <div class="countdown" id="countdown" data-date="<%= event.date || "" %>" data-time="<%= event.time || "" %>">
+            <div class="count-box">
+              <span class="count-number" data-unit="days">--</span>
+              <span class="count-label">Días</span>
+            </div>
+            <div class="count-box">
+              <span class="count-number" data-unit="hours">--</span>
+              <span class="count-label">Horas</span>
+            </div>
+            <div class="count-box">
+              <span class="count-number" data-unit="minutes">--</span>
+              <span class="count-label">Minutos</span>
+            </div>
+            <div class="count-box">
+              <span class="count-number" data-unit="seconds">--</span>
+              <span class="count-label">Segundos</span>
+            </div>
+          </div>
+          <a class="calendar-btn" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">
+            Agregar al calendario
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-inner">
+          <img src="/images/GifMapa.webp" alt="Mapa" class="section-icon">
+          <h2 class="title">Información del evento</h2>
+          <div class="divider"></div>
+          <p class="sub">Guardá estos datos para ese día.</p>
+          <div class="info-list">
+            <div><strong>Lugar:</strong> <%= event.venue_name || "Lugar del evento" %></div>
+            <div><strong>Dirección:</strong> <%= event.venue_address || "Dirección" %></div>
+          </div>
+        </div>
+      </article>
+
+      <% if (sections && sections.dress_code) { %>
+      <article class="card">
+        <div class="card-inner">
+          <img src="/images/GifDiamante.webp" alt="Diamante" class="section-icon">
+          <h2 class="title">Dress Code</h2>
+          <div class="divider"></div>
+          <div class="info-list">
+            <div><strong><%= event.dress_code || "Elegante Sport" %></strong></div>
+            <div><%= event.reserved_message || (event.reserved_color ? `El color ${event.reserved_color} se reserva a la novia` : "") %></div>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.location) { %>
+      <article class="card">
+        <div class="card-inner">
+          <h2 class="title">Cómo llegar</h2>
+          <div class="divider"></div>
+          <p class="sub">Mapa interactivo del lugar del evento.</p>
+          <div class="map-wrap">
+            <iframe title="Mapa del evento" src="https://www.google.com/maps?q=<%= mapsQuery %>&output=embed" loading="lazy"></iframe>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.gallery) { %>
+      <article class="card">
+        <div class="card-inner">
+          <h2 class="title">Galería</h2>
+          <div class="divider"></div>
+          <p class="sub">Fotos de nuestra historia.</p>
+          <div class="gallery-track">
+            <% galleryImages.forEach(function(photo) { %><div class="gallery-item" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto galería boda"></div><% }) %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <article class="card">
+        <div class="card-inner">
+          <div class="divider" style="margin: 0 auto 16px auto;"></div>
+          <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; line-height: 1.6; text-align: center; color: var(--ink);">
+            Como un sueño que se hace realidad,<br/>
+            nuestro amor fluye suavemente,<br/>
+            y en este momento se vuelve eterno
+          </p>
+          <div class="divider" style="margin: 16px auto 0 auto;"></div>
+        </div>
+      </article>
+
+      <% if (sections && sections.gifts) { %>
+      <article class="card">
+        <div class="card-inner">
+          <img src="/images/GifRegalo.webp" alt="Regalo" class="section-icon">
+          <h2 class="title">Obsequio</h2>
+          <div class="divider"></div>
+          <p class="sub"><%= event.gift_message || "Tu presencia es el mejor regalo. Pero si querés hacernos un obsequio, podés contribuir a nuestra luna de miel:" %></p>
+          <button type="button" class="gift-toggle" id="gift-toggle">Ver datos para regalo</button>
+          <div class="gift-box" id="gift-box">
+            <div><strong>Alias:</strong> <%= event.gift_alias || "boda.alias" %></div>
+            <div><strong>CBU:</strong> <%= event.gift_cbu || "0000000000000000000000" %></div>
+            <div><strong>Titular:</strong> <%= event.gift_holder || "Nombre titular" %></div>
+          </div>
+        </div>
+      </article>
+
+      <% if (sections && sections.gallery2) { %>
+      <article class="card">
+        <div class="card-inner">
+          <div class="gallery-track">
+            <% gallery2Images.forEach(function(photo) { %><div class="gallery-item" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto galería boda"></div><% }) %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+      <% } %>
+    </section>
+
+    <section class="card rsvp" style="margin-top:16px;">
+      <h2 class="title">Confirmar asistencia</h2>
+      <div class="divider"></div>
+      <p class="sub">Por favor completá este formulario para ayudarnos a organizar mejor.</p>
+      <form action="/api/<%= event.slug %>/rsvp" method="post">
+        <div class="rsvp-grid">
+          <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input type="text" id="contact_name" name="contact_name" required></div>
+          <div class="field"><label for="people_count">¿Cuántas personas van?</label><input type="number" id="people_count" name="people_count" min="1" value="1" required></div>
+          <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Asistiremos</option><option value="declined">No podemos asistir</option></select></div>
+          <div class="field full"><label for="people_names">Nombre y apellido de todos los que te acompañan</label><textarea id="people_names" name="people_names" placeholder="Ej: Juan Pérez, Ana Gómez, Sofía López"></textarea></div>
+          <div class="field full"><label for="food_preferences">Preferencias de comida</label><textarea id="food_preferences" name="food_preferences" placeholder="Aclaraciones sobre alergias, vegetarianos, etc."></textarea></div>
+          <% if (sections && sections.music) { %><div class="field full"><label for="song_suggestions">Sugerencias de canciones</label><textarea id="song_suggestions" name="song_suggestions" placeholder="Temas que te gustaría escuchar en la fiesta"></textarea></div><% } %>
+          <div class="field full"><label for="comments">Comentarios adicionales</label><textarea id="comments" name="comments"></textarea></div>
+        </div>
+        <button type="submit" class="send-btn">Enviar confirmación</button>
+      </form>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">×</button><img src="" alt="Foto ampliada" id="lightbox-image"></div>
+  <script>
+    (function(){
+      const qs = new URLSearchParams(window.location.search);
+      if (qs.get("rsvp") === "ok") {
+        window.alert("Gracias por confirmar tu asistencia.");
+        qs.delete("rsvp");
+        const clean = window.location.pathname + (qs.toString() ? "?" + qs.toString() : "");
+        window.history.replaceState({}, "", clean);
+      }
+      const el=document.getElementById("countdown");
+      if(el){const ds=el.getAttribute("data-date");const ts=el.getAttribute("data-time")||"00:00";if(ds){const target=new Date(ds+"T"+ts+":00");function u(){const n=new Date();let d=target.getTime()-n.getTime();if(d<0)d=0;const days=Math.floor(d/(1000*60*60*24));const hours=Math.floor((d/(1000*60*60))%24);const minutes=Math.floor((d/(1000*60))%60);const seconds=Math.floor((d/1000)%60);const s=(k,v)=>{const node=el.querySelector('[data-unit="'+k+'"]');if(node)node.textContent=String(v).padStart(2,"0");};s("days",days);s("hours",hours);s("minutes",minutes);s("seconds",seconds);}u();setInterval(u,1000);}}
+      const gt=document.getElementById("gift-toggle"),gb=document.getElementById("gift-box"); if(gt&&gb){gt.addEventListener("click",function(){gb.classList.toggle("visible");gt.textContent=gb.classList.contains("visible")?"Ocultar datos para contribuir":"Ver datos para contribuir";});}
+      const lb=document.getElementById("lightbox"),lbi=document.getElementById("lightbox-image"),lbc=document.getElementById("lightbox-close"); document.querySelectorAll(".gallery-item").forEach(function(i){i.addEventListener("click",function(){const p=i.getAttribute("data-photo");if(!p||!lb||!lbi)return;lbi.src=p;lb.classList.add("visible");});}); if(lbc&&lb){lbc.addEventListener("click",function(){lb.classList.remove("visible");}); lb.addEventListener("click",function(e){if(e.target===lb)lb.classList.remove("visible");});}
+    })();
+  </script>
+</body>
+</html>

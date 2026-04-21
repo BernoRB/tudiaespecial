@@ -1,0 +1,22 @@
+{
+  "slug": "demo-eventos-anniversary",
+  "category": "eventos",
+  "template_key": "eventos_anniversary",
+  "hero_image": "https://plus.unsplash.com/premium_photo-1680291646108-f45c0b0d7357?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fG9sZCUyMGNvdXBsZXxlbnwwfHwwfHx8MA%3D%3D",
+  "honorees": "Roberto y María",
+  "event_type": "Bodas de Plata",
+  "hero_message": "25 años juntos",
+  "date": "2026-10-22",
+  "time": "16:00",
+  "venue_name": "Salón de fiestas",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Elegante",
+  "sections_json": "{\"countdown\":true,\"gallery\":true,\"location\":true,\"rsvp\":true}",
+  "gallery": [
+    "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1519225421980-715cb0202128?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1520854221256-17451cc330e7?q=80&w=1170&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1170&auto=format&fit=crop"
+  ]
+}

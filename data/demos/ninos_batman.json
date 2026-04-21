@@ -1,0 +1,21 @@
+{
+  "slug": "demo-ninos-batman",
+  "category": "ninos",
+  "template_key": "ninos_batman",
+  "hero_image": "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "honorees": "Bruce",
+  "hero_message": "Un día de acción y aventura",
+  "date": "2026-10-22",
+  "time": "16:00",
+  "venue_name": "Salón de fiestas",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Cómodo y feliz",
+  "sections_json": "{\"countdown\":true,\"gallery\":true,\"location\":true,\"rsvp\":true}",
+  "gallery": [
+    "https://images.unsplash.com/photo-1531259683007-016a7b628fc3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmF0bWFufGVufDB8fDB8fHww",
+    "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJhdG1hbnxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1588860939994-ce4f7a537f03?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhdG1hbnxlbnwwfHwwfHx8MA%3D%3D",
+    "https://images.unsplash.com/photo-1596284274000-7d3eca888e3e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJhdG1hbnxlbnwwfHwwfHx8MA%3D%3D"
+  ]
+}

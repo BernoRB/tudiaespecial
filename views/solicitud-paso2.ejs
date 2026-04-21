@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de invitación · Paso 2 · TuDiaEspecial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+  </nav>
+
+  <section style="padding-top:120px;padding-bottom:80px;background:var(--warm-white);">
+    <div class="section-header" style="max-width:720px;margin:0 auto 40px;">
+      <span class="section-label">Formulario · Paso 2 de 2</span>
+    </div>
+
+    <form action="/solicitud/paso2/<%= order.id %>" method="post" style="max-width:740px;margin:0 auto;background:var(--offwhite);padding:32px 24px;border-radius:4px;border:1px solid var(--border);box-shadow:var(--shadow-soft);display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;">
+      
+      <!-- Elección de plantilla -->
+      <div style="grid-column:1 / -1;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:12px;">Elegí tu plantilla</h3>
+        
+        <div style="margin-top:16px;padding:16px;background:rgba(212,175,55,0.1);border-radius:8px;border:1px solid rgba(212,175,55,0.2);font-size:0.9rem;line-height:1.6;color:var(--ink);">
+          <ul style="margin:0;padding-left:20px;list-style-type:disc;">
+            <li style="margin-bottom:8px;">Las plantillas son solo sugerencias de colores, tipografías y formatos. Todo se puede modificar, comentándolo por WhatsApp o Instagram antes o después de la entrega.</li>
+            <li>Enviar las imágenes y cualquier detalle por WhatsApp o Instagram luego de realizar el pedido.</li>
+          </ul>
+        </div>
+        
+        <style>
+          .carousel-section {
+            position: relative;
+            margin: 0 -24px;
+            padding: 0 24px;
+          }
+          .carousel-container {
+            position: relative;
+            overflow: hidden;
+          }
+          .carousel-track {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            padding: 4px 0;
+          }
+          .carousel-track::-webkit-scrollbar {
+            display: none;
+          }
+          .carousel-item {
+            flex: 0 0 280px;
+            position: relative;
+          }
+          .template-preview-title {
+            font-family:'Playfair Display',serif;
+            font-size:0.9rem;
+            font-weight:500;
+            text-align:center;
+            margin-bottom:8px;
+            color:var(--ink);
+          }
+          .template-preview-card {
+            position: relative;
+            border:2px solid var(--border);
+            border-radius:8px;
+            overflow:hidden;
+            background:var(--offwhite);
+            transition: all 0.2s ease;
+          }
+          .template-preview-image {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+          }
+          .template-preview-placeholder {
+            display:none;
+            padding:40px 20px;
+            text-align:center;
+            font-size:0.85rem;
+            color:var(--muted);
+          }
+          .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          }
+          .carousel-nav:hover {
+            background: #d4af37;
+          }
+          .carousel-prev {
+            left: 8px;
+          }
+          .carousel-next {
+            right: 8px;
+          }
+          .selected-template-text {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            text-align: center;
+            font-family:'Jost',sans-serif;
+            font-size: 0.9rem;
+            color: var(--ink);
+          }
+          .selected-template-text strong {
+            color: var(--gold);
+            font-weight: 600;
+          }
+          .selected-template-text a {
+            color: var(--link);
+            text-decoration: none;
+            font-style: italic;
+            cursor: pointer;
+            display: block;
+          }
+          .selected-template-text a:hover {
+            color: var(--gold);
+          }
+          @media (max-width: 768px) {
+            .carousel-nav {
+              width: 32px;
+              height: 32px;
+              font-size: 18px;
+            }
+          }
+          /* Estilo para plantilla seleccionada */
+          input[type="radio"]:checked + .template-preview-card {
+            border-color: var(--gold);
+            border-width: 4px;
+            box-shadow: 0 0 0 4px rgba(212,175,55,0.4), 0 4px 12px rgba(0,0,0,0.15);
+          }
+        </style>
+        
+        <% if (order.category === 'bodas') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('bodas', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('bodas', 1)">›</button>
+            <div class="carousel-track" id="bodas-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Boda Minimal</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="boda_minimal" required style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BodaMinimal.jpg" alt="Boda Minimal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Boda Midnight</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="boda_midnight" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BodaMidnight.png" alt="Boda Midnight Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Boda Garden</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="boda_garden" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BodaGarden.png" alt="Boda Garden Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Boda Ethereal</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="boda_ethereal" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BodaEthereal.png" alt="Boda Ethereal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Boda Eclipse</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="boda_eclipse" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BodaEclipse.png" alt="Boda Eclipse Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="bodas-selected-text">
+          Plantilla seleccionada: <strong>Boda Minimal</strong><br><a id="bodas-preview-link" href="/demo/bodas/boda_minimal" target="_blank">(Toca para ver completa)</a>
+        </div>
+        <% } else if (order.category === 'quinces') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('quinces', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('quinces', 1)">›</button>
+            <div class="carousel-track" id="quinces-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Quinces Glow</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="quinces_glow" required style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/QuincesGlow.jpg" alt="Quinces Glow Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Quinces Royal</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="quinces_royal" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/QuincesRoyal.jpg" alt="Quinces Royal Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Quinces Velvet</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="quinces_velvet" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/QuincesVelvet.jpg" alt="Quinces Velvet Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Quinces Floral</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="quinces_floral" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/QuincesFloral.jpg" alt="Quinces Floral Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Quinces Diamond</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="quinces_diamond" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/QuincesDiamante.jpg" alt="Quinces Diamond Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="quinces-selected-text">
+          Plantilla seleccionada: <strong>Quinces Glow</strong><br><a id="quinces-preview-link" href="/demo/quinces/quinces_glow" target="_blank">(Toca para ver completa)</a>
+        </div>
+        <% } else if (order.category === 'peques') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('peques', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('peques', 1)">›</button>
+            <div class="carousel-track" id="peques-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Peques Soft</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="peques_soft" required style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/PequesSoft.png" alt="Peques Soft Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Peques Cloud</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="peques_cloud" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/PequesCloud.png" alt="Peques Cloud Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Peques Dream</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="peques_dream" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/PequesDream.png" alt="Peques Dream Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="peques-selected-text">
+          Plantilla seleccionada: <strong>Peques Soft</strong><br><a id="peques-preview-link" href="/demo/peques/peques_soft" target="_blank">(Toca para ver completa)</a>
+        </div>
+        <% } else if (order.category === 'ninos') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('ninos', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('ninos', 1)">›</button>
+            <div class="carousel-track" id="ninos-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Niños Batman</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="ninos_batman" required style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/NinosBatman.png" alt="Niños Batman Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Niños IronMan</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="ninos_ironman" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/NinosIronman.png" alt="Niños IronMan Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Niños SpiderMan</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="ninos_spiderman" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/NinosSpiderman.png" alt="Niños SpiderMan Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="ninos-selected-text">
+          Plantilla seleccionada: <strong>Niños Batman</strong><br><a id="ninos-preview-link" href="/demo/ninos/ninos_batman" target="_blank">(Toca para ver completa)</a>
+        </div>
+        <% } else if (order.category === 'eventos') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('eventos', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('eventos', 1)">›</button>
+            <div class="carousel-track" id="eventos-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Cumpleaños Oscuro</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_dark" required style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoOscuro.png" alt="Cumpleaños Oscuro Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Cumpleaños Claro</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_light" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoClaro.png" alt="Cumpleaños Claro Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Aniversario</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_anniversary" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoAniversario.png" alt="Aniversario Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Despedida Hombre</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_bachelor" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoDespedidaHombre.png" alt="Despedida Hombre Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Despedida Mujer</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_bachelorette" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoDespedidaMujer.png" alt="Despedida Mujer Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Asado Oficial</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="eventos_bbq" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/EventoAsado.png" alt="Asado Oficial Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="eventos-selected-text">
+          Plantilla seleccionada: <strong>Cumpleaños Oscuro</strong><br><a id="eventos-preview-link" href="/demo/eventos/eventos_dark" target="_blank">(Toca para ver completa)</a>
+        </div>
+        <% } else { %>
+          <label style="display:block;cursor:pointer;">
+            <input type="radio" name="template_key" value="boda_minimal" required style="margin-right:8px;">
+            <div style="border:1px solid var(--border);border-radius:8px;padding:16px;background:#fff;">
+              <div style="font-weight:600;margin-bottom:4px;">Boda Minimal</div>
+              <div style="font-size:0.85rem;color:var(--muted);">Elegante y sobrio</div>
+            </div>
+          </label>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Secciones a activar -->
+      <div style="grid-column:1 / -1;margin-top:8px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px;">¿Qué secciones querés activar?</h3>
+        <!-- <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Todas están tildadas por defecto. Desmarcá las que no querés.</p> -->
+      </div>
+
+      <div style="grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_countdown" checked> Cuenta regresiva
+        </label>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_gallery" checked> Galería de fotos superior
+        </label>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_gallery2" checked> Galería de fotos inferior
+        </label>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_location" checked> Ubicación / mapa
+        </label>
+        <% if (order.category !== 'quinces' && order.category !== 'peques' && order.category !== 'ninos') { %>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_itinerary" checked> Cronograma del evento
+        </label>
+        <% } %>
+        <% if (order.category === 'quinces') { %>
+        <label style="font-size:0.9rem;color:var(--ink-soft);opacity:0.6;cursor:not-allowed;" title="Próximamente">
+          <input type="checkbox" name="section_trivia" checked disabled> Trivia (Próximamente)
+        </label>
+        <% } %>
+        <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_dress_code" checked> Dress code
+        </label>
+        <% } %>
+        <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_gifts" checked> Sección de regalos / CBU
+        </label>
+        <% } %>
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" name="section_rsvp" checked> Confirmar asistencia
+        </label>
+      </div>
+
+      <!-- Datos del evento -->
+      <div style="grid-column:1 / -1;margin-top:16px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px;">Datos del evento</h3>
+      </div>
+
+      <% if (order.category === 'bodas') { %>
+      <!-- Bodas -->
+      <div>
+        <label for="honorees" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Nombres de los agasajados *</label>
+        <input type="text" id="honorees" name="honorees" required placeholder="Ej: Facundo & Patricia" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="hero_message" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase principal (opcional)</label>
+        <input type="text" id="hero_message" name="hero_message" placeholder="Ej: Nos casamos" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="dress_code" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dress code (opcional)</label>
+        <input type="text" id="dress_code" name="dress_code" placeholder="Ej: Elegante, informal chic, etc." style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <div>
+        <label for="reserved_color" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Color reservado (opcional)</label>
+        <input type="text" id="reserved_color" name="reserved_color" placeholder="Ej: Blanco, para la novia" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <!-- Civil -->
+      <div style="grid-column:1 / -1;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" id="civil_enabled" name="civil_enabled" onchange="toggleCeremonyFields('civil')"> ¿Incluir casamiento por civil?
+        </label>
+      </div>
+      <div id="civil_fields" style="display:none;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="civil_date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha del civil</label>
+          <input type="text" id="civil_date" name="civil_date" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="civil_time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora del civil</label>
+          <input type="time" id="civil_time" name="civil_time" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="civil_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección del civil</label>
+          <input type="text" id="civil_address" name="civil_address" placeholder="Dirección del registro civil" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <!-- Iglesia -->
+      <div style="grid-column:1 / -1;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" id="church_enabled" name="church_enabled" onchange="toggleCeremonyFields('church')"> ¿Incluir casamiento por iglesia?
+        </label>
+      </div>
+      <div id="church_fields" style="display:none;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="church_date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha de iglesia</label>
+          <input type="text" id="church_date" name="church_date" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="church_time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora de iglesia</label>
+          <input type="time" id="church_time" name="church_time" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="church_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección de la iglesia</label>
+          <input type="text" id="church_address" name="church_address" placeholder="Dirección de la iglesia" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <!-- Fiesta -->
+      <div style="grid-column:1 / -1;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" id="party_enabled" name="party_enabled" onchange="toggleCeremonyFields('party')"> ¿Incluir fiesta de casamiento?
+        </label>
+      </div>
+      <div id="party_fields" style="display:none;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="party_date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha del evento</label>
+          <input type="text" id="party_date" name="party_date" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="party_time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora del evento</label>
+          <input type="time" id="party_time" name="party_time" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="venue_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar del evento</label>
+          <input type="text" id="venue_name" name="venue_name" placeholder="Nombre del salón" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="party_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección del evento</label>
+          <input type="text" id="party_address" name="party_address" placeholder="Dirección completa" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <% } else { %>
+      <!-- Quinces, Peques, Niños, Eventos -->
+      <div>
+        <label for="honorees" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">
+          <% if (order.category === 'quinces') { %>
+            Nombre de la cumpleañera
+          <% } else if (order.category === 'peques' || order.category === 'ninos') { %>
+            Nombre del cumpleañero
+          <% } else { %>
+            Nombre del/de los agasajado/s
+          <% } %> *
+        </label>
+        <input type="text" id="honorees" name="honorees" required placeholder="Ej: María" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <% if (order.category === 'peques' || order.category === 'ninos') { %>
+      <div>
+        <label for="age_years" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Edad del cumpleañero *</label>
+        <input type="number" id="age_years" name="age_years" required min="0" max="18" placeholder="Ej: 3" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <% } %>
+
+      <% if (order.category === 'eventos') { %>
+      <div>
+        <label for="event_type" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">¿Qué es el evento? *</label>
+        <input type="text" id="event_type" name="event_type" required placeholder="Ej: Mis 40, Mis 30, Mis Bodas de Plata" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <% } %>
+
+      <div>
+        <label for="hero_message" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase principal (opcional)</label>
+        <input type="text" id="hero_message" name="hero_message" placeholder="Ej: La fiesta que soñé" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+      <div>
+        <label for="dress_code" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dress code (opcional)</label>
+        <input type="text" id="dress_code" name="dress_code" placeholder="Ej: Chic de fiesta" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <% } %>
+
+      <% if (order.category === 'quinces') { %>
+      <div>
+        <label for="reserved_color" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">¿Hay algún color de vestimenta reservado?</label>
+        <input type="text" id="reserved_color" name="reserved_color" placeholder="Ej: Blanco, rosa, etc." style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <% } %>
+
+      <div>
+        <label for="date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha *</label>
+        <input type="date" id="date" name="date" required style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora *</label>
+        <input type="time" id="time" name="time" required style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div>
+        <label for="venue_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar</label>
+        <input type="text" id="venue_name" name="venue_name" placeholder="Nombre del salón / lugar" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label for="venue_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección *</label>
+        <input type="text" id="venue_address" name="venue_address" required placeholder="Dirección completa" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+      <% } %>
+
+      <!-- Notas -->
+      <div style="grid-column:1 / -1;margin-top:8px;">
+        <label for="notes" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Notas / Comentarios</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Ej: detalles especiales, CBU/Alias para regalos, aclaraciones del evento, etc." style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;font-family:'Jost',sans-serif;"></textarea>
+      </div>
+
+      <!-- Botón enviar -->
+      <div style="grid-column:1 / -1;margin-top:12px;">
+        <button type="submit" class="plan-cta" style="margin-top:8px;">
+          Continuar →
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <script>
+    function toggleCeremonyFields(type) {
+      const checkbox = document.getElementById(type + '_enabled');
+      const fields = document.getElementById(type + '_fields');
+      if (checkbox && fields) {
+        fields.style.display = checkbox.checked ? 'grid' : 'none';
+      }
+    }
+    
+    function updateSelectedTemplateText(category) {
+      const selectedRadio = document.querySelector(`input[name="template_key"]:checked`);
+      if (selectedRadio) {
+        const templateValue = selectedRadio.value;
+        const templateName = getTemplateName(templateValue);
+        const demoUrl = getDemoUrl(category, templateValue);
+        const textElement = document.getElementById(`${category}-selected-text`);
+        if (textElement) {
+          textElement.innerHTML = `Plantilla seleccionada: <strong>${templateName}</strong><br><a id="${category}-preview-link" href="${demoUrl}" target="_blank">(Toca para ver completa)</a>`;
+        }
+      }
+    }
+    
+    function getTemplateName(value) {
+      const names = {
+        'boda_minimal': 'Boda Minimal',
+        'boda_midnight': 'Boda Midnight',
+        'boda_garden': 'Boda Garden',
+        'boda_ethereal': 'Boda Ethereal',
+        'boda_eclipse': 'Boda Eclipse',
+        'quinces_glow': 'Quinces Glow',
+        'quinces_royal': 'Quinces Royal',
+        'quinces_velvet': 'Quinces Velvet',
+        'quinces_floral': 'Quinces Floral',
+        'quinces_diamond': 'Quinces Diamond',
+        'peques_soft': 'Peques Soft',
+        'peques_cloud': 'Peques Cloud',
+        'peques_dream': 'Peques Dream',
+        'ninos_batman': 'Niños Batman',
+        'ninos_ironman': 'Niños IronMan',
+        'ninos_spiderman': 'Niños SpiderMan',
+        'eventos_dark': 'Cumpleaños Oscuro',
+        'eventos_light': 'Cumpleaños Claro',
+        'eventos_anniversary': 'Aniversario',
+        'eventos_bachelor': 'Despedida Hombre',
+        'eventos_bachelorette': 'Despedida Mujer',
+        'eventos_bbq': 'Asado Oficial'
+      };
+      return names[value] || value;
+    }
+    
+    function getDemoUrl(category, templateValue) {
+      const categoryMap = {
+        'bodas': 'bodas',
+        'quinces': 'quinces',
+        'peques': 'peques',
+        'ninos': 'ninos',
+        'eventos': 'eventos'
+      };
+      const cat = categoryMap[category] || category;
+      return `/demo/${cat}/${templateValue}`;
+    }
+    
+    // Inicializar estado de campos al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleCeremonyFields('civil');
+      toggleCeremonyFields('church');
+      toggleCeremonyFields('party');
+      
+      // Agregar event listeners a los radio buttons
+      const templateRadios = document.querySelectorAll('input[name="template_key"]');
+      templateRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          const category = '<%= order.category %>';
+          updateSelectedTemplateText(category);
+        });
+      });
+      
+      // Actualizar el texto inicial
+      updateSelectedTemplateText('<%= order.category %>');
+    });
+  </script>
+
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publicar invitación · Pedido #<%= order._id %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body style="background:var(--warm-white);">
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+    <a href="/admin/orders" class="nav-cta">Cancelar</a>
+  </nav>
+
+  <section style="padding-top:110px;padding-bottom:60px;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
+      <h1 class="section-title" style="margin-bottom:8px;">Publicar invitación</h1>
+      <p class="section-sub" style="margin-bottom:24px;">Configurá todos los detalles de la invitación para el pedido #<%= order._id %></p>
+
+      <form method="post" action="/admin/orders/<%= order._id %>/publish" style="display:grid;gap:24px;">
+        
+        <!-- Sección 1: Datos del cliente (solo lectura) -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Datos originales del cliente (no modificables)</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:0.85rem;">
+            <div><strong>Nombre:</strong> <%= order.customer_name || "-" %></div>
+            <div><strong>Email:</strong> <%= order.customer_email %></div>
+            <div><strong>WhatsApp:</strong> <%= order.customer_whatsapp %></div>
+            <div><strong>Categoría:</strong> <%= order.category %></div>
+            <div><strong>Template:</strong> <%= order.template_key || "-" %></div>
+          </div>
+        </div>
+
+        <!-- Sección 2: Configuración del evento -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Configuración del evento</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Slug (URL)</label>
+              <input name="custom_slug" placeholder="Dejar vacío para autogenerar" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">PIN admin cliente</label>
+              <input name="admin_pin" placeholder="Dejar vacío para autogenerar" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Agasajados *</label>
+              <input name="honorees" value="<%= formData.honorees || '' %>" required style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase principal</label>
+              <input name="hero_message" value="<%= formData.hero_message || '' %>" placeholder="Ej: Nos casamos" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha *</label>
+              <input type="date" name="date" value="<%= formData.date || '' %>" required style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora *</label>
+              <input type="time" name="time" value="<%= formData.time || '' %>" required style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar</label>
+              <input name="venue_name" value="<%= formData.venue_name || '' %>" placeholder="Nombre del salón" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección *</label>
+              <input name="venue_address" value="<%= formData.venue_address || '' %>" required placeholder="Dirección completa" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">URL Maps (opcional)</label>
+              <input name="maps_url" value="<%= formData.maps_url || '' %>" placeholder="https://maps.google.com/..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dress code</label>
+              <input name="dress_code" value="<%= formData.dress_code || '' %>" placeholder="Ej: Elegante, informal chic" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <% } %>
+            <% if (order.category === 'quinces' || order.category === 'bodas') { %>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Color reservado</label>
+              <input name="reserved_color" value="<%= formData.reserved_color || '' %>" placeholder="Ej: Blanco, rosa" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Mensaje de color reservado</label>
+              <input name="reserved_message" value="<%= formData.reserved_message || '' %>" placeholder="Ej: El color blanco se reserva a la cumpleañera" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <% } %>
+            <% if (order.category === 'peques' || order.category === 'ninos') { %>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Edad (años)</label>
+              <input type="number" name="age_years" value="<%= formData.age_years || '' %>" min="0" max="18" placeholder="Ej: 3" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <% } %>
+            <% if (order.category === 'eventos') { %>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Tipo de evento</label>
+              <input name="event_type" value="<%= formData.event_type || '' %>" placeholder="Ej: Mis 40, Mis 30" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Sección 3: Secciones a activar -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Secciones a activar</h3>
+          <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Marcá las secciones que querés que aparezcan en la invitación.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_countdown" <%= formData.section_countdown ? 'checked' : '' %>> Cuenta regresiva
+            </label>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_gallery" <%= formData.section_gallery ? 'checked' : '' %>> Galería superior
+            </label>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_gallery2" <%= formData.section_gallery2 ? 'checked' : '' %>> Galería inferior
+            </label>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_location" <%= formData.section_location ? 'checked' : '' %>> Ubicación / mapa
+            </label>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_itinerary" <%= formData.section_itinerary ? 'checked' : '' %>> Cronograma
+            </label>
+            <% if (order.category === 'quinces' || order.category === 'ninos') { %>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_trivia" <%= formData.section_trivia ? 'checked' : '' %>> Trivia
+            </label>
+            <% } %>
+            <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_dress_code" <%= formData.section_dress_code ? 'checked' : '' %>> Dress code
+            </label>
+            <% } %>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_gifts" <%= formData.section_gifts ? 'checked' : '' %>> Regalos / CBU
+            </label>
+            <label style="font-size:0.85rem;">
+              <input type="checkbox" name="section_rsvp" <%= formData.section_rsvp ? 'checked' : '' %>> Confirmar asistencia
+            </label>
+          </div>
+        </div>
+
+        <!-- Sección 4: Imágenes -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Imágenes</h3>
+          <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Foto de portada (Hero)</label>
+              <input name="hero_image" placeholder="URL de la imagen de portada" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Galería superior (una URL por línea)</label>
+              <textarea name="gallery_urls" rows="4" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:'Jost',sans-serif;"></textarea>
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Galería inferior (una URL por línea)</label>
+              <textarea name="gallery2_urls" rows="4" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:'Jost',sans-serif;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección 5: Itinerario -->
+        <% if (order.category === 'bodas') { %>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Ceremonias (Bodas)</h3>
+          
+          <div style="margin-bottom:16px;">
+            <h4 style="font-size:0.9rem;margin-bottom:8px;">Casamiento Civil</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha</label>
+                <input type="date" name="civil_date" value="<%= formData.civil_date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora</label>
+                <input type="time" name="civil_time" value="<%= formData.civil_time || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div style="grid-column:1 / -1;">
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección</label>
+                <input name="civil_address" value="<%= formData.civil_address || '' %>" placeholder="Dirección del registro civil" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <h4 style="font-size:0.9rem;margin-bottom:8px;">Casamiento por Iglesia</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha</label>
+                <input type="date" name="church_date" value="<%= formData.church_date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora</label>
+                <input type="time" name="church_time" value="<%= formData.church_time || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div style="grid-column:1 / -1;">
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección</label>
+                <input name="church_address" value="<%= formData.church_address || '' %>" placeholder="Dirección de la iglesia" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="font-size:0.9rem;margin-bottom:8px;">Fiesta</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha</label>
+                <input type="date" name="party_date" value="<%= formData.party_date || formData.date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora</label>
+                <input type="time" name="party_time" value="<%= formData.party_time || formData.time || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <div style="grid-column:1 / -1;">
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección</label>
+                <input name="party_address" value="<%= formData.party_address || formData.venue_address || '' %>" placeholder="Dirección del salón" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } else { %>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Cronograma del evento</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Ceremonia</label>
+              <input type="time" name="itinerary_ceremony" value="16:00" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Civil</label>
+              <input type="time" name="itinerary_civil" value="" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Recepción</label>
+              <input type="time" name="itinerary_reception" value="18:00" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Cena</label>
+              <input type="time" name="itinerary_dinner" value="21:00" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fiesta</label>
+              <input type="time" name="itinerary_party" value="23:00" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fin</label>
+              <input type="time" name="itinerary_party_end" value="06:00" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Sección 6: Regalos -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Regalos / CBU</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Alias</label>
+              <input name="gift_alias" placeholder="Ej: mis15.alias" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">CBU</label>
+              <input name="gift_cbu" placeholder="0000000000000000000000" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div style="grid-column:1 / -1;">
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Titular de la cuenta</label>
+              <input name="gift_holder" placeholder="Nombre del titular" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div style="grid-column:1 / -1;">
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Mensaje de regalo</label>
+              <textarea name="gift_message" placeholder="Ej: Con tu presencia alcanza, pero si deseas hacerme un regalo..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;min-height:60px;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección 7: Contacto -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Contacto</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Email cliente</label>
+              <input name="contact_email" value="<%= order.customer_email %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+            <div>
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">WhatsApp cliente</label>
+              <input name="contact_whatsapp" value="<%= order.customer_whatsapp %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón publicar -->
+        <div style="text-align:right;">
+          <button type="submit" class="plan-cta" style="margin-top:8px;">Publicar invitación →</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

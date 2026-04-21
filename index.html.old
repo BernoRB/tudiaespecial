@@ -23,7 +23,7 @@
     <img src="images/hero-photo.jpg" alt="Invitación digital elegante">
   </div>
   <div class="hero-inner">
-    <div class="hero-kicker reveal">Bodas · Quinces · Bautismos</div>
+    <div class="hero-kicker reveal">Bodas · Quinces · Bautismos · Eventos</div>
     <h1 class="reveal reveal-delay-1">
       Tu evento comienza<br/>con <em>un click,</em><br/>no con un sobre
     </h1>
@@ -220,9 +220,9 @@
         <div class="carousel-item">
           <div class="gallery-item">
             <div class="gallery-mock gallery-mock-quinces">
-              <div class="gallery-mock-ornament">🦋</div>
-              <div class="gallery-mock-title">Quinces Butterfly</div>
-              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#D4AF37,#FF9800);"></div>
+              <div class="gallery-mock-ornament">🌹</div>
+              <div class="gallery-mock-title">Quinces Velvet</div>
+              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#8b1a3c,#a02050);"></div>
               <div class="gallery-mock-date">Mis 15 · 05 · XII</div>
               <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Libre como mariposa"</div>
               <span class="gallery-label">VER DEMO</span>
@@ -246,59 +246,59 @@
         <div class="carousel-item">
           <div class="gallery-item">
             <div class="gallery-mock gallery-mock-boda">
+              <div class="gallery-mock-ornament">🌙</div>
+              <div class="gallery-mock-title">Boda Midnight</div>
+              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#c0c0e0,#4a5568);"></div>
+              <div class="gallery-mock-date">14 · XI · 2026</div>
+              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Bajo el cielo estrellado"</div>
+              <span class="gallery-label">VER DEMO</span>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="gallery-item">
+            <div class="gallery-mock gallery-mock-boda">
+              <div class="gallery-mock-ornament">🌑</div>
+              <div class="gallery-mock-title">Boda Eclipse</div>
+              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#8b1a3c,#2d1f1f);"></div>
+              <div class="gallery-mock-date">05 · XII · 2026</div>
+              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Como el eclipse, único"</div>
+              <span class="gallery-label">VER DEMO</span>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="gallery-item">
+            <div class="gallery-mock gallery-mock-boda">
+              <div class="gallery-mock-ornament">�</div>
+              <div class="gallery-mock-title">Boda Garden</div>
+              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#6b8e23,#4a5d23);"></div>
+              <div class="gallery-mock-date">20 · III · 2027</div>
+              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Como un jardín que florece"</div>
+              <span class="gallery-label">VER DEMO</span>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="gallery-item">
+            <div class="gallery-mock gallery-mock-boda">
+              <div class="gallery-mock-ornament">☁️</div>
+              <div class="gallery-mock-title">Boda Ethereal</div>
+              <div class="gallery-mock-line" style="background:linear-gradient(90deg,#b76e79,#8b6b7b);"></div>
+              <div class="gallery-mock-date">15 · IV · 2027</div>
+              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Como un sueño que se hace realidad"</div>
+              <span class="gallery-label">VER DEMO</span>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="gallery-item">
+            <div class="gallery-mock gallery-mock-boda">
               <div class="gallery-mock-ornament">🤍</div>
               <div class="gallery-mock-title">Boda Minimal</div>
               <div class="gallery-mock-line"></div>
               <div class="gallery-mock-date">12 · IV · 2025</div>
               <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Nos casamos"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="gallery-item">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">💍</div>
-              <div class="gallery-mock-title">Boda Classic</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">20 · XII · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Unidos para siempre"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="gallery-item">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">🌹</div>
-              <div class="gallery-mock-title">Boda Romantic</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">14 · II · 2026</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Amor en flor"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="gallery-item">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">⭐</div>
-              <div class="gallery-mock-title">Boda Starlight</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">08 · VII · 2025</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Estrellas alineadas"</div>
-              <span class="gallery-label">VER DEMO</span>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="gallery-item">
-            <div class="gallery-mock gallery-mock-boda">
-              <div class="gallery-mock-ornament">🌊</div>
-              <div class="gallery-mock-title">Boda Ocean</div>
-              <div class="gallery-mock-line"></div>
-              <div class="gallery-mock-date">03 · I · 2026</div>
-              <div class="gallery-mock-detail" style="margin-top:12px;font-style:italic;font-size:0.8rem;">"Amor infinito"</div>
               <span class="gallery-label">VER DEMO</span>
             </div>
           </div>

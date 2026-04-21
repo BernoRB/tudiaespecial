@@ -1,0 +1,21 @@
+{
+  "slug": "demo-eventos-light",
+  "category": "eventos",
+  "template_key": "eventos_light",
+  "hero_image": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "honorees": "Carolina",
+  "event_type": "Mis 35",
+  "hero_message": "Un día especial",
+  "date": "2026-10-22",
+  "time": "16:00",
+  "venue_name": "Jardín de eventos",
+  "venue_address": "Av. Libertador 1234, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Casual elegante",
+  "sections_json": "{\"countdown\":true,\"gallery\":true,\"location\":true,\"rsvp\":true}",
+  "gallery": [
+    "https://images.unsplash.com/photo-1687186511869-91a0816d329b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1687186511437-c32ec1494261?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1687186511729-8033189130af?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ]
+}

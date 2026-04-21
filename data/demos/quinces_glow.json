@@ -2,6 +2,7 @@
   "slug": "demo-quinces-glow",
   "category": "quinces",
   "template_key": "quinces_glow",
+  "hero_image": "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1400&q=80",
   "honorees": "Martina",
   "hero_message": "La noche que soñé, para siempre",
   "date": "2026-09-05",
@@ -10,15 +11,24 @@
   "venue_address": "Calle Luna 456, Buenos Aires",
   "maps_url": "https://maps.google.com",
   "dress_code": "Chic de fiesta",
+  "reserved_color": "rosado",
   "gift_alias": "martina.15.regalo",
   "gift_cbu": "0000000000000000000000",
   "gift_holder": "Martina Perez",
   "sections": {
     "gallery": true,
+    "gallery2": true,
     "dress_code": true,
     "location": true,
     "itinerary": false,
     "gifts": true,
     "music": true
-  }
+  },
+  "gallery2": [
+    "https://plus.unsplash.com/premium_photo-1698154383468-7778ad84d951?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1698154382891-d8a6c220c031?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1770404798084-06f039e1a467?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1661443610539-7da3691423cd?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D",
+    "https://plus.unsplash.com/premium_photo-1697477565509-da40487ede6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHN3ZWV0JTIwZmlmdGVuZW4wMHwwfHx8MA%3D%3D"
+  ]
 }

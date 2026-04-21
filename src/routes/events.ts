@@ -1,25 +1,33 @@
 import { Router, Request, Response, NextFunction } from "express";
-import db from "../db";
+import { Event, Rsvp } from "../db";
 
 const router = Router();
 
-type EventRow = {
-  id: number;
-  slug: string;
-  status: string;
-  template_key: string;
-  sections_json?: string | null;
-  gallery_json?: string | null;
-};
-
 interface EventRequest extends Request {
-  event?: EventRow;
+  event?: any;
 }
 
 // Middleware para cargar el evento por slug
-router.param("slug", (req: EventRequest, res: Response, next: NextFunction, slug: string) => {
-  const stmt = db.prepare("SELECT * FROM events WHERE slug = ?");
-  const event = stmt.get(slug) as EventRow | undefined;
+router.param("slug", async (req: EventRequest, res: Response, next: NextFunction, slug: string) => {
+  console.log('=== MIDDLEWARE DEBUG ===');
+  console.log('Looking for slug:', slug);
+  console.log('========================');
+  
+  let event;
+  try {
+    event = await Event.findOne({ slug });
+  } catch (error) {
+    console.log('Error finding event by slug:', slug, error);
+    return res.status(404).render("errors/404", { url: req.originalUrl });
+  }
+  
+  console.log('Event found:', event ? 'YES' : 'NO');
+  if (event) {
+    console.log('Event ID:', event._id);
+    console.log('Event template:', event.template_key);
+  }
+  console.log('========================');
+  
   if (!event) {
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
@@ -29,16 +37,44 @@ router.param("slug", (req: EventRequest, res: Response, next: NextFunction, slug
 
 // Invitación pública
 router.get("/:slug", (req: EventRequest, res: Response) => {
+  console.log('=== ROUTE DEBUG ===');
+  console.log('Slug requested:', req.params.slug);
+  console.log('==================');
+  
   const event = req.event;
+  
+  console.log('EVENT DEBUG:');
+  console.log('Event object keys:', Object.keys(event || {}));
+  console.log('Event ID:', event?._id);
+  console.log('Event slug:', event?.slug);
+  console.log('Event template_key:', event?.template_key);
+  console.log('Event status:', event?.status);
+  console.log('Raw event object:', event);
+  console.log('Raw sections:', event?.sections);
+  console.log('Raw gallery:', event?.gallery);
+  console.log('Raw itinerary:', event?.itinerary);
+  console.log('==================');
 
   if (!event || event.status !== "ready") {
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
-  const sections = event.sections_json
-    ? JSON.parse(event.sections_json)
-    : {};
-  const gallery = event.gallery_json ? JSON.parse(event.gallery_json) : [];
+  const sections = event.sections || {};
+  const gallery = event.gallery || [];
+  const itinerary = event.itinerary || {};
+
+  console.log('PARSED DATA:');
+  console.log('Sections:', sections);
+  console.log('Gallery:', gallery);
+  console.log('Itinerary:', itinerary);
+  console.log('==================');
+
+  console.log('=== FINAL RENDER DEBUG ===');
+  console.log('Sections.itinerary:', sections.itinerary);
+  console.log('Itinerary object:', itinerary);
+  console.log('Itinerary keys:', Object.keys(itinerary));
+  console.log('Itinerary ceremony:', itinerary.ceremony);
+  console.log('============================');
 
   const viewName = `templates/${event.template_key}`;
 
@@ -46,15 +82,22 @@ router.get("/:slug", (req: EventRequest, res: Response) => {
     event,
     sections,
     gallery,
+    itinerary,
     isDemo: false,
   });
 });
 
 // API para RSVP
-router.post("/api/:slug/rsvp", (req: Request, res: Response) => {
+router.post("/api/:slug/rsvp", async (req: Request, res: Response) => {
   const slug = Array.isArray(req.params.slug) ? req.params.slug[0] : req.params.slug;
-  const eventStmt = db.prepare("SELECT id FROM events WHERE slug = ?");
-  const event = eventStmt.get(slug) as { id: number } | undefined;
+  
+  let event;
+  try {
+    event = await Event.findOne({ slug });
+  } catch (error) {
+    console.log('Error finding event by slug:', slug, error);
+    return res.status(404).render("errors/404", { url: req.originalUrl });
+  }
 
   if (!event) {
     return res.status(404).render("errors/404", { url: req.originalUrl });
@@ -73,29 +116,16 @@ router.post("/api/:slug/rsvp", (req: Request, res: Response) => {
   const count = Number(people_count) || 1;
   const finalStatus = status === "declined" ? "declined" : "confirmed";
 
-  const insertStmt = db.prepare(`
-    INSERT INTO rsvps (
-      event_id,
-      contact_name,
-      people_count,
-      people_names,
-      food_preferences,
-      song_suggestions,
-      comments,
-      status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `);
-
-  insertStmt.run(
-    event.id,
+  await Rsvp.create({
+    event_id: event._id,
     contact_name,
-    count,
-    people_names || "",
-    food_preferences || "",
-    song_suggestions || "",
-    comments || "",
-    finalStatus
-  );
+    people_count: count,
+    people_names: people_names || "",
+    food_preferences: food_preferences || "",
+    song_suggestions: song_suggestions || "",
+    comments: comments || "",
+    status: finalStatus,
+  });
 
   res.redirect(`/${slug}?rsvp=ok`);
 });

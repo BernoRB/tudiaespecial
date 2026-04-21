@@ -1,0 +1,23 @@
+{
+  "slug": "demo-boda-midnight",
+  "category": "bodas",
+  "template_key": "boda_midnight",
+  "hero_image": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80",
+  "honorees": "Lucas & Sofía",
+  "hero_message": "Bajo el cielo estrellado",
+  "date": "2026-11-14",
+  "time": "19:30",
+  "venue_name": "Salón Estelar",
+  "venue_address": "Av. Corrientes 1234, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Elegante oscuro",
+  "reserved_color": "negro",
+  "sections": {
+    "gallery": true,
+    "gallery2": true,
+    "dress_code": true,
+    "location": true,
+    "gifts": true,
+    "music": true
+  }
+}

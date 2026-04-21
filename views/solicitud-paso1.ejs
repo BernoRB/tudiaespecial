@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de invitación · Paso 1 · TuDiaEspecial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">TuDia<span>Especial</span></div>
+  </nav>
+
+  <section style="padding-top:120px;padding-bottom:80px;background:var(--warm-white);">
+    <div class="section-header" style="max-width:720px;margin:0 auto 40px;">
+      <span class="section-label">Formulario</span>
+      <h2 class="section-title">Empecemos con lo básico</h2>
+      <p class="section-sub">En el siguiente paso completaremos los detalles de tu evento.</p>
+    </div>
+
+    <form action="/solicitud/paso1" method="post" style="max-width:540px;margin:0 auto;background:var(--offwhite);padding:32px 24px;border-radius:4px;border:1px solid var(--border);box-shadow:var(--shadow-soft);display:grid;gap:20px;">
+      <!-- Nombre -->
+      <div>
+        <label for="customer_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Tu nombre *</label>
+        <input type="text" id="customer_name" name="customer_name" required placeholder="Ej: María González" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <!-- Tipo de evento -->
+      <div>
+        <label for="category" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Tipo de evento *</label>
+        <select id="category" name="category" required style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+          <option value="">Seleccioná el tipo de evento</option>
+          <option value="bodas">Boda</option>
+          <option value="quinces">Quinces</option>
+          <option value="peques">Cumpleaños Peques (0-4 años)</option>
+          <option value="ninos">Cumpleaños Niños (+5 años)</option>
+          <option value="eventos">Eventos (Cumpleaños de adultos, Aniversario de Bodas, Etc)</option>
+        </select>
+      </div>
+
+      <!-- Contacto - Email -->
+      <div>
+        <label for="contact_email" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Email *</label>
+        <input type="email" id="contact_email" name="contact_email" required placeholder="tu@email.com" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <!-- Contacto - WhatsApp -->
+      <div>
+        <label for="contact_whatsapp" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">WhatsApp (para enviarte la invitación) *</label>
+        <input type="text" id="contact_whatsapp" name="contact_whatsapp" required placeholder="+54 9 ..." style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+      </div>
+
+      <div style="margin-top:8px;">
+        <button type="submit" class="plan-cta" style="margin-top:8px;">
+          Continuar →
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <script src="/js/scripts.js"></script>
+</body>
+</html>

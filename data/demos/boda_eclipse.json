@@ -1,0 +1,32 @@
+{
+  "slug": "demo-boda-eclipse",
+  "category": "bodas",
+  "template_key": "boda_eclipse",
+  "hero_image": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80",
+  "honorees": "Martín & Valeria",
+  "hero_message": "Como el eclipse, un momento único",
+  "date": "2026-12-05",
+  "time": "20:00",
+  "venue_name": "Salón Eclipse",
+  "venue_address": "Av. Libertador 456, Buenos Aires",
+  "maps_url": "",
+  "dress_code": "Elegante dramático",
+  "reserved_color": "rojo",
+  "sections": {
+    "gallery": true,
+    "gallery2": true,
+    "dress_code": true,
+    "location": true,
+    "itinerary": true,
+    "gifts": true,
+    "music": true
+  },
+  "itinerary": {
+    "ceremony": "16:00",
+    "reception": "18:00",
+    "dinner": "21:00",
+    "party": "23:00",
+    "party_end": "06:00",
+    "civil": ""
+  }
+}

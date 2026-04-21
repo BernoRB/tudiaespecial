@@ -6,17 +6,127 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const db_1 = __importDefault(require("../db"));
+const db_1 = require("../db");
 const router = (0, express_1.Router)();
 // Landing: renderizamos la landing actual como vista EJS
 router.get("/", (req, res) => {
     res.render("landing");
 });
-// Formulario de solicitud
+// Formulario de solicitud - Paso 1 (Lead capture)
 router.get("/solicitud", (req, res) => {
-    res.render("solicitud");
+    res.render("solicitud-paso1");
 });
-router.post("/solicitud", (req, res) => {
+router.post("/solicitud/paso1", async (req, res) => {
+    const { customer_name, category, contact_email, contact_whatsapp, } = req.body;
+    const rawForm = JSON.stringify(req.body);
+    console.log('=== ORDER CREATE DEBUG ===');
+    console.log('Creating order with data:', { customer_name, category, contact_email });
+    console.log('==========================');
+    const order = await db_1.Order.create({
+        customer_name,
+        customer_email: contact_email,
+        customer_whatsapp: contact_whatsapp || "",
+        category,
+        template_key: undefined,
+        raw_form_json: req.body,
+        status: "lead",
+    });
+    console.log('Order created with ID:', order._id);
+    console.log('==========================');
+    res.redirect(`/solicitud/paso2/${order._id}`);
+});
+// Formulario de solicitud - Paso 2 (Datos completos)
+router.get("/solicitud/paso2/:orderId", async (req, res) => {
+    const orderId = req.params.orderId;
+    let order;
+    try {
+        order = await db_1.Order.findById(orderId);
+    }
+    catch (error) {
+        console.log('Invalid order ID format:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    if (!order) {
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    res.render("solicitud-paso2", { order });
+});
+router.post("/solicitud/paso2/:orderId", async (req, res) => {
+    const orderId = req.params.orderId;
+    const { template_key, honorees, hero_message, date, time, venue_name, venue_address, maps_url, dress_code, notes, 
+    // Secciones
+    section_countdown, section_gallery, section_gallery2, section_location, section_itinerary, section_trivia, section_dress_code, section_gifts, section_rsvp, 
+    // Para bodas - múltiples ceremonias
+    civil_enabled, civil_date, civil_time, civil_address, church_enabled, church_date, church_time, church_address, party_enabled, party_date, party_time, party_address, 
+    // Para quinces
+    reserved_color, 
+    // Para nuevas categorías
+    age_years, event_type, } = req.body;
+    // Obtener el order existente
+    let order;
+    try {
+        order = await db_1.Order.findById(orderId);
+    }
+    catch (error) {
+        console.log('Invalid order ID format:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    if (!order) {
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    // Construir ceremonies si es boda
+    let ceremonies = null;
+    if (order.category === "bodas") {
+        ceremonies = {
+            civil: {
+                enabled: !!civil_enabled,
+                date: civil_date || "",
+                time: civil_time || "",
+                address: civil_address || "",
+            },
+            church: {
+                enabled: !!church_enabled,
+                date: church_date || "",
+                time: church_time || "",
+                address: church_address || "",
+            },
+            party: {
+                enabled: !!party_enabled,
+                date: party_date || "",
+                time: party_time || "",
+                address: party_address || "",
+            },
+        };
+    }
+    // Construir sections_json según el tipo de evento
+    const sections = {
+        countdown: !!section_countdown,
+        gallery: !!section_gallery,
+        gallery2: !!section_gallery2,
+        location: !!section_location,
+        itinerary: !!section_itinerary,
+        trivia: !!section_trivia,
+        dress_code: !!section_dress_code,
+        gifts: !!section_gifts,
+        rsvp: !!section_rsvp,
+    };
+    // Actualizar el order con todos los datos
+    try {
+        await db_1.Order.findByIdAndUpdate(orderId, {
+            template_key,
+            raw_form_json: { ...order.raw_form_json, ...req.body },
+            status: "pending",
+            updated_at: new Date(),
+        });
+    }
+    catch (error) {
+        console.log('Invalid order ID format for update:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    res.redirect(`/pago/${orderId}`);
+});
+// Formulario antiguo (mantener por compatibilidad temporal)
+router.post("/solicitud", async (req, res) => {
     const { category, template_key, honorees, date, time, venue_name, venue_address, maps_url, dress_code, hero_message, contact_email, contact_whatsapp, } = req.body;
     const sections = {
         gallery: !!req.body.section_gallery,
@@ -26,40 +136,55 @@ router.post("/solicitud", (req, res) => {
         gifts: !!req.body.section_gifts,
         music: !!req.body.section_music,
     };
-    const rawForm = JSON.stringify(req.body);
-    const stmt = db_1.default.prepare(`
-    INSERT INTO orders (
-      customer_email,
-      customer_whatsapp,
-      category,
-      template_key,
-      raw_form_json
-    ) VALUES (?, ?, ?, ?, ?)
-  `);
-    const info = stmt.run(contact_email, contact_whatsapp, category, template_key, rawForm);
-    const orderId = info.lastInsertRowid;
-    res.redirect(`/pago/${orderId}`);
+    const order = await db_1.Order.create({
+        customer_email: contact_email,
+        customer_whatsapp: contact_whatsapp,
+        category,
+        template_key,
+        raw_form_json: req.body,
+    });
+    res.redirect(`/pago/${order._id}`);
 });
 // Pantalla de pago
-router.get("/pago/:orderId", (req, res) => {
-    const orderId = Number(req.params.orderId);
-    const stmt = db_1.default.prepare("SELECT * FROM orders WHERE id = ?");
-    const order = stmt.get(orderId);
+router.get("/pago/:orderId", async (req, res) => {
+    const orderId = req.params.orderId;
+    let order;
+    try {
+        order = await db_1.Order.findById(orderId);
+    }
+    catch (error) {
+        console.log('Invalid order ID format:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
     if (!order) {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     res.render("pago", { order });
 });
-router.post("/pago/:orderId", (req, res) => {
-    const orderId = Number(req.params.orderId);
+router.post("/pago/:orderId", async (req, res) => {
+    const orderId = req.params.orderId;
     const paymentMethod = req.body.payment_method;
-    const getStmt = db_1.default.prepare("SELECT * FROM orders WHERE id = ?");
-    const order = getStmt.get(orderId);
+    let order;
+    try {
+        order = await db_1.Order.findById(orderId);
+    }
+    catch (error) {
+        console.log('Invalid order ID format:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
     if (!order) {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
-    const updateStmt = db_1.default.prepare("UPDATE orders SET payment_method = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?");
-    updateStmt.run(paymentMethod, orderId);
+    try {
+        await db_1.Order.findByIdAndUpdate(orderId, {
+            payment_method: paymentMethod,
+            updated_at: new Date(),
+        });
+    }
+    catch (error) {
+        console.log('Invalid order ID format for update:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
     if (paymentMethod === "transferencia") {
         return res.render("pago-transferencia", { order });
     }
@@ -72,6 +197,22 @@ router.post("/pago/:orderId", (req, res) => {
 });
 // Pantalla final de gracias
 router.get("/gracias", (req, res) => {
+    res.render("gracias");
+});
+// Pantalla de confirmación después de transferencia
+router.get("/confirmacion/:orderId", async (req, res) => {
+    const orderId = req.params.orderId;
+    let order;
+    try {
+        order = await db_1.Order.findById(orderId);
+    }
+    catch (error) {
+        console.log('Invalid order ID format:', orderId);
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    if (!order) {
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
     res.render("gracias");
 });
 // Demos de templates
@@ -87,6 +228,7 @@ router.get("/demo/:category/:templateKey", (req, res) => {
         event: json,
         sections,
         gallery: json.gallery || [],
+        itinerary: json.itinerary || {},
         isDemo: true,
     });
 });
