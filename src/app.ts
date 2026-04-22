@@ -29,13 +29,13 @@ app.use(
 
 // Mantiene compatibilidad con la estructura original de la landing
 // (primero se resuelven estos paths exactos)
-app.use("/css", express.static(path.join(__dirname, "..", "css")));
-app.use("/js", express.static(path.join(__dirname, "..", "js")));
-app.use("/images", express.static(path.join(__dirname, "..", "images")));
+app.use("/css", express.static(path.join(__dirname, "..", "css"), { maxAge: "1y" }));
+app.use("/js", express.static(path.join(__dirname, "..", "js"), { maxAge: "1y" }));
+app.use("/images", express.static(path.join(__dirname, "..", "images"), { maxAge: "1y" }));
 // Estáticos extra del proyecto (si luego agregamos assets nuevos en /public)
 app.use(
   express.static(path.join(__dirname, "..", "public"), {
-    maxAge: "1d",
+    maxAge: "1y",
   })
 );
 
