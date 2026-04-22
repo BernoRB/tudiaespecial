@@ -69,6 +69,7 @@ router.get("/:slug", (req, res) => {
         gallery,
         itinerary,
         isDemo: false,
+        req,
     });
 });
 // API para RSVP

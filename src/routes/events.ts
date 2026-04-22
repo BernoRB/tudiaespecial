@@ -84,6 +84,7 @@ router.get("/:slug", (req: EventRequest, res: Response) => {
     gallery,
     itinerary,
     isDemo: false,
+    req,
   });
 });
 

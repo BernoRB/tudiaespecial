@@ -230,6 +230,27 @@ router.get("/demo/:category/:templateKey", (req, res) => {
         gallery: json.gallery || [],
         itinerary: json.itinerary || {},
         isDemo: true,
+        req,
     });
+});
+// Sitemap.xml
+router.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = path_1.default.join(__dirname, "..", "..", "public", "sitemap.xml");
+    if (fs_1.default.existsSync(sitemapPath)) {
+        res.sendFile(sitemapPath);
+    }
+    else {
+        res.status(404).send("Sitemap not found");
+    }
+});
+// Robots.txt
+router.get("/robots.txt", (req, res) => {
+    const robotsPath = path_1.default.join(__dirname, "..", "..", "public", "robots.txt");
+    if (fs_1.default.existsSync(robotsPath)) {
+        res.sendFile(robotsPath);
+    }
+    else {
+        res.status(404).send("Robots.txt not found");
+    }
 });
 exports.default = router;

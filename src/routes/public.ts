@@ -319,6 +319,7 @@ router.get("/demo/:category/:templateKey", (req, res) => {
     gallery: json.gallery || [],
     itinerary: json.itinerary || {},
     isDemo: true,
+    req,
   });
 });
 
