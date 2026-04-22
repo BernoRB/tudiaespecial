@@ -1,0 +1,38 @@
+<% 
+  const title = locals.title || "TuDiaEspecial – Invitaciones Digitales Premium";
+  const description = locals.description || "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. Servicio en Argentina.";
+  const keywords = locals.keywords || "invitaciones digitales, invitaciones digitales bodas, invitaciones digitales quinces, invitaciones digitales eventos, invitaciones online, confirmación de asistencia digital, invitaciones interactivas, Argentina";
+  const url = locals.url || "https://tudiaespecial.com";
+  const image = locals.image || "https://tudiaespecial.com/images/Logo.png";
+  const type = locals.type || "website";
+  const canonical = locals.canonical || url;
+%>
+
+<!-- Meta Tags Básicos -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="<%= description %>" />
+<meta name="keywords" content="<%= keywords %>" />
+<meta name="author" content="TuDiaEspecial" />
+<meta name="robots" content="index, follow" />
+<meta name="language" content="es-AR" />
+<link rel="canonical" href="<%= canonical %>" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="<%= type %>" />
+<meta property="og:url" content="<%= url %>" />
+<meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= description %>" />
+<meta property="og:image" content="<%= image %>" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:site_name" content="TuDiaEspecial" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content="<%= url %>" />
+<meta name="twitter:title" content="<%= title %>" />
+<meta name="twitter:description" content="<%= description %>" />
+<meta name="twitter:image" content="<%= image %>" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/images/favicon.png" />

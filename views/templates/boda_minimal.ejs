@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= event.honorees || "Nuestra boda" %> · Invitación</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="/images/favicon.png">
-  <style>
+<%- include('../partials/meta-tags', {
+  title: (event.honorees || "Nuestra boda") + " · Invitación Digital",
+  description: (event.honorees || "Nuestra boda") + " - " + (event.venue_name || "") + ". Invitación digital con confirmación de asistencia, ubicación y agenda. Servicio en Argentina.",
+  keywords: "invitación digital bodas, " + (event.honorees || "") + ", " + (event.venue_name || "") + ", Argentina",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  type: "article"
+}) %>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
     :root{--bg:#f8f6f3;--card:#fff;--ink:#27221d;--muted:#7b7165;--line:rgba(193,127,89,.4);--accent:#c17f59;--accent-soft:rgba(193,127,89,.15);--shadow:0 18px 42px rgba(193,127,89,.2)}
     *{box-sizing:border-box} body{margin:0;font-family:"Jost",sans-serif;background:var(--bg);color:var(--ink)}
     .page{max-width:1120px;margin:0 auto;padding:14px 12px 54px;text-align:center}

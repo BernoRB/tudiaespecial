@@ -322,5 +322,25 @@ router.get("/demo/:category/:templateKey", (req, res) => {
   });
 });
 
+// Sitemap.xml
+router.get("/sitemap.xml", (req, res) => {
+  const sitemapPath = path.join(__dirname, "..", "..", "public", "sitemap.xml");
+  if (fs.existsSync(sitemapPath)) {
+    res.sendFile(sitemapPath);
+  } else {
+    res.status(404).send("Sitemap not found");
+  }
+});
+
+// Robots.txt
+router.get("/robots.txt", (req, res) => {
+  const robotsPath = path.join(__dirname, "..", "..", "public", "robots.txt");
+  if (fs.existsSync(robotsPath)) {
+    res.sendFile(robotsPath);
+  } else {
+    res.status(404).send("Robots.txt not found");
+  }
+});
+
 export default router;
 

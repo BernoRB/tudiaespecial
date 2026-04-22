@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= event.honorees || "Mis 15" %> · Invitación</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="/images/favicon.png">
-  <style>
+<%- include('../partials/meta-tags', {
+  title: (event.honorees || "Mis 15") + " · Invitación Digital",
+  description: (event.honorees || "Mis 15") + " - " + (event.venue_name || "") + ". Invitación digital con confirmación de asistencia, ubicación y agenda. Servicio en Argentina.",
+  keywords: "invitación digital quinces, " + (event.honorees || "") + ", " + (event.venue_name || "") + ", Argentina",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  type: "article"
+}) %>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
     :root {
       --bg: #0a0508;
       --card: #1a0a10;

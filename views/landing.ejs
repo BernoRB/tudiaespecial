@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TuDiaEspecial – Invitaciones Digitales Premium</title>
+<%- include('../partials/meta-tags', {
+  title: "TuDiaEspecial – Invitaciones Digitales Premium",
+  description: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. Servicio en Argentina.",
+  keywords: "invitaciones digitales, invitaciones digitales bodas, invitaciones digitales quinces, invitaciones digitales eventos, invitaciones online, confirmación de asistencia digital, invitaciones interactivas, Argentina",
+  url: "https://tudiaespecial.com",
+  type: "website"
+}) %>
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "TuDiaEspecial",
+  "description": "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar.",
+  "url": "https://tudiaespecial.com",
+  "telephone": "+5491124726396",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "AR"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Argentina"
+  },
+  "priceRange": "$$",
+  "serviceType": ["Invitaciones Digitales", "Diseño Web", "Eventos"]
+}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&family=Inter:wght@500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/css/styles.css">
-<link rel="icon" type="image/png" href="/images/favicon.png">
 </head>
 <body>
 
@@ -27,7 +53,7 @@
     <h1 class="reveal reveal-delay-1">
       Tu <span class="slot-word" id="slotWord">evento</span> comienza<br/>con <em>un click,</em><br/>no con un sobre
     </h1>
-    <p class="hero-sub reveal reveal-delay-2" style="font-family:'Inter',sans-serif;font-weight:500;">Invitaciones digitales interactivas para tu celebración especial </p>
+    <p class="hero-sub reveal reveal-delay-2" style="font-family:'Inter',sans-serif;font-weight:500;">Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. </p>
     <style>
       @media (max-width: 768px) {
         .hero-sub {

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /solicitud
+Disallow: /pago
+Disallow: /confirmacion
+
+Sitemap: https://tudiaespecial.com/sitemap.xml
