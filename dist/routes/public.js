@@ -8,6 +8,47 @@ const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const db_1 = require("../db");
 const router = (0, express_1.Router)();
+// Función para enviar notificación a Discord
+async function sendDiscordNotification(order) {
+    const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    if (!webhookUrl) {
+        console.log('DISCORD_WEBHOOK_URL not configured, skipping notification');
+        return;
+    }
+    const message = {
+        content: "🎉 **Nueva solicitud creada**",
+        embeds: [
+            {
+                title: "Datos del cliente",
+                color: 0xD4AF37, // Color dorado
+                fields: [
+                    { name: "Nombre", value: order.customer_name || "No especificado", inline: true },
+                    { name: "Categoría", value: order.category || "No especificado", inline: true },
+                    { name: "Email", value: order.customer_email || "No especificado", inline: false },
+                    { name: "WhatsApp", value: order.customer_whatsapp || "No especificado", inline: false },
+                    { name: "ID de orden", value: order._id.toString(), inline: false },
+                ],
+                timestamp: new Date().toISOString(),
+            },
+        ],
+    };
+    try {
+        const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(message),
+        });
+        if (!response.ok) {
+            console.error("Failed to send Discord notification:", response.statusText);
+        }
+        else {
+            console.log("Discord notification sent successfully");
+        }
+    }
+    catch (error) {
+        console.error("Error sending Discord notification:", error);
+    }
+}
 // Landing: renderizamos la landing actual como vista EJS
 router.get("/", (req, res) => {
     res.render("landing");
@@ -33,6 +74,8 @@ router.post("/solicitud/paso1", async (req, res) => {
     });
     console.log('Order created with ID:', order._id);
     console.log('==========================');
+    // Enviar notificación a Discord (fire and forget)
+    sendDiscordNotification(order).catch(err => console.error('Discord notification error:', err));
     res.redirect(`/solicitud/paso2/${order._id}`);
 });
 // Formulario de solicitud - Paso 2 (Datos completos)
