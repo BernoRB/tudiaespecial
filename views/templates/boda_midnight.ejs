@@ -501,7 +501,7 @@
       <img src="<%= heroImage %>" alt="Foto principal de la boda" />
       <div class="hero-content">
         <div class="hero-kicker">INVITACIÓN · BODA</div>
-        <h1 class="hero-name">NOS CASAMOS</h1>
+        <h1 class="hero-name"><%= event.hero_message || "Nos casamos" %></h1>
         <p class="hero-title"><%= event.honorees || "Nombre & Nombre" %></p>
       </div>
       <div class="hero-countdown" id="hero-countdown" data-date="<%= event.date || "" %>" data-time="<%= event.time || "" %>">
