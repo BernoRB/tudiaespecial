@@ -86,6 +86,17 @@
 </script>
 
 <style>
+  :root {
+    --gold: #d4af37;
+    --ink: #1a1a2e;
+    --dark-blue: #16213e;
+    --warm-white: #f5efc7;
+    --offwhite: #f8f6f2;
+    --ink-soft: #4a4a5a;
+    --border: #e0e0e0;
+    --muted: #999;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  }
   .seo-container {
     max-width: 900px;
     margin: 0 auto;
@@ -109,11 +120,14 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.3rem;
     line-height: 1.7;
-    color: rgba(245,239,199,0.9);
+    color: var(--ink);
     margin-bottom: 40px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .seo-hero .seo-intro {
+    color: rgba(245,239,199,0.9);
   }
   .seo-section {
     padding: 60px 20px;
@@ -222,6 +236,9 @@
     border-radius: 8px;
     border-left: 4px solid var(--gold);
   }
+  .seo-section-dark .seo-benefit-item {
+    background: rgba(212,175,55,0.2);
+  }
   .seo-benefit-icon {
     color: var(--ink);
     font-size: 1.5rem;
@@ -236,6 +253,9 @@
     font-size: 1rem;
     line-height: 1.6;
     color: var(--ink);
+  }
+  .seo-section-dark .seo-benefit-text {
+    color: var(--warm-white);
   }
   .seo-faq {
     max-width: 700px;
@@ -288,7 +308,7 @@
     <div class="seo-hero">
       <h1 class="seo-h1">Invitación Digital o Tarjeta Física: ¿Cuál Elegir?</h1>
       <p class="seo-intro">
-        La invitación digital es mejor que la tarjeta física porque incluye RSVP automático, ubicación con mapa, se puede actualizar si hay cambios, es más económica y ecológica. Llega al instante y no se pierde ni se daña.
+        La invitación digital es mejor que la tarjeta física porque incluye confirmación de asistencia automática, ubicación con mapa, se puede actualizar si hay cambios, es más económica y ecológica. Llega al instante y no se pierde ni se daña.
       </p>
       <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20digital" target="_blank" class="seo-cta">Pedir mi invitación digital</a>
     </div>
@@ -302,7 +322,7 @@
           <div class="seo-comparison-physical">Física ✗</div>
         </div>
         <div class="seo-comparison-row">
-          <div class="seo-comparison-feature">RSVP automático</div>
+          <div class="seo-comparison-feature">Confirmación de asistencia</div>
           <div class="seo-comparison-digital">Incluido</div>
           <div class="seo-comparison-physical">No</div>
         </div>
@@ -344,7 +364,7 @@
       <div class="seo-benefits">
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>
-          <span class="seo-benefit-text"><strong>RSVP automático:</strong> Tus invitados confirman con un click</span>
+          <span class="seo-benefit-text"><strong>Confirmación de asistencia automática:</strong> Tus invitados confirman con un click</span>
         </div>
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>

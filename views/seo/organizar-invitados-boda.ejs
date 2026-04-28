@@ -86,6 +86,17 @@
 </script>
 
 <style>
+  :root {
+    --gold: #d4af37;
+    --ink: #1a1a2e;
+    --dark-blue: #16213e;
+    --warm-white: #f5efc7;
+    --offwhite: #f8f6f2;
+    --ink-soft: #4a4a5a;
+    --border: #e0e0e0;
+    --muted: #999;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  }
   .seo-container {
     max-width: 900px;
     margin: 0 auto;
@@ -109,11 +120,14 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.3rem;
     line-height: 1.7;
-    color: rgba(245,239,199,0.9);
+    color: var(--ink);
     margin-bottom: 40px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .seo-hero .seo-intro {
+    color: rgba(245,239,199,0.9);
   }
   .seo-section {
     padding: 60px 20px;
@@ -194,6 +208,9 @@
     border-radius: 8px;
     border-left: 4px solid var(--gold);
   }
+  .seo-section-dark .seo-benefit-item {
+    background: rgba(212,175,55,0.2);
+  }
   .seo-benefit-icon {
     color: var(--ink);
     font-size: 1.5rem;
@@ -208,6 +225,9 @@
     font-size: 1rem;
     line-height: 1.6;
     color: var(--ink);
+  }
+  .seo-section-dark .seo-benefit-text {
+    color: var(--warm-white);
   }
   .seo-faq {
     max-width: 700px;
@@ -256,7 +276,7 @@
     <div class="seo-hero">
       <h1 class="seo-h1">Cómo Organizar Invitados de Boda: Guía Práctica</h1>
       <p class="seo-intro">
-        Para organizar invitados de boda de forma eficiente, usá una invitación digital con RSVP. Así tenés control de confirmaciones en tiempo real, lista organizada y seguimiento automático de quienes no respondieron.
+        Para organizar invitados de boda de forma eficiente, usá una invitación digital con confirmación de asistencia. Así tenés control de confirmaciones en tiempo real, lista organizada y seguimiento automático de quienes no respondieron.
       </p>
       <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20organizar%20mis%20invitados%20con%20invitación%20digital" target="_blank" class="seo-cta">Organizar mis invitados con RSVP</a>
     </div>
@@ -272,9 +292,9 @@
     </div>
 
     <div class="seo-section seo-section-dark">
-      <h2 class="seo-h2">La Solución: Invitación Digital con RSVP</h2>
+      <h2 class="seo-h2">La Solución: Invitación Digital con Confirmación de Asistencia</h2>
       <p class="seo-p">
-        Con una invitación digital, tus invitados confirman con un click. Vos tenés:
+        Con una invitación digital con confirmación de asistencia, tus invitados confirman con un click. Vos tenés:
       </p>
       <div class="seo-benefits">
         <div class="seo-benefit-item">
@@ -299,7 +319,7 @@
         </div>
       </div>
       <div class="seo-center">
-        <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20organizar%20mis%20invitados%20con%20invitación%20digital" target="_blank" class="seo-cta">Organizar mis invitados con RSVP</a>
+        <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20organizar%20mis%20invitados%20con%20invitación%20digital%20con%20confirmación%20de%20asistencia" target="_blank" class="seo-cta">Organizar mis invitados con confirmación de asistencia</a>
       </div>
     </div>
 
@@ -309,10 +329,10 @@
         <strong>1. Hacé la lista inicial:</strong> Anotá todos los invitados en un Excel o Google Sheets, separados por grupos (familia, amigos, trabajo).
       </p>
       <p class="seo-p">
-        <strong>2. Enviá las invitaciones:</strong> Usá una invitación digital con RSVP. Un solo link para todos, con toda la información.
+        <strong>2. Enviá las invitaciones:</strong> Usá una invitación digital con confirmación de asistencia. Un solo link para todos, con toda la información.
       </p>
       <p class="seo-p">
-        <strong>3. Monitoreá las confirmaciones:</strong> Revisá el panel de RSVP en tiempo real. Sabés exactamente quién confirmó y quién falta.
+        <strong>3. Monitoreá las confirmaciones:</strong> Revisá el panel de confirmaciones en tiempo real. Sabés exactamente quién confirmó y quién falta.
       </p>
       <p class="seo-p">
         <strong>4. Hacé seguimiento:</strong> Envía recordatorios automáticos a quienes no respondieron. Contactá personalmente si es necesario.
@@ -321,7 +341,7 @@
         <strong>5. Exportá la lista final:</strong> Una semana antes, descargá la lista confirmada para el salón y catering.
       </p>
       <div class="seo-center">
-        <a href="/" class="seo-cta-secondary">Ver templates de bodas con RSVP →</a>
+        <a href="/" class="seo-cta-secondary">Ver templates de bodas con confirmación de asistencia →</a>
       </div>
     </div>
 
@@ -355,7 +375,7 @@
       <div class="seo-faq">
         <div class="seo-faq-item">
           <div class="seo-faq-question">¿Cómo organizar la lista de invitados de boda?</div>
-          <div class="seo-faq-answer">Empezá con una lista en Excel o Google Sheets, separá por grupos (familia, amigos, trabajo), y usá una invitación digital con RSVP para que confirmen automáticamente. Así tenés control en tiempo real.</div>
+          <div class="seo-faq-answer">Empezá con una lista en Excel o Google Sheets, separá por grupos (familia, amigos, trabajo), y usá una invitación digital con confirmación de asistencia para que confirmen automáticamente. Así tenés control en tiempo real.</div>
         </div>
         <div class="seo-faq-item">
           <div class="seo-faq-question">¿Cuándo empezar a organizar los invitados?</div>
@@ -370,7 +390,7 @@
 
     <div class="seo-section seo-section-dark seo-center">
       <p class="seo-p" style="margin-bottom: 30px;">Organizá tus invitados sin perder tiempo. Simple y eficiente.</p>
-      <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20organizar%20mis%20invitados%20con%20invitación%20digital" target="_blank" class="seo-cta">Organizar mis invitados con RSVP</a>
+      <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20organizar%20mis%20invitados%20con%20invitación%20digital%20con%20confirmación%20de%20asistencia" target="_blank" class="seo-cta">Organizar mis invitados con confirmación de asistencia</a>
     </div>
   </div>
 

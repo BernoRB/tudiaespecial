@@ -86,6 +86,17 @@
 </script>
 
 <style>
+  :root {
+    --gold: #d4af37;
+    --ink: #1a1a2e;
+    --dark-blue: #16213e;
+    --warm-white: #f5efc7;
+    --offwhite: #f8f6f2;
+    --ink-soft: #4a4a5a;
+    --border: #e0e0e0;
+    --muted: #999;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  }
   .seo-container {
     max-width: 900px;
     margin: 0 auto;
@@ -109,11 +120,14 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.3rem;
     line-height: 1.7;
-    color: rgba(245,239,199,0.9);
+    color: var(--ink);
     margin-bottom: 40px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .seo-hero .seo-intro {
+    color: rgba(245,239,199,0.9);
   }
   .seo-section {
     padding: 60px 20px;
@@ -228,6 +242,9 @@
     border-radius: 8px;
     border-left: 4px solid var(--gold);
   }
+  .seo-section-dark .seo-benefit-item {
+    background: rgba(212,175,55,0.2);
+  }
   .seo-benefit-icon {
     color: var(--ink);
     font-size: 1.5rem;
@@ -242,6 +259,9 @@
     font-size: 1rem;
     line-height: 1.6;
     color: var(--ink);
+  }
+  .seo-section-dark .seo-benefit-text {
+    color: var(--warm-white);
   }
   .seo-faq {
     max-width: 700px;
@@ -291,9 +311,9 @@
 
   <div class="seo-container">
     <div class="seo-hero">
-      <h1 class="seo-h1">Invitación con Confirmación de Asistencia: RSVP Online</h1>
+      <h1 class="seo-h1">Invitación con Confirmación de Asistencia: Online y Fácil</h1>
       <p class="seo-intro">
-        Una invitación con RSVP online permite que tus invitados confirmen asistencia con un click. Tenés control total de quién va y quién no, sin perder tiempo respondiendo mensajes.
+        Una invitación con confirmación de asistencia online permite que tus invitados confirmen con un click. Tenés control total de quién va y quién no, sin perder tiempo respondiendo mensajes.
       </p>
       <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20con%20RSVP" target="_blank" class="seo-cta">Pedir mi invitación con RSVP</a>
     </div>
@@ -301,18 +321,18 @@
     <div class="seo-section seo-section-light">
       <h2 class="seo-h2">Ejemplos con RSVP Integrado</h2>
       <div class="seo-examples">
-        <div class="seo-example-card">
+        <a href="/demo/boda/boda_minimal" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/BodaMinimal.jpg" alt="Boda Minimal Template" class="seo-example-img">
           <div class="seo-example-title">Boda Minimal</div>
-        </div>
-        <div class="seo-example-card">
+        </a>
+        <a href="/demo/quinces/quinces_glow" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/QuincesGlow.jpg" alt="Quinces Glow Template" class="seo-example-img">
           <div class="seo-example-title">Quinces Glow</div>
-        </div>
-        <div class="seo-example-card">
+        </a>
+        <a href="/demo/eventos/eventos_oscuro" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/EventoOscuro.webp" alt="Evento Oscuro Template" class="seo-example-img">
           <div class="seo-example-title">Cumpleaños Oscuro</div>
-        </div>
+        </a>
       </div>
       <div class="seo-center">
         <a href="/" class="seo-cta-secondary">Ver todos los templates →</a>
@@ -330,9 +350,9 @@
     </div>
 
     <div class="seo-section seo-section-dark">
-      <h2 class="seo-h2">La Solución: RSVP Online</h2>
+      <h2 class="seo-h2">La Solución: Confirmación de Asistencia Online</h2>
       <p class="seo-p">
-        Con una invitación digital con RSVP, tus invitados confirman con un click. Vos tenés:
+        Con una invitación digital con confirmación de asistencia, tus invitados confirman con un click. Vos tenés:
       </p>
       <div class="seo-benefits">
         <div class="seo-benefit-item">
@@ -349,7 +369,7 @@
         </div>
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>
-          <span class="seo-benefit-text"><strong>Recordatorios automáticos:</strong> Para quienes no confirmaron</span>
+          <span class="seo-benefit-text"><strong>Recordatorios automáticos:</strong> Para quienes no respondieron</span>
         </div>
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>
@@ -357,7 +377,7 @@
         </div>
       </div>
       <div class="seo-center">
-        <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20con%20RSVP" target="_blank" class="seo-cta">Pedir mi invitación con RSVP</a>
+        <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20con%20confirmación%20de%20asistencia" target="_blank" class="seo-cta">Pedir mi invitación con confirmación de asistencia</a>
       </div>
     </div>
 
@@ -370,7 +390,7 @@
         Para tus invitados: confirman cuando quieran, desde cualquier dispositivo, sin tener que llamar ni escribir mensajes largos. Es rápido y fácil.
       </p>
       <div class="seo-center">
-        <a href="/" class="seo-cta-secondary">Ver todos los templates con RSVP →</a>
+        <a href="/" class="seo-cta-secondary">Ver todos los templates con confirmación de asistencia →</a>
       </div>
     </div>
 
@@ -378,7 +398,7 @@
       <h2 class="seo-h2">Preguntas Frecuentes</h2>
       <div class="seo-faq">
         <div class="seo-faq-item">
-          <div class="seo-faq-question">¿Cómo funciona el RSVP online?</div>
+          <div class="seo-faq-question">¿Cómo funciona la confirmación de asistencia online?</div>
           <div class="seo-faq-answer">Los invitados confirman asistencia con un click en la invitación digital. Las respuestas se guardan automáticamente y vos podés ver quién va y quién no en tiempo real.</div>
         </div>
         <div class="seo-faq-item">
@@ -387,14 +407,14 @@
         </div>
         <div class="seo-faq-item">
           <div class="seo-faq-question">¿Puedo agregar preguntas adicionales?</div>
-          <div class="seo-faq-answer">Sí, el RSVP puede incluir preguntas personalizadas como alergias, preferencias de comida o número de acompañantes, según lo que necesites.</div>
+          <div class="seo-faq-answer">Sí, la confirmación de asistencia puede incluir preguntas personalizadas como alergias, preferencias de comida o número de acompañantes, según lo que necesites.</div>
         </div>
       </div>
     </div>
 
     <div class="seo-section seo-section-dark seo-center">
       <p class="seo-p" style="margin-bottom: 30px;">Control total de tus invitados. Sin complicaciones.</p>
-      <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20con%20RSVP" target="_blank" class="seo-cta">Pedir mi invitación con RSVP</a>
+      <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20con%20confirmación%20de%20asistencia" target="_blank" class="seo-cta">Pedir mi invitación con confirmación de asistencia</a>
     </div>
   </div>
 

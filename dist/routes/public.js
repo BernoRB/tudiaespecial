@@ -53,6 +53,70 @@ async function sendDiscordNotification(order) {
 router.get("/", (req, res) => {
     res.render("landing");
 });
+// Páginas SEO
+router.get("/invitacion-boda-whatsapp", (req, res) => {
+    res.render("seo/invitacion-boda-whatsapp");
+});
+router.get("/invitacion-digital-boda", (req, res) => {
+    res.render("seo/invitacion-digital-boda");
+});
+router.get("/invitacion-quinceanera", (req, res) => {
+    res.render("seo/invitacion-quinceanera");
+});
+router.get("/invitacion-rsvp", (req, res) => {
+    res.render("seo/invitacion-rsvp");
+});
+router.get("/organizar-invitados-boda", (req, res) => {
+    res.render("seo/organizar-invitados-boda");
+});
+router.get("/invitacion-digital-vs-papel", (req, res) => {
+    res.render("seo/invitacion-digital-vs-papel");
+});
+// Sitemap XML dinámico
+router.get("/sitemap.xml", (req, res) => {
+    const baseUrl = "https://tudiaespecial.com";
+    const currentDate = new Date().toISOString();
+    const urls = [
+        { loc: `${baseUrl}/`, lastmod: currentDate, changefreq: "weekly", priority: "1.0" },
+        { loc: `${baseUrl}/invitacion-boda-whatsapp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/invitacion-digital-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/invitacion-quinceanera`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/invitacion-rsvp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/organizar-invitados-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/invitacion-digital-vs-papel`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/solicitud`, lastmod: currentDate, changefreq: "monthly", priority: "0.5" },
+    ];
+    // Agregar demos dinámicamente
+    const demoCategories = ["bodas", "quinces", "peques", "ninos", "eventos"];
+    const demoTemplates = {
+        bodas: ["boda_minimal", "boda_midnight", "boda_garden", "boda_ethereal", "boda_eclipse"],
+        quinces: ["quinces_glow", "quinces_royal", "quinces_velvet", "quinces_floral", "quinces_diamond"],
+        peques: ["peques_soft", "peques_cloud", "peques_dream"],
+        ninos: ["ninos_batman", "ninos_ironman", "ninos_spiderman"],
+        eventos: ["eventos_dark", "eventos_light", "eventos_anniversary", "eventos_bachelor", "eventos_bachelorette", "eventos_bbq"]
+    };
+    demoCategories.forEach((category) => {
+        demoTemplates[category].forEach((template) => {
+            urls.push({
+                loc: `${baseUrl}/demo/${category}/${template}`,
+                lastmod: currentDate,
+                changefreq: "monthly",
+                priority: "0.6"
+            });
+        });
+    });
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(url => `  <url>
+    <loc>${url.loc}</loc>
+    <lastmod>${url.lastmod}</lastmod>
+    <changefreq>${url.changefreq}</changefreq>
+    <priority>${url.priority}</priority>
+  </url>`).join("\n")}
+</urlset>`;
+    res.header("Content-Type", "application/xml");
+    res.send(sitemap);
+});
 // Formulario de solicitud - Paso 1 (Lead capture)
 router.get("/solicitud", (req, res) => {
     res.render("solicitud-paso1");

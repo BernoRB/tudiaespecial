@@ -86,6 +86,17 @@
 </script>
 
 <style>
+  :root {
+    --gold: #d4af37;
+    --ink: #1a1a2e;
+    --dark-blue: #16213e;
+    --warm-white: #f5efc7;
+    --offwhite: #f8f6f2;
+    --ink-soft: #4a4a5a;
+    --border: #e0e0e0;
+    --muted: #999;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+  }
   .seo-container {
     max-width: 900px;
     margin: 0 auto;
@@ -109,11 +120,14 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.3rem;
     line-height: 1.7;
-    color: rgba(245,239,199,0.9);
+    color: var(--ink);
     margin-bottom: 40px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .seo-hero .seo-intro {
+    color: rgba(245,239,199,0.9);
   }
   .seo-section {
     padding: 60px 20px;
@@ -228,6 +242,9 @@
     border-radius: 8px;
     border-left: 4px solid var(--gold);
   }
+  .seo-section-dark .seo-benefit-item {
+    background: rgba(212,175,55,0.2);
+  }
   .seo-benefit-icon {
     color: var(--ink);
     font-size: 1.5rem;
@@ -242,6 +259,9 @@
     font-size: 1rem;
     line-height: 1.6;
     color: var(--ink);
+  }
+  .seo-section-dark .seo-benefit-text {
+    color: var(--warm-white);
   }
   .seo-faq {
     max-width: 700px;
@@ -293,7 +313,7 @@
     <div class="seo-hero">
       <h1 class="seo-h1">Invitación Digital 15 Años: Tu Fiesta al Siguiente Nivel</h1>
       <p class="seo-intro">
-        Una invitación digital para tus 15 años incluye RSVP, ubicación con mapa, galería de fotos y toda la información en un solo link. Diseño personalizado, entrega en 24hs y ajustes ilimitados.
+        Una invitación digital para tus 15 años incluye confirmación de asistencia, ubicación con mapa, galería de fotos y toda la información en un solo link. Diseño personalizado, entrega en 24hs y ajustes ilimitados.
       </p>
       <a href="https://wa.me/5491124726396?text=Hola!%20Quiero%20una%20invitación%20digital%20para%20mis%2015" target="_blank" class="seo-cta">Pedir mi invitación por WhatsApp</a>
     </div>
@@ -301,18 +321,18 @@
     <div class="seo-section seo-section-light">
       <h2 class="seo-h2">Ejemplos de Invitaciones de 15 Años</h2>
       <div class="seo-examples">
-        <div class="seo-example-card">
+        <a href="/demo/quinces/quinces_glow" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/QuincesGlow.jpg" alt="Quinces Glow Template" class="seo-example-img">
           <div class="seo-example-title">Quinces Glow</div>
-        </div>
-        <div class="seo-example-card">
+        </a>
+        <a href="/demo/quinces/quinces_royal" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/QuincesRoyal.jpg" alt="Quinces Royal Template" class="seo-example-img">
           <div class="seo-example-title">Quinces Royal</div>
-        </div>
-        <div class="seo-example-card">
+        </a>
+        <a href="/demo/quinces/quinces_diamond" target="_blank" class="seo-example-card">
           <img src="/images/templates/mocksTemplates/QuincesDiamante.jpg" alt="Quinces Diamond Template" class="seo-example-img">
           <div class="seo-example-title">Quinces Diamond</div>
-        </div>
+        </a>
       </div>
       <div class="seo-center">
         <a href="/" class="seo-cta-secondary">Ver todos los templates →</a>
@@ -322,7 +342,7 @@
     <div class="seo-section">
       <h2 class="seo-h2">Por Qué Elegir Invitación Digital</h2>
       <p class="seo-p">
-        Las invitaciones digitales para 15 años son la opción moderna porque llegan al instante, incluyen RSVP automático y se pueden compartir fácilmente por WhatsApp. Tus amigas tienen toda la información en un solo link.
+        Las invitaciones digitales para 15 años son la opción moderna porque llegan al instante, incluyen confirmación de asistencia automática y se pueden compartir fácilmente por WhatsApp. Tus amigas tienen toda la información en un solo link.
       </p>
       <p class="seo-p">
         Además, son más económicas que las tarjetas físicas y ecológicas. Podés incluir galería de fotos del salón, cuenta regresiva y actualizar la información si hay cambios.
@@ -341,7 +361,7 @@
         </div>
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>
-          <span class="seo-benefit-text"><strong>RSVP online:</strong> Confirmación de asistencia automática</span>
+          <span class="seo-benefit-text"><strong>Confirmación de asistencia online:</strong> Tus amigas confirman con un click</span>
         </div>
         <div class="seo-benefit-item">
           <span class="seo-benefit-icon">✓</span>
