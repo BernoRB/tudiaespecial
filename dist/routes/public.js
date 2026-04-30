@@ -87,10 +87,11 @@ router.get("/sitemap.xml", (req, res) => {
         { loc: `${baseUrl}/solicitud`, lastmod: currentDate, changefreq: "monthly", priority: "0.5" },
     ];
     // Agregar demos dinámicamente
-    const demoCategories = ["bodas", "quinces", "peques", "ninos", "eventos"];
+    const demoCategories = ["bodas", "quinces", "bautismos", "peques", "ninos", "eventos"];
     const demoTemplates = {
         bodas: ["boda_minimal", "boda_midnight", "boda_garden", "boda_ethereal", "boda_eclipse"],
         quinces: ["quinces_glow", "quinces_royal", "quinces_velvet", "quinces_floral", "quinces_diamond"],
+        bautismos: ["bautismo_soft", "bautismo_garden"],
         peques: ["peques_soft", "peques_cloud", "peques_dream"],
         ninos: ["ninos_batman", "ninos_ironman", "ninos_spiderman"],
         eventos: ["eventos_dark", "eventos_light", "eventos_anniversary", "eventos_bachelor", "eventos_bachelorette", "eventos_bbq"]

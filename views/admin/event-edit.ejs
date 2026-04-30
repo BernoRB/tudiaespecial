@@ -14,6 +14,7 @@
   </nav>
   <section style="padding-top:110px;padding-bottom:60px;">
     <div style="max-width:960px;margin:0 auto;">
+      <% const isBautismo = event.category === 'bautismos'; %>
       <h1 class="section-title" style="margin-bottom:8px;">Editar invitación #<%= event.id %></h1>
       <p class="section-sub" style="margin-bottom:14px;">Podés editar todos los textos, secciones, fotos, regalos, slug, PIN y estado.</p>
       <% if (saved) { %>
@@ -26,10 +27,13 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;font-size:0.8rem;">
           <% if (clientOriginalData.honorees) { %><div><strong>Agasajados:</strong> <%= clientOriginalData.honorees %></div><% } %>
           <% if (clientOriginalData.hero_message) { %><div><strong>Frase principal:</strong> <%= clientOriginalData.hero_message %></div><% } %>
+          <% if (clientOriginalData.quote_message) { %><div style="grid-column:1 / -1;"><strong>Frase del template:</strong> <%= clientOriginalData.quote_message %></div><% } %>
           <% if (clientOriginalData.date) { %><div><strong>Fecha:</strong> <%= clientOriginalData.date %></div><% } %>
           <% if (clientOriginalData.time) { %><div><strong>Hora:</strong> <%= clientOriginalData.time %></div><% } %>
           <% if (clientOriginalData.venue_name) { %><div><strong>Lugar:</strong> <%= clientOriginalData.venue_name %></div><% } %>
           <% if (clientOriginalData.venue_address) { %><div><strong>Dirección:</strong> <%= clientOriginalData.venue_address %></div><% } %>
+          <% if (clientOriginalData.church_name || clientOriginalData.church_time || clientOriginalData.church_address) { %><div><strong>Iglesia:</strong> <%= [clientOriginalData.church_time, clientOriginalData.church_name, clientOriginalData.church_address].filter(Boolean).join(' · ') %></div><% } %>
+          <% if (clientOriginalData.party_name || clientOriginalData.party_time || clientOriginalData.party_address) { %><div><strong>Recepción:</strong> <%= [clientOriginalData.party_time, clientOriginalData.party_name, clientOriginalData.party_address].filter(Boolean).join(' · ') %></div><% } %>
           <% if (clientOriginalData.dress_code) { %><div><strong>Dress code:</strong> <%= clientOriginalData.dress_code %></div><% } %>
           <% if (clientOriginalData.reserved_color) { %><div><strong>Color reservado:</strong> <%= clientOriginalData.reserved_color %></div><% } %>
           <% if (clientOriginalData.event_type) { %><div><strong>Tipo de evento:</strong> <%= clientOriginalData.event_type %></div><% } %>
@@ -76,6 +80,10 @@
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Hero message</label>
           <input name="hero_message" value="<%= event.hero_message || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
         </div>
+        <div style="grid-column:1 / -1;">
+          <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Frase del template</label>
+          <textarea name="quote_message" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;min-height:72px;"><%= event.quote_message || '' %></textarea>
+        </div>
         <div>
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Fecha</label>
           <input type="date" name="date" value="<%= event.date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
@@ -96,10 +104,12 @@
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Maps URL (opcional)</label>
           <input name="maps_url" value="<%= event.maps_url || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
         </div>
+        <% if (!isBautismo) { %>
         <div>
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Dress code</label>
           <input name="dress_code" value="<%= event.dress_code || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
         </div>
+        <% } %>
         <% if (event.category === 'quinces' || event.category === 'bodas') { %>
         <div>
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Color reservado</label>
@@ -134,14 +144,19 @@
         <div style="grid-column:1 / -1;">
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:4px;">Secciones activas</label>
           <label style="margin-right:10px;"><input type="checkbox" name="section_gallery" <%= sections.gallery ? 'checked' : '' %>> Galería</label>
+          <% if (!isBautismo) { %>
           <label style="margin-right:10px;"><input type="checkbox" name="section_gallery2" <%= sections.gallery2 ? 'checked' : '' %>> Galería 2</label>
+          <% } %>
           <label style="margin-right:10px;"><input type="checkbox" name="section_location" <%= sections.location ? 'checked' : '' %>> Ubicación</label>
+          <% if (!isBautismo) { %>
           <label style="margin-right:10px;"><input type="checkbox" name="section_dress_code" <%= sections.dress_code ? 'checked' : '' %>> Dress code</label>
           <label style="margin-right:10px;"><input type="checkbox" name="section_itinerary" <%= sections.itinerary ? 'checked' : '' %>> Itinerario</label>
           <label style="margin-right:10px;"><input type="checkbox" name="section_gifts" <%= sections.gifts ? 'checked' : '' %>> Regalos</label>
           <label><input type="checkbox" name="section_music" <%= sections.music ? 'checked' : '' %>> Música</label>
+          <% } %>
         </div>
 
+        <% if (!isBautismo) { %>
         <div>
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Alias regalo</label>
           <input name="gift_alias" value="<%= event.gift_alias || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
@@ -158,16 +173,19 @@
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Mensaje de regalo</label>
           <textarea name="gift_message" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;min-height:60px;"><%= event.gift_message || '' %></textarea>
         </div>
+        <% } %>
 
         <div style="grid-column:1 / -1;">
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">URLs galería (una por línea)</label>
           <textarea name="gallery_urls" rows="6" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:monospace;"><%= galleryUrls || '' %></textarea>
         </div>
 
+        <% if (!isBautismo) { %>
         <div style="grid-column:1 / -1;">
           <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">URLs galería 2 (una por línea)</label>
           <textarea name="gallery2_urls" rows="6" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:monospace;"><%= gallery2Urls || '' %></textarea>
         </div>
+        <% } %>
 
         <% 
   const itineraryData = (typeof itinerary !== 'undefined' && itinerary) ? itinerary : {
@@ -180,7 +198,7 @@
   };
 %>
 <div style="grid-column:1 / -1;">
-          <h4 style="margin:20px 0 10px 0;color:var(--ink);font-size:0.9rem;">Itinerario del evento</h4>
+          <h4 style="margin:20px 0 10px 0;color:var(--ink);font-size:0.9rem;"><%= isBautismo ? 'Horarios de referencia' : 'Itinerario del evento' %></h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;">Ceremonia</label>
@@ -217,10 +235,11 @@
   };
 %>
 <div style="grid-column:1 / -1;">
-          <h4 style="margin:20px 0 10px 0;color:var(--ink);font-size:0.9rem;">Ceremonias (Solo para bodas)</h4>
+          <h4 style="margin:20px 0 10px 0;color:var(--ink);font-size:0.9rem;"><%= isBautismo ? 'Iglesia y recepción' : 'Ceremonias (Solo para bodas)' %></h4>
           <div style="display:grid;gap:16px;">
             
             <!-- Civil -->
+            <% if (!isBautismo) { %>
             <div style="border:1px solid var(--border);border-radius:4px;padding:12px;background:#fff;">
               <label style="font-size:0.85rem;color:var(--ink);display:block;margin-bottom:8px;">
                 <input type="checkbox" name="civil_enabled" <%= ceremoniesData.civil?.enabled ? 'checked' : '' %>> ¿Habrá casamiento por civil?
@@ -240,13 +259,20 @@
                 </div>
               </div>
             </div>
+            <% } %>
 
             <!-- Iglesia -->
             <div style="border:1px solid var(--border);border-radius:4px;padding:12px;background:#fff;">
               <label style="font-size:0.85rem;color:var(--ink);display:block;margin-bottom:8px;">
-                <input type="checkbox" name="church_enabled" <%= ceremoniesData.church?.enabled ? 'checked' : '' %>> ¿Habrá casamiento por iglesia?
+                <input type="checkbox" name="church_enabled" <%= ceremoniesData.church?.enabled ? 'checked' : '' %>> <%= isBautismo ? 'Incluir iglesia' : '¿Habrá casamiento por iglesia?' %>
               </label>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <% if (isBautismo) { %>
+                <div style="grid-column:1 / -1;">
+                  <label style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;">Nombre / lugar</label>
+                  <input type="text" name="church_name" value="<%= ceremoniesData.church?.name || '' %>" placeholder="Parroquia / iglesia" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:0.8rem;">
+                </div>
+                <% } %>
                 <div>
                   <label style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;">Fecha</label>
                   <input type="date" name="church_date" value="<%= ceremoniesData.church?.date || '' %>" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:0.8rem;">
@@ -265,9 +291,15 @@
             <!-- Fiesta -->
             <div style="border:1px solid var(--border);border-radius:4px;padding:12px;background:#fff;">
               <label style="font-size:0.85rem;color:var(--ink);display:block;margin-bottom:8px;">
-                <input type="checkbox" name="party_enabled" <%= ceremoniesData.party?.enabled ? 'checked' : '' %>> ¿Habrá fiesta de casamiento?
+                <input type="checkbox" name="party_enabled" <%= ceremoniesData.party?.enabled ? 'checked' : '' %>> <%= isBautismo ? 'Incluir recepción / festejo' : '¿Habrá fiesta de casamiento?' %>
               </label>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                <% if (isBautismo) { %>
+                <div style="grid-column:1 / -1;">
+                  <label style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;">Nombre / lugar</label>
+                  <input type="text" name="party_name" value="<%= ceremoniesData.party?.name || '' %>" placeholder="Casa / salón / restaurante" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:0.8rem;">
+                </div>
+                <% } %>
                 <div>
                   <label style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:block;">Fecha</label>
                   <input type="date" name="party_date" value="<%= ceremoniesData.party?.date || '' %>" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:0.8rem;">
@@ -294,4 +326,3 @@
   </section>
 </body>
 </html>
-

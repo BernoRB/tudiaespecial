@@ -211,29 +211,30 @@ router.post("/admin/orders/:id/publish", requireOwner, async (req, res) => {
     // Construir itinerary según categoría
     let itinerary = {};
     let ceremonies = {};
-    if (order.category === 'bodas') {
-        // Para bodas: usar ceremonies
+    if (order.category === 'bodas' || order.category === 'bautismos') {
+        // Para bodas y bautismos: usar ceremonies sin requerir todos los bloques.
         ceremonies = {
             civil: {
-                enabled: !!payload.civil_enabled || !!body.civil_date,
+                enabled: order.category === 'bodas' && (!!payload.civil_enabled || !!body.civil_date || !!body.civil_time || !!body.civil_address),
                 date: body.civil_date || payload.civil_date || "",
                 time: body.civil_time || payload.civil_time || "",
                 address: body.civil_address || payload.civil_address || "",
             },
             church: {
-                enabled: !!payload.church_enabled || !!body.church_date,
-                date: body.church_date || payload.church_date || "",
+                enabled: !!payload.church_enabled || !!body.church_date || !!body.church_time || !!body.church_address || !!body.church_name,
+                name: body.church_name || payload.church_name || "",
+                date: body.church_date || payload.church_date || body.date || payload.date || "",
                 time: body.church_time || payload.church_time || "",
                 address: body.church_address || payload.church_address || "",
             },
             party: {
-                enabled: !!payload.party_enabled || !!body.party_date,
+                enabled: !!payload.party_enabled || !!body.party_date || !!body.party_time || !!body.party_address || !!body.party_name,
+                name: body.party_name || payload.party_name || body.venue_name || payload.venue_name || "",
                 date: body.party_date || payload.party_date || payload.date || "",
                 time: body.party_time || payload.party_time || payload.time || "",
                 address: body.party_address || payload.party_address || payload.venue_address || "",
             },
         };
-        // Itinerario genérico para bodas
         itinerary = {
             ceremony: body.civil_time || payload.civil_time || body.church_time || payload.church_time || "16:00",
             civil: body.civil_time || payload.civil_time || "",
@@ -259,6 +260,9 @@ router.post("/admin/orders/:id/publish", requireOwner, async (req, res) => {
     const eventType = body.event_type || payload.event_type || null;
     const reservedColor = body.reserved_color || payload.reserved_color || null;
     const reservedMessage = body.reserved_message || payload.reserved_message || null;
+    const fallbackVenueName = body.venue_name || payload.venue_name || ceremonies.party?.name || ceremonies.church?.name || "";
+    const fallbackVenueAddress = body.venue_address || payload.venue_address || ceremonies.party?.address || ceremonies.church?.address || "";
+    const fallbackTime = body.time || payload.time || ceremonies.party?.time || ceremonies.church?.time || "";
     // Crear evento con todos los campos
     const event = await db_1.Event.create({
         slug: finalSlug,
@@ -268,12 +272,13 @@ router.post("/admin/orders/:id/publish", requireOwner, async (req, res) => {
         honorees: body.honorees || payload.honorees || "",
         event_type: eventType,
         date: body.date || payload.date || "",
-        time: body.time || payload.time || "",
-        venue_name: body.venue_name || payload.venue_name || "",
-        venue_address: body.venue_address || payload.venue_address || "",
+        time: fallbackTime,
+        venue_name: fallbackVenueName,
+        venue_address: fallbackVenueAddress,
         maps_url: body.maps_url || payload.maps_url || "",
         dress_code: body.dress_code || payload.dress_code || "",
         hero_message: body.hero_message || payload.hero_message || "",
+        quote_message: body.quote_message || payload.quote_message || "",
         hero_image: body.hero_image || "",
         sections,
         sections_json: JSON.stringify(sections),
@@ -399,13 +404,15 @@ router.post("/admin/events/:id/edit", requireOwner, async (req, res) => {
             address: body.civil_address || "",
         },
         church: {
-            enabled: !!body.church_enabled,
+            enabled: !!body.church_enabled || !!body.church_name || !!body.church_date || !!body.church_time || !!body.church_address,
+            name: body.church_name || "",
             date: body.church_date || "",
             time: body.church_time || "",
             address: body.church_address || "",
         },
         party: {
-            enabled: !!body.party_enabled,
+            enabled: !!body.party_enabled || !!body.party_name || !!body.party_date || !!body.party_time || !!body.party_address,
+            name: body.party_name || "",
             date: body.party_date || "",
             time: body.party_time || "",
             address: body.party_address || "",
@@ -434,6 +441,7 @@ router.post("/admin/events/:id/edit", requireOwner, async (req, res) => {
         sections,
         sections_json: JSON.stringify(sections),
         hero_message: body.hero_message || "",
+        quote_message: body.quote_message || "",
         gallery,
         gallery2,
         itinerary,
@@ -459,6 +467,8 @@ router.post("/admin/events/:id/edit", requireOwner, async (req, res) => {
         sections,
         galleryUrls: gallery.join("\n"),
         gallery2Urls: gallery2.join("\n"),
+        itinerary: updated?.itinerary || itinerary,
+        ceremonies: updated?.ceremonies || ceremonies,
         saved: true,
         ageYears: updated?.age_years || null,
         eventType: updated?.event_type || null,

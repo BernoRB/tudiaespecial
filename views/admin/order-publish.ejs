@@ -15,6 +15,7 @@
 
   <section style="padding-top:110px;padding-bottom:60px;">
     <div style="max-width:1200px;margin:0 auto;padding:0 20px;">
+      <% const isBautismo = order.category === 'bautismos'; %>
       <h1 class="section-title" style="margin-bottom:8px;">Publicar invitación</h1>
       <p class="section-sub" style="margin-bottom:24px;">Configurá todos los detalles de la invitación para el pedido #<%= order._id %></p>
 
@@ -52,27 +53,31 @@
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase principal</label>
               <input name="hero_message" value="<%= formData.hero_message || '' %>" placeholder="Ej: Nos casamos" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
+            <div style="grid-column:1 / -1;">
+              <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase del template</label>
+              <textarea name="quote_message" placeholder="Ej: Que este día sea el comienzo de un camino lleno de luz, amor y bendiciones." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;min-height:72px;font-family:'Jost',sans-serif;"><%= formData.quote_message || '' %></textarea>
+            </div>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha *</label>
               <input type="date" name="date" value="<%= formData.date || '' %>" required style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora *</label>
-              <input type="time" name="time" value="<%= formData.time || '' %>" required style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              <input type="time" name="time" value="<%= formData.time || formData.party_time || formData.church_time || '' %>" <%= isBautismo ? '' : 'required' %> style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar</label>
-              <input name="venue_name" value="<%= formData.venue_name || '' %>" placeholder="Nombre del salón" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              <input name="venue_name" value="<%= formData.venue_name || formData.party_name || formData.church_name || '' %>" placeholder="<%= isBautismo ? 'Fallback: iglesia o recepción' : 'Nombre del salón' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección *</label>
-              <input name="venue_address" value="<%= formData.venue_address || '' %>" required placeholder="Dirección completa" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              <input name="venue_address" value="<%= formData.venue_address || formData.party_address || formData.church_address || '' %>" <%= isBautismo ? '' : 'required' %> placeholder="Dirección completa" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">URL Maps (opcional)</label>
               <input name="maps_url" value="<%= formData.maps_url || '' %>" placeholder="https://maps.google.com/..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
             </div>
-            <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+            <% if (order.category !== 'peques' && order.category !== 'ninos' && !isBautismo) { %>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dress code</label>
               <input name="dress_code" value="<%= formData.dress_code || '' %>" placeholder="Ej: Elegante, informal chic" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
@@ -114,28 +119,34 @@
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_gallery" <%= formData.section_gallery ? 'checked' : '' %>> Galería superior
             </label>
+            <% if (!isBautismo) { %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_gallery2" <%= formData.section_gallery2 ? 'checked' : '' %>> Galería inferior
             </label>
+            <% } %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_location" <%= formData.section_location ? 'checked' : '' %>> Ubicación / mapa
             </label>
+            <% if (!isBautismo) { %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_itinerary" <%= formData.section_itinerary ? 'checked' : '' %>> Cronograma
             </label>
+            <% } %>
             <% if (order.category === 'quinces' || order.category === 'ninos') { %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_trivia" <%= formData.section_trivia ? 'checked' : '' %>> Trivia
             </label>
             <% } %>
-            <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+            <% if (order.category !== 'peques' && order.category !== 'ninos' && !isBautismo) { %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_dress_code" <%= formData.section_dress_code ? 'checked' : '' %>> Dress code
             </label>
             <% } %>
+            <% if (!isBautismo) { %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_gifts" <%= formData.section_gifts ? 'checked' : '' %>> Regalos / CBU
             </label>
+            <% } %>
             <label style="font-size:0.85rem;">
               <input type="checkbox" name="section_rsvp" <%= formData.section_rsvp ? 'checked' : '' %>> Confirmar asistencia
             </label>
@@ -154,18 +165,21 @@
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Galería superior (una URL por línea)</label>
               <textarea name="gallery_urls" rows="4" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:'Jost',sans-serif;"></textarea>
             </div>
+            <% if (!isBautismo) { %>
             <div>
               <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Galería inferior (una URL por línea)</label>
               <textarea name="gallery2_urls" rows="4" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;font-family:'Jost',sans-serif;"></textarea>
             </div>
+            <% } %>
           </div>
         </div>
 
         <!-- Sección 5: Itinerario -->
-        <% if (order.category === 'bodas') { %>
+        <% if (order.category === 'bodas' || isBautismo) { %>
         <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
-          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Ceremonias (Bodas)</h3>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;"><%= isBautismo ? 'Iglesia y recepción' : 'Ceremonias (Bodas)' %></h3>
           
+          <% if (!isBautismo) { %>
           <div style="margin-bottom:16px;">
             <h4 style="font-size:0.9rem;margin-bottom:8px;">Casamiento Civil</h4>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -183,13 +197,20 @@
               </div>
             </div>
           </div>
+          <% } %>
 
           <div style="margin-bottom:16px;">
-            <h4 style="font-size:0.9rem;margin-bottom:8px;">Casamiento por Iglesia</h4>
+            <h4 style="font-size:0.9rem;margin-bottom:8px;"><%= isBautismo ? 'Iglesia' : 'Casamiento por Iglesia' %></h4>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <% if (isBautismo) { %>
+              <div style="grid-column:1 / -1;">
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Nombre de la iglesia</label>
+                <input name="church_name" value="<%= formData.church_name || '' %>" placeholder="Parroquia / iglesia" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <% } %>
               <div>
                 <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha</label>
-                <input type="date" name="church_date" value="<%= formData.church_date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+                <input type="date" name="church_date" value="<%= formData.church_date || formData.date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
               </div>
               <div>
                 <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora</label>
@@ -203,8 +224,14 @@
           </div>
 
           <div>
-            <h4 style="font-size:0.9rem;margin-bottom:8px;">Fiesta</h4>
+            <h4 style="font-size:0.9rem;margin-bottom:8px;"><%= isBautismo ? 'Recepción / festejo' : 'Fiesta' %></h4>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <% if (isBautismo) { %>
+              <div style="grid-column:1 / -1;">
+                <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar de la recepción</label>
+                <input name="party_name" value="<%= formData.party_name || formData.venue_name || '' %>" placeholder="Casa / salón / restaurante" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
+              </div>
+              <% } %>
               <div>
                 <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha</label>
                 <input type="date" name="party_date" value="<%= formData.party_date || formData.date || '' %>" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:4px;">
@@ -253,6 +280,7 @@
         <% } %>
 
         <!-- Sección 6: Regalos -->
+        <% if (!isBautismo) { %>
         <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">
           <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:12px;">Regalos / CBU</h3>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -274,6 +302,7 @@
             </div>
           </div>
         </div>
+        <% } %>
 
         <!-- Sección 7: Contacto -->
         <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;">

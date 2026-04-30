@@ -241,6 +241,38 @@
         <div class="selected-template-text" id="bodas-selected-text">
           Plantilla seleccionada: <strong>Boda Minimal</strong><br><a id="bodas-preview-link" href="/demo/bodas/boda_minimal" target="_blank">(Toca para ver completa)</a>
         </div>
+        <% } else if (order.category === 'bautismos') { %>
+        <div class="carousel-section">
+          <div class="carousel-container">
+            <button type="button" class="carousel-nav carousel-prev" onclick="moveCarousel('bautismos', -1)">‹</button>
+            <button type="button" class="carousel-nav carousel-next" onclick="moveCarousel('bautismos', 1)">›</button>
+            <div class="carousel-track" id="bautismos-track">
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Bautismo Soft</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="bautismo_soft" required checked style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BautismoSoft.webp" alt="Bautismo Soft Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+              <div class="carousel-item">
+                <h4 class="template-preview-title">Bautismo Garden</h4>
+                <label style="cursor:pointer;display:block;">
+                  <input type="radio" name="template_key" value="bautismo_garden" style="position:absolute;opacity:0;">
+                  <div class="template-preview-card">
+                    <img src="/images/templates/mocksTemplates/BautismoClara.webp" alt="Bautismo Garden Template" class="template-preview-image" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                    <div class="template-preview-placeholder">Imagen no disponible</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="selected-template-text" id="bautismos-selected-text">
+          Plantilla seleccionada: <strong>Bautismo Soft</strong><br><a id="bautismos-preview-link" href="/demo/bautismos/bautismo_soft" target="_blank">(Toca para ver completa)</a>
+        </div>
         <% } else if (order.category === 'quinces') { %>
         <div class="carousel-section">
           <div class="carousel-container">
@@ -484,13 +516,15 @@
         <label style="font-size:0.9rem;color:var(--ink-soft);">
           <input type="checkbox" name="section_gallery" checked> Galería de fotos superior
         </label>
-        <label style="font-size:0.9rem;color:var(--ink-soft);">
-          <input type="checkbox" name="section_gallery2" checked> Galería de fotos inferior
-        </label>
+        <% if (order.category !== 'bautismos') { %>
+          <label style="font-size:0.9rem;color:var(--ink-soft);">
+            <input type="checkbox" name="section_gallery2" checked> Galería de fotos inferior
+          </label>
+        <% } %>
         <label style="font-size:0.9rem;color:var(--ink-soft);">
           <input type="checkbox" name="section_location" checked> Ubicación / mapa
         </label>
-        <% if (order.category !== 'quinces' && order.category !== 'peques' && order.category !== 'ninos') { %>
+        <% if (order.category !== 'quinces' && order.category !== 'peques' && order.category !== 'ninos' && order.category !== 'bautismos') { %>
         <label style="font-size:0.9rem;color:var(--ink-soft);">
           <input type="checkbox" name="section_itinerary" checked> Cronograma del evento
         </label>
@@ -500,12 +534,12 @@
           <input type="checkbox" name="section_trivia" checked disabled> Trivia (Próximamente)
         </label>
         <% } %>
-        <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+        <% if (order.category !== 'peques' && order.category !== 'ninos' && order.category !== 'bautismos') { %>
         <label style="font-size:0.9rem;color:var(--ink-soft);">
           <input type="checkbox" name="section_dress_code" checked> Dress code
         </label>
         <% } %>
-        <% if (order.category !== 'peques' && order.category !== 'ninos') { %>
+        <% if (order.category !== 'peques' && order.category !== 'ninos' && order.category !== 'bautismos') { %>
         <label style="font-size:0.9rem;color:var(--ink-soft);">
           <input type="checkbox" name="section_gifts" checked> Sección de regalos / CBU
         </label>
@@ -606,6 +640,63 @@
         </div>
         <div style="grid-column:1 / -1;">
           <label for="party_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección del evento</label>
+          <input type="text" id="party_address" name="party_address" placeholder="Dirección completa" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <% } else if (order.category === 'bautismos') { %>
+      <!-- Bautismos -->
+      <div id="event-details-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="honorees" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Nombre del niño/a *</label>
+          <input type="text" id="honorees" name="honorees" required placeholder="Ej: Santino" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="hero_message" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Frase principal (opcional)</label>
+          <input type="text" id="hero_message" name="hero_message" placeholder="Ej: Con amor y fe" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="date" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Fecha del bautismo *</label>
+          <input type="date" id="date" name="date" required style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" id="church_enabled" name="church_enabled" onchange="toggleCeremonyFields('church')"> Incluir iglesia
+        </label>
+      </div>
+      <div id="church_fields" style="display:none;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="church_time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora de la iglesia</label>
+          <input type="time" id="church_time" name="church_time" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="church_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Nombre de la iglesia</label>
+          <input type="text" id="church_name" name="church_name" placeholder="Ej: Parroquia San José" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="church_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección de la iglesia</label>
+          <input type="text" id="church_address" name="church_address" placeholder="Dirección completa" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+      </div>
+
+      <div style="grid-column:1 / -1;">
+        <label style="font-size:0.9rem;color:var(--ink-soft);">
+          <input type="checkbox" id="party_enabled" name="party_enabled" onchange="toggleCeremonyFields('party')"> Incluir recepción / festejo
+        </label>
+      </div>
+      <div id="party_fields" style="display:none;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <label for="party_time" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Hora de la recepción</label>
+          <input type="time" id="party_time" name="party_time" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div>
+          <label for="party_name" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Lugar de la recepción</label>
+          <input type="text" id="party_name" name="party_name" placeholder="Ej: Casa de familia / Salón" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
+        </div>
+        <div style="grid-column:1 / -1;">
+          <label for="party_address" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);display:block;margin-bottom:6px;">Dirección de la recepción</label>
           <input type="text" id="party_address" name="party_address" placeholder="Dirección completa" style="width:100%;padding:10px 12px;border-radius:2px;border:1px solid var(--border);font-size:0.9rem;">
         </div>
       </div>
@@ -741,7 +832,9 @@
         'eventos_anniversary': 'Aniversario',
         'eventos_bachelor': 'Despedida Hombre',
         'eventos_bachelorette': 'Despedida Mujer',
-        'eventos_bbq': 'Asado Oficial'
+        'eventos_bbq': 'Asado Oficial',
+        'bautismo_soft': 'Bautismo Soft',
+        'bautismo_garden': 'Bautismo Garden'
       };
       return names[value] || value;
     }
@@ -752,7 +845,8 @@
         'quinces': 'quinces',
         'peques': 'peques',
         'ninos': 'ninos',
-        'eventos': 'eventos'
+        'eventos': 'eventos',
+        'bautismos': 'bautismos'
       };
       const cat = categoryMap[category] || category;
       return `/demo/${cat}/${templateValue}`;

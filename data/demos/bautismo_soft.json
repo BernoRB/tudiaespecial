@@ -1,21 +1,47 @@
 {
   "slug": "demo-bautismo-soft",
   "category": "bautismos",
-  "template_key": "boda_minimal",
+  "template_key": "bautismo_soft",
+  "hero_image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=1200&auto=format&fit=crop",
   "honorees": "Santino",
   "hero_message": "Con amor y fe",
+  "quote_message": "Que este dia sea el comienzo de un camino lleno de luz, amor y bendiciones.",
   "date": "2026-08-03",
   "time": "11:00",
-  "venue_name": "Parroquia San José",
-  "venue_address": "Dirección demo",
+  "venue_name": "Casa de la familia",
+  "venue_address": "Av. del Libertador 2450, Buenos Aires",
   "maps_url": "",
-  "dress_code": "Elegante informal",
   "sections": {
+    "countdown": true,
     "gallery": true,
-    "dress_code": true,
+    "gallery2": false,
     "location": true,
     "itinerary": false,
+    "trivia": false,
+    "dress_code": false,
     "gifts": false,
-    "music": false
-  }
+    "rsvp": true
+  },
+  "ceremonies": {
+    "church": {
+      "enabled": true,
+      "name": "Parroquia San Jose",
+      "date": "2026-08-03",
+      "time": "11:00",
+      "address": "Av. Santa Fe 1350, Buenos Aires"
+    },
+    "party": {
+      "enabled": true,
+      "name": "Casa de la familia",
+      "date": "2026-08-03",
+      "time": "13:00",
+      "address": "Av. del Libertador 2450, Buenos Aires"
+    }
+  },
+  "gallery": [
+    "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=900&auto=format&fit=crop",
+    "/images/templates/mocksTemplates/PequesSoft.webp",
+    "/images/templates/mocksTemplates/PequesCloud.webp",
+    "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=900&auto=format&fit=crop"
+  ]
 }

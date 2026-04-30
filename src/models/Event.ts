@@ -14,6 +14,7 @@ export interface IEvent extends Document {
   maps_url?: string;
   dress_code?: string;
   hero_message?: string;
+  quote_message?: string;
   hero_image?: string;
   contact_email?: string;
   contact_whatsapp?: string;
@@ -61,6 +62,7 @@ const EventSchema: Schema = new Schema({
   maps_url: { type: String },
   dress_code: { type: String },
   hero_message: { type: String },
+  quote_message: { type: String },
   hero_image: { type: String },
   contact_email: { type: String },
   contact_whatsapp: { type: String },

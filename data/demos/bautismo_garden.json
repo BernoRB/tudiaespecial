@@ -1,0 +1,47 @@
+{
+  "slug": "demo-bautismo-garden",
+  "category": "bautismos",
+  "template_key": "bautismo_garden",
+  "hero_image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
+  "honorees": "Clara",
+  "hero_message": "Un dia para guardar en el corazon",
+  "quote_message": "Que la fe, la ternura y el amor de quienes te rodean acompañen siempre tus pasos.",
+  "date": "2026-08-16",
+  "time": "12:00",
+  "venue_name": "Jardin Las Acacias",
+  "venue_address": "Sucre 1820, San Isidro",
+  "maps_url": "",
+  "sections": {
+    "countdown": true,
+    "gallery": true,
+    "gallery2": false,
+    "location": true,
+    "itinerary": false,
+    "trivia": false,
+    "dress_code": false,
+    "gifts": false,
+    "rsvp": true
+  },
+  "ceremonies": {
+    "church": {
+      "enabled": true,
+      "name": "Capilla Santa Clara",
+      "date": "2026-08-16",
+      "time": "12:00",
+      "address": "Libertad 640, San Isidro"
+    },
+    "party": {
+      "enabled": true,
+      "name": "Jardin Las Acacias",
+      "date": "2026-08-16",
+      "time": "13:30",
+      "address": "Sucre 1820, San Isidro"
+    }
+  },
+  "gallery": [
+    "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=900&auto=format&fit=crop",
+    "/images/templates/mocksTemplates/PequesDream.webp",
+    "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=900&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=900&auto=format&fit=crop"
+  ]
+}
