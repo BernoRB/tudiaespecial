@@ -91,7 +91,6 @@
         <table class="admin-table">
           <thead style="background:var(--offwhite);text-align:left;">
             <tr>
-              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
               <% if (groupEvents && groupEvents.length > 1) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Invitación</th>
@@ -106,6 +105,7 @@
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Temas</th>
               <% } %>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comentarios</th>
+              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Acciones</th>
             </tr>
           </thead>
@@ -113,7 +113,6 @@
             <% if (rsvps && rsvps.length) { %>
               <% rsvps.forEach(function(r) { %>
                 <tr>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;"><%= r.created_at ? new Date(r.created_at).toLocaleString('es-AR') : '-' %></td>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
                   <% if (groupEvents && groupEvents.length > 1) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.event_label || '-' %></td>
@@ -136,6 +135,7 @@
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.song_suggestions || '-' %></td>
                   <% } %>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.comments || '-' %></td>
+                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;"><%= r.created_at_display || '-' %></td>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);">
                     <form method="post" action="/<%= event.slug %>/admin/rsvps/<%= r._id %>/delete?<%= new URLSearchParams({ status: selectedStatus || '', event_id: selectedEventId || '' }).toString() %>" onsubmit="return confirm('Eliminar esta confirmacion?');">
                       <button class="admin-btn danger" type="submit">Eliminar</button>

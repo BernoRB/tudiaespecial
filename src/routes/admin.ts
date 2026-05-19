@@ -130,6 +130,18 @@ async function getAdminGroup(event: any) {
   return { groupEvents, groupEventIds, eventLabels };
 }
 
+function formatArgentinaDateTime(value?: Date | string) {
+  if (!value) return "";
+  return new Date(value).toLocaleString("es-AR", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const slug = Array.isArray(req.params.slug) ? req.params.slug[0] : req.params.slug;
   const session: any = (req as any).session;
@@ -228,6 +240,7 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
   const rsvpsWithEvent = rsvps.map((r: any) => ({
     ...r,
     event_label: eventLabels[String(r.event_id)] || "",
+    created_at_display: formatArgentinaDateTime(r.created_at),
   }));
 
   const totals = rsvps.reduce(
@@ -280,9 +293,8 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
 
   const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
   const rows = [
-    ["Fecha", "Invitacion", "Quien confirma", "Personas", "Estado", "Nombres", "Comida", "Temas", "Comentarios"],
+    ["Invitacion", "Quien confirma", "Personas", "Estado", "Nombres", "Comida", "Temas", "Comentarios", "Fecha"],
     ...rsvps.map((r: any) => [
-      r.created_at ? new Date(r.created_at).toLocaleString("es-AR") : "",
       eventLabels[String(r.event_id)] || "",
       r.contact_name || "",
       r.people_count || "",
@@ -291,6 +303,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       r.food_preferences || "",
       r.song_suggestions || "",
       r.comments || "",
+      formatArgentinaDateTime(r.created_at),
     ]),
   ];
   const file = buildXlsx(rows);
