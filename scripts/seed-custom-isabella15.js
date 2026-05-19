@@ -41,9 +41,9 @@ const shared = {
   venue_name: "Salon Avellaneda",
   venue_address: "Nicolás Avellaneda 322, Alta Gracia, Córdoba",
   maps_url: "",
-  dress_code: "Negro Elegante Sport",
+  dress_code: "Elegante Sport",
   hero_message: "",
-  quote_message: "Como estrella de un mismo cielo, voy a esperar en cada luna, recordar mi niñez, para que ese brillo especial nunca se pierda en la inmensidad del universo.",
+  quote_message: "Como una estrella en el cielo, me detendré en cada luna a recordar mi niñez, para que ese brillo especial nunca se pierda en la inmensidad del universo.",
   hero_image: "/images/events/isabella-15/hero-disco.webp",
   sections,
   sections_json: JSON.stringify(sections),
@@ -73,7 +73,7 @@ const events = [
     ...shared,
     slug: "isabella-cena",
     legacy_slug: "isabella-cena-fiesta",
-    time: "21:00",
+    time: "21:30",
     custom_data: {
       variant_label: "Cena + Fiesta",
       card_prices: [

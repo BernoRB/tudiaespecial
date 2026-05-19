@@ -522,7 +522,7 @@
     const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
     const cardPrices = event.custom_data && Array.isArray(event.custom_data.card_prices) ? event.custom_data.card_prices : [];
     const eventDateForCalendar = event.date || "2026-09-05";
-    const eventTimeForCalendar = event.time || "21:00";
+    const eventTimeForCalendar = event.time || "21:30";
     const startLocal = new Date(`${eventDateForCalendar}T${eventTimeForCalendar}:00`);
     const endLocal = new Date(startLocal.getTime() + 4 * 60 * 60 * 1000);
     function toGoogleDate(d) {
@@ -574,7 +574,7 @@
           <div class="section-divider"></div>
           <div class="info-list">
             <div><%= formatDate(event.date) %></div>
-            <div><%= event.time || "21:00" %> hs</div>
+            <div><%= event.time || "21:30" %> hs</div>
           </div>
           <a class="calendar-btn" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">
             Agregar al calendario
@@ -664,7 +664,7 @@
           <img src="/images/GifStar.webp" alt="Estrella" class="section-icon">
           <div style="border-top: 1px solid var(--line); margin-bottom: 20px;"></div>
           <p style="font-family: 'Rajdhani', sans-serif; font-weight: 500; font-size: 1.15rem; line-height: 1.7; margin: 0 0 20px; color: var(--ink); letter-spacing: 0.03em;">
-            <%= event.quote_message || "Como estrella de un mismo cielo, voy a esperar en cada luna, recordar mi niñez, para que ese brillo especial nunca se pierda en la inmensidad del universo." %>
+            <%= event.quote_message || "Como una estrella en el cielo, me detendré en cada luna a recordar mi niñez, para que ese brillo especial nunca se pierda en la inmensidad del universo." %>
           </p>
           <div style="border-bottom: 1px solid var(--line);"></div>
         </div>
