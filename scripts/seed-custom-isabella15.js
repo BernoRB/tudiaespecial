@@ -86,7 +86,7 @@ const events = [
     ...shared,
     slug: "isabella-fiesta",
     legacy_slug: "isabella-solo-fiesta",
-    time: "21:00",
+    time: "23:59",
     custom_data: {
       variant_label: "Solo Fiesta",
       card_prices: [
