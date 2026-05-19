@@ -102,7 +102,21 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
-  const rsvps = await Rsvp.find({ event_id: event._id }).sort({ created_at: -1 }).lean();
+  const groupEvents = event.rsvp_group_key
+    ? await Event.find({ rsvp_group_key: event.rsvp_group_key }).sort({ created_at: 1 }).lean()
+    : [event.toObject ? event.toObject() : event];
+  const groupEventIds = groupEvents.map((item: any) => item._id);
+  const eventLabels = groupEvents.reduce((acc: Record<string, string>, item: any) => {
+    acc[String(item._id)] = item.custom_data?.variant_label || item.title || item.slug;
+    return acc;
+  }, {});
+  const showFoodPreferences = !groupEvents.some((item: any) => item.custom_data?.hide_food_preferences === true);
+
+  const rsvps = await Rsvp.find({ event_id: { $in: groupEventIds } }).sort({ created_at: -1 }).lean();
+  const rsvpsWithEvent = rsvps.map((r: any) => ({
+    ...r,
+    event_label: eventLabels[String(r.event_id)] || "",
+  }));
 
   const totals = rsvps.reduce(
     (acc, r) => {
@@ -116,11 +130,22 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
     },
     { confirmedCount: 0, declinedCount: 0 }
   );
+  const totalsByEvent = groupEvents.map((item: any) => {
+    const eventRsvps = rsvps.filter((r: any) => String(r.event_id) === String(item._id));
+    return {
+      label: eventLabels[String(item._id)] || item.slug,
+      confirmedCount: eventRsvps.reduce((sum: number, r: any) => r.status === "confirmed" ? sum + r.people_count : sum, 0),
+      declinedCount: eventRsvps.reduce((sum: number, r: any) => r.status === "declined" ? sum + r.people_count : sum, 0),
+    };
+  });
 
   res.render("admin/dashboard", {
     event,
-    rsvps,
+    rsvps: rsvpsWithEvent,
     totals,
+    groupEvents,
+    totalsByEvent,
+    showFoodPreferences,
   });
 });
 

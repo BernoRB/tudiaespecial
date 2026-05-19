@@ -7,6 +7,7 @@ export interface IEvent extends Document {
   title?: string;
   honorees?: string;
   event_type?: string;
+  rsvp_group_key?: string;
   date?: string;
   time?: string;
   venue_name?: string;
@@ -44,6 +45,7 @@ export interface IEvent extends Document {
   reserved_color?: string;
   reserved_message?: string;
   client_original_data?: object;
+  custom_data?: any;
   created_at: Date;
   updated_at: Date;
 }
@@ -55,6 +57,7 @@ const EventSchema: Schema = new Schema({
   title: { type: String },
   honorees: { type: String },
   event_type: { type: String },
+  rsvp_group_key: { type: String, index: true },
   date: { type: String },
   time: { type: String },
   venue_name: { type: String },
@@ -92,6 +95,7 @@ const EventSchema: Schema = new Schema({
   reserved_color: { type: String },
   reserved_message: { type: String },
   client_original_data: { type: Object },
+  custom_data: Schema.Types.Mixed,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

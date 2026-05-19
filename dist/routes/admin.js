@@ -91,7 +91,20 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
     if (!event) {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
-    const rsvps = await db_1.Rsvp.find({ event_id: event._id }).sort({ created_at: -1 }).lean();
+    const groupEvents = event.rsvp_group_key
+        ? await db_1.Event.find({ rsvp_group_key: event.rsvp_group_key }).sort({ created_at: 1 }).lean()
+        : [event.toObject ? event.toObject() : event];
+    const groupEventIds = groupEvents.map((item) => item._id);
+    const eventLabels = groupEvents.reduce((acc, item) => {
+        acc[String(item._id)] = item.custom_data?.variant_label || item.title || item.slug;
+        return acc;
+    }, {});
+    const showFoodPreferences = !groupEvents.some((item) => item.custom_data?.hide_food_preferences === true);
+    const rsvps = await db_1.Rsvp.find({ event_id: { $in: groupEventIds } }).sort({ created_at: -1 }).lean();
+    const rsvpsWithEvent = rsvps.map((r) => ({
+        ...r,
+        event_label: eventLabels[String(r.event_id)] || "",
+    }));
     const totals = rsvps.reduce((acc, r) => {
         if (r.status === "confirmed") {
             acc.confirmedCount += r.people_count;
@@ -101,10 +114,21 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         }
         return acc;
     }, { confirmedCount: 0, declinedCount: 0 });
+    const totalsByEvent = groupEvents.map((item) => {
+        const eventRsvps = rsvps.filter((r) => String(r.event_id) === String(item._id));
+        return {
+            label: eventLabels[String(item._id)] || item.slug,
+            confirmedCount: eventRsvps.reduce((sum, r) => r.status === "confirmed" ? sum + r.people_count : sum, 0),
+            declinedCount: eventRsvps.reduce((sum, r) => r.status === "declined" ? sum + r.people_count : sum, 0),
+        };
+    });
     res.render("admin/dashboard", {
         event,
-        rsvps,
+        rsvps: rsvpsWithEvent,
         totals,
+        groupEvents,
+        totalsByEvent,
+        showFoodPreferences,
     });
 });
 // Admin global de pedidos

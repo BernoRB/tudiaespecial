@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%- include('../partials/meta-tags', {
+  title: (event.honorees || "Mis 15") + " - Invitacion Digital",
+  description: (event.honorees || "Mis 15") + " - " + (event.venue_name || "") + ". Invitacion digital con RSVP.",
+  keywords: "invitacion digital quinces, fiesta de 15, RSVP, Argentina",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  type: "article"
+}) %>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
+  :root{--bg:#050505;--card:#111;--ink:#fff;--muted:#c8c8c8;--silver:#d9d9d9;--line:rgba(255,255,255,.22);--shadow:0 18px 55px rgba(255,255,255,.12)}
+  *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,rgba(255,255,255,.18),transparent 34%),radial-gradient(circle at 92% 24%,rgba(180,180,180,.16),transparent 34%),var(--bg);color:var(--ink);font-family:"Rajdhani",sans-serif}
+  .page{max-width:100%;padding:22px 16px 70px;text-align:center}.hero,.card,.rsvp{width:min(980px,100%);margin:0 auto}.hero{position:relative;min-height:86vh;border-radius:18px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+  .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.94),rgba(0,0,0,.36),rgba(0,0,0,.72));z-index:1}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero-content{position:relative;z-index:2;min-height:86vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:34px 22px}.kicker{font-family:"Orbitron";letter-spacing:.32em;text-transform:uppercase;color:var(--silver);font-size:.82rem}.hero h1{font-family:"Orbitron";font-size:clamp(3.2rem,13vw,6rem);line-height:1;margin:16px 0 8px;text-transform:uppercase}.hero-title{font-size:clamp(2rem,8vw,3.7rem);font-weight:700;letter-spacing:.09em;margin:0}.hero-sub{margin:8px 0 0;color:var(--muted);font-size:1.2rem}
+  .countdown{position:absolute;z-index:3;left:50%;bottom:34px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,72px);gap:8px}.count{border:1px solid var(--line);background:rgba(255,255,255,.1);backdrop-filter:blur(8px);padding:10px 4px;border-radius:10px}.count strong{display:block;font-family:"Orbitron";font-size:1.55rem}.count span{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:.65rem}
+  .grid{display:grid;gap:30px;margin-top:30px}.card,.rsvp{background:linear-gradient(180deg,#151515,#0d0d0d);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:38px 24px}.section-title{font-family:"Orbitron";text-transform:uppercase;letter-spacing:.12em;font-size:1.45rem;margin:0 0 12px}.divider{width:88px;height:1px;background:linear-gradient(90deg,transparent,var(--silver),transparent);margin:0 auto 22px}.info{display:grid;gap:10px;color:var(--muted);font-size:1.18rem}.btn{display:inline-block;margin-top:18px;border:1px solid var(--silver);background:var(--silver);color:#050505;border-radius:999px;padding:12px 18px;text-decoration:none;text-transform:uppercase;letter-spacing:.14em;font-family:"Orbitron";font-size:.72rem;font-weight:700}.map{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}.map iframe{width:100%;height:340px;border:0;display:block}
+  .gallery{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px}.photo{flex:0 0 76%;aspect-ratio:4/5;border:2px solid var(--silver);border-radius:10px;overflow:hidden;scroll-snap-align:start;cursor:pointer;background:#000}.photo img{width:100%;height:100%;object-fit:cover;display:block}.quote{font-size:1.35rem;line-height:1.7;color:#f5f5f5;margin:0}.price-grid{display:grid;gap:12px}.price-row{display:flex;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:rgba(255,255,255,.06);font-size:1.1rem}.price-row strong{color:#fff}.price-row span:last-child{font-family:"Orbitron";color:var(--silver)}
+  .rsvp{margin-top:30px}.rsvp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}.field.full{grid-column:1/-1}.field label{display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:.72rem}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#080808;color:#fff;font:inherit}.field textarea{min-height:76px;resize:vertical}.send{width:100%;margin-top:16px;border:0;background:linear-gradient(90deg,#fff,#aaa);color:#000;border-radius:999px;padding:15px;font-family:"Orbitron";text-transform:uppercase;letter-spacing:.16em;font-weight:700}.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:999;align-items:center;justify-content:center;padding:18px}.lightbox.visible{display:flex}.lightbox img{max-width:100%;max-height:86vh;border-radius:10px}.close{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#111;color:#fff;font-size:1.4rem}
+  @media(min-width:900px){.photo{flex-basis:30%}.card,.rsvp{padding:52px 44px}.rsvp-grid{text-align:center}}@media(max-width:680px){.hero{border-radius:0;margin:0 -16px}.rsvp-grid{grid-template-columns:1fr}.countdown{grid-template-columns:repeat(4,58px)}.count strong{font-size:1.25rem}.price-row{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<%
+  const data = event.custom_data || {};
+  const heroImage = event.hero_image || "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1300&auto=format&fit=crop";
+  const galleryImages = event.gallery && Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
+    "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=900&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=900&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=900&auto=format&fit=crop"
+  ];
+  const prices = data.card_prices || [];
+  const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
+  const startLocal = new Date(`${event.date || "2026-11-14"}T${event.time || "21:00"}:00`);
+  const endLocal = new Date(startLocal.getTime() + 5 * 60 * 60 * 1000);
+  function toGoogleDate(d){return `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,"0")}${String(d.getUTCDate()).padStart(2,"0")}T${String(d.getUTCHours()).padStart(2,"0")}${String(d.getUTCMinutes()).padStart(2,"0")}00Z`;}
+  function formatDate(dateStr){if(!dateStr)return "14 de noviembre de 2026"; const d=new Date(dateStr+"T00:00:00"); const m=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]; return `${d.getDate()} de ${m[d.getMonth()]} de ${d.getFullYear()}`;}
+  const calendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE" + `&text=${encodeURIComponent(`Mis 15 - ${event.honorees || "Invitacion"}`)}` + `&dates=${toGoogleDate(startLocal)}/${toGoogleDate(endLocal)}` + `&details=${encodeURIComponent("Te esperamos para celebrar una noche inolvidable.")}` + `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
+%>
+<main class="page">
+  <header class="hero">
+    <img src="<%= heroImage %>" alt="Bolas disco y fiesta">
+    <div class="hero-content">
+      <div class="kicker"><%= data.variant_label || "Invitacion" %></div>
+      <h1>Mis 15</h1>
+      <p class="hero-title"><%= event.honorees || "Valentina" %></p>
+      <p class="hero-sub"><%= event.hero_message || "Brilla conmigo esta noche" %></p>
+    </div>
+    <div class="countdown" id="countdown" data-date="<%= event.date || '' %>" data-time="<%= event.time || '' %>">
+      <div class="count"><strong data-unit="days">--</strong><span>D&iacute;as</span></div>
+      <div class="count"><strong data-unit="hours">--</strong><span>Horas</span></div>
+      <div class="count"><strong data-unit="minutes">--</strong><span>Min</span></div>
+      <div class="count"><strong data-unit="seconds">--</strong><span>Seg</span></div>
+    </div>
+  </header>
+  <section class="grid">
+    <article class="card"><h2 class="section-title">&iquest;Cu&aacute;ndo?</h2><div class="divider"></div><div class="info"><div><%= formatDate(event.date) %></div><div><%= event.time || "21:00" %> hs</div></div><a class="btn" href="<%= calendarUrl %>" target="_blank" rel="noopener noreferrer">Agregar al calendario</a></article>
+    <article class="card"><h2 class="section-title">&iquest;D&oacute;nde?</h2><div class="divider"></div><div class="info"><div><strong><%= event.venue_name || "Salon de eventos" %></strong></div><div><%= event.venue_address || "Direccion del evento" %></div></div></article>
+    <article class="card"><h2 class="section-title">C&oacute;mo llegar</h2><div class="divider"></div><div class="map"><iframe title="Mapa del evento" src="https://www.google.com/maps?q=<%= mapsQuery %>&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></article>
+    <article class="card"><h2 class="section-title">Valor de la tarjeta</h2><div class="divider"></div><div class="price-grid"><% prices.forEach(function(item){ %><div class="price-row"><strong><%= item.label %></strong><span><%= item.value %></span></div><% }) %></div></article>
+    <article class="card"><h2 class="section-title">Galer&iacute;a</h2><div class="divider"></div><div class="gallery"><% galleryImages.forEach(function(photo){ %><div class="photo" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto de la cumpleanera"></div><% }) %></div></article>
+    <article class="card"><p class="quote"><%= event.quote_message || "Trae ganas de bailar. Si traes pasos prohibidos, avisa asi reforzamos la pista." %></p></article>
+    <article class="card"><h2 class="section-title">Dress code</h2><div class="divider"></div><div class="info"><strong><%= event.dress_code || "Elegante en negro, blanco o plateado" %></strong></div></article>
+  </section>
+  <section class="rsvp">
+    <h2 class="section-title">Confirmar asistencia</h2><div class="divider"></div>
+    <form action="/api/<%= event.slug %>/rsvp" method="post">
+      <div class="rsvp-grid">
+        <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input id="contact_name" name="contact_name" required></div>
+        <div class="field"><label for="people_count">&iquest;Cu&aacute;ntos vienen?</label><input type="number" id="people_count" name="people_count" min="1" value="1" required></div>
+        <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Voy / Vamos</option><option value="declined">No puedo ir</option></select></div>
+        <div class="field full"><label for="people_names">Nombre y apellido de todos los invitados</label><textarea id="people_names" name="people_names"></textarea></div>
+        <div class="field full"><label for="comments">Mensaje</label><textarea id="comments" name="comments"></textarea></div>
+      </div>
+      <button class="send" type="submit">Enviar confirmaci&oacute;n</button>
+    </form>
+  </section>
+</main>
+<div class="lightbox" id="lightbox"><button class="close" id="close" aria-label="Cerrar">&times;</button><img id="lightbox-image" alt="Foto ampliada"></div>
+<script>
+(function(){const qs=new URLSearchParams(location.search);if(qs.get("rsvp")==="ok"){alert("Gracias por confirmar tu asistencia.");qs.delete("rsvp");history.replaceState({},"",location.pathname+(qs.toString()?"?"+qs.toString():""));}const el=document.getElementById("countdown");if(el&&el.dataset.date){const target=new Date(el.dataset.date+"T"+(el.dataset.time||"00:00")+":00");function tick(){let diff=Math.max(0,target.getTime()-Date.now());const set=(u,v)=>{const n=el.querySelector('[data-unit="'+u+'"]');if(n)n.textContent=String(v).padStart(2,"0")};set("days",Math.floor(diff/86400000));set("hours",Math.floor(diff/3600000)%24);set("minutes",Math.floor(diff/60000)%60);set("seconds",Math.floor(diff/1000)%60)}tick();setInterval(tick,1000)}const lightbox=document.getElementById("lightbox");const image=document.getElementById("lightbox-image");document.querySelectorAll(".photo").forEach(p=>p.addEventListener("click",()=>{image.src=p.dataset.photo;lightbox.classList.add("visible")}));document.getElementById("close").addEventListener("click",()=>lightbox.classList.remove("visible"));lightbox.addEventListener("click",e=>{if(e.target===lightbox)lightbox.classList.remove("visible")});})();
+</script>
+</body>
+</html>

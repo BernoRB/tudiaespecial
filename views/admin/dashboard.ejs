@@ -20,6 +20,11 @@
         <p class="section-sub">
           Acá ves quién confirmó, cuántos vienen y los detalles que dejaron.
         </p>
+        <% if (groupEvents && groupEvents.length > 1) { %>
+          <p style="font-size:0.9rem;color:var(--muted);margin-top:8px;">
+            Este panel agrupa <%= groupEvents.length %> invitaciones del mismo evento.
+          </p>
+        <% } %>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:22px;">
@@ -33,15 +38,34 @@
         </div>
       </div>
 
+      <% if (totalsByEvent && totalsByEvent.length > 1) { %>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px;">
+        <% totalsByEvent.forEach(function(item) { %>
+          <div style="flex:1;min-width:220px;background:#fff;padding:14px 16px;border-radius:4px;border:1px solid var(--border);">
+            <div style="font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;"><%= item.label %></div>
+            <div style="display:flex;gap:18px;font-size:0.9rem;">
+              <div><strong><%= item.confirmedCount %></strong> confirmados</div>
+              <div><strong><%= item.declinedCount %></strong> no asisten</div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <% } %>
+
       <div style="background:white;border-radius:4px;border:1px solid var(--border);overflow:hidden;">
         <table style="width:100%;border-collapse:collapse;font-size:0.86rem;">
           <thead style="background:var(--offwhite);text-align:left;">
             <tr>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
+              <% if (groupEvents && groupEvents.length > 1) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Invitación</th>
+              <% } %>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Personas</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Estado</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Nombres</th>
-              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comida</th>
+              <% if (showFoodPreferences !== false) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comida</th>
+              <% } %>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comentarios</th>
             </tr>
           </thead>
@@ -50,6 +74,9 @@
               <% rsvps.forEach(function(r) { %>
                 <tr>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
+                  <% if (groupEvents && groupEvents.length > 1) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.event_label || '-' %></td>
+                  <% } %>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.people_count %></td>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);">
                     <% if (r.status === 'confirmed') { %>
@@ -61,13 +88,15 @@
                     <% } %>
                   </td>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.people_names || '-' %></td>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.food_preferences || '-' %></td>
+                  <% if (showFoodPreferences !== false) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.food_preferences || '-' %></td>
+                  <% } %>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.comments || '-' %></td>
                 </tr>
               <% }); %>
             <% } else { %>
               <tr>
-                <td colspan="6" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
+                <td colspan="<%= (groupEvents && groupEvents.length > 1 ? 6 : 5) + (showFoodPreferences !== false ? 1 : 0) %>" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
                   Todavía no hay confirmaciones. Compartí tu invitación para empezar a ver respuestas acá.
                 </td>
               </tr>
@@ -79,4 +108,3 @@
   </section>
 </body>
 </html>
-
