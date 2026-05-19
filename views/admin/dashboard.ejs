@@ -6,6 +6,18 @@
   <title>Panel de invitados · <%= event.slug %></title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .admin-wrap{max-width:1220px;margin:0 auto;padding:0 16px;}
+    .admin-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:18px;background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px;}
+    .admin-tools label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:5px;}
+    .admin-tools select{min-width:180px;border:1px solid var(--border);border-radius:4px;padding:9px 10px;background:white;font:inherit;}
+    .admin-btn{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:4px;padding:10px 13px;text-decoration:none;font:inherit;font-size:.86rem;cursor:pointer;display:inline-block;}
+    .admin-btn.secondary{background:#fff;color:var(--ink);}
+    .admin-btn.danger{background:#fff;color:#9b1c1c;border-color:#e0b5b5;padding:7px 9px;font-size:.78rem;}
+    .table-scroll{background:white;border-radius:4px;border:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .admin-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:.86rem;}
+    @media (max-width: 760px){.admin-wrap{padding:0 10px}.admin-tools>*{width:100%}.admin-tools select,.admin-btn{width:100%;}.section-title{font-size:2rem;}}
+  </style>
 </head>
 <body style="background:var(--warm-white);">
   <nav>
@@ -13,7 +25,7 @@
   </nav>
 
   <section style="padding-top:110px;padding-bottom:60px;">
-    <div style="max-width:900px;margin:0 auto;">
+    <div class="admin-wrap">
       <div style="margin-bottom:24px;">
         <span class="section-label">Panel del evento</span>
         <h1 class="section-title" style="margin-bottom:8px;">Invitados de <%= event.honorees || event.slug %></h1>
@@ -52,10 +64,34 @@
       </div>
       <% } %>
 
-      <div style="background:white;border-radius:4px;border:1px solid var(--border);overflow:hidden;">
-        <table style="width:100%;border-collapse:collapse;font-size:0.86rem;">
+      <form class="admin-tools" method="get" action="/<%= event.slug %>/admin" id="filters-form">
+        <div>
+          <label for="status">Estado</label>
+          <select id="status" name="status">
+            <option value="" <%= !selectedStatus ? 'selected' : '' %>>Todos</option>
+            <option value="confirmed" <%= selectedStatus === 'confirmed' ? 'selected' : '' %>>Confirmados</option>
+            <option value="declined" <%= selectedStatus === 'declined' ? 'selected' : '' %>>No asisten</option>
+          </select>
+        </div>
+        <% if (groupEvents && groupEvents.length > 1) { %>
+          <div>
+            <label for="event_id">Invitaci&oacute;n</label>
+            <select id="event_id" name="event_id">
+              <option value="" <%= !selectedEventId ? 'selected' : '' %>>Todas</option>
+              <% groupEvents.forEach(function(item) { %>
+                <option value="<%= item._id %>" <%= selectedEventId === String(item._id) ? 'selected' : '' %>><%= item.custom_data?.variant_label || item.title || item.slug %></option>
+              <% }) %>
+            </select>
+          </div>
+        <% } %>
+        <a class="admin-btn secondary" href="/<%= event.slug %>/admin/export.xlsx?<%= new URLSearchParams({ status: selectedStatus || '', event_id: selectedEventId || '' }).toString() %>">Exportar XLSX</a>
+      </form>
+
+      <div class="table-scroll">
+        <table class="admin-table">
           <thead style="background:var(--offwhite);text-align:left;">
             <tr>
+              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
               <% if (groupEvents && groupEvents.length > 1) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Invitación</th>
@@ -66,13 +102,18 @@
               <% if (showFoodPreferences !== false) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comida</th>
               <% } %>
+              <% if (showSongSuggestions) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Temas</th>
+              <% } %>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comentarios</th>
+              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <% if (rsvps && rsvps.length) { %>
               <% rsvps.forEach(function(r) { %>
                 <tr>
+                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;"><%= r.created_at ? new Date(r.created_at).toLocaleString('es-AR') : '-' %></td>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
                   <% if (groupEvents && groupEvents.length > 1) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.event_label || '-' %></td>
@@ -91,12 +132,20 @@
                   <% if (showFoodPreferences !== false) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.food_preferences || '-' %></td>
                   <% } %>
+                  <% if (showSongSuggestions) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.song_suggestions || '-' %></td>
+                  <% } %>
                   <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.comments || '-' %></td>
+                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);">
+                    <form method="post" action="/<%= event.slug %>/admin/rsvps/<%= r._id %>/delete?<%= new URLSearchParams({ status: selectedStatus || '', event_id: selectedEventId || '' }).toString() %>" onsubmit="return confirm('Eliminar esta confirmacion?');">
+                      <button class="admin-btn danger" type="submit">Eliminar</button>
+                    </form>
+                  </td>
                 </tr>
               <% }); %>
             <% } else { %>
               <tr>
-                <td colspan="<%= (groupEvents && groupEvents.length > 1 ? 6 : 5) + (showFoodPreferences !== false ? 1 : 0) %>" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
+                <td colspan="<%= (groupEvents && groupEvents.length > 1 ? 8 : 7) + (showFoodPreferences !== false ? 1 : 0) + (showSongSuggestions ? 1 : 0) %>" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
                   Todavía no hay confirmaciones. Compartí tu invitación para empezar a ver respuestas acá.
                 </td>
               </tr>
@@ -106,5 +155,14 @@
       </div>
     </div>
   </section>
+  <script>
+    (function(){
+      const form = document.getElementById("filters-form");
+      if (!form) return;
+      form.querySelectorAll("select").forEach(function(select){
+        select.addEventListener("change", function(){ form.submit(); });
+      });
+    })();
+  </script>
 </body>
 </html>

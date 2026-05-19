@@ -31,6 +31,7 @@ export interface IEvent extends Document {
     dress_code?: boolean;
     gifts?: boolean;
     rsvp?: boolean;
+    music?: boolean;
   };
   sections_json?: string;
   gallery?: string[];
@@ -81,6 +82,7 @@ const EventSchema: Schema = new Schema({
     dress_code: { type: Boolean },
     gifts: { type: Boolean },
     rsvp: { type: Boolean },
+    music: { type: Boolean },
   },
   sections_json: { type: String },
   gallery: [String],

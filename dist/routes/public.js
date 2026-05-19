@@ -12,7 +12,6 @@ const router = (0, express_1.Router)();
 async function sendDiscordNotification(order) {
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
     if (!webhookUrl) {
-        console.log('DISCORD_WEBHOOK_URL not configured, skipping notification');
         return;
     }
     const message = {
@@ -40,9 +39,6 @@ async function sendDiscordNotification(order) {
         });
         if (!response.ok) {
             console.error("Failed to send Discord notification:", response.statusText);
-        }
-        else {
-            console.log("Discord notification sent successfully");
         }
     }
     catch (error) {
@@ -125,9 +121,6 @@ router.get("/solicitud", (req, res) => {
 router.post("/solicitud/paso1", async (req, res) => {
     const { customer_name, category, contact_email, contact_whatsapp, } = req.body;
     const rawForm = JSON.stringify(req.body);
-    console.log('=== ORDER CREATE DEBUG ===');
-    console.log('Creating order with data:', { customer_name, category, contact_email });
-    console.log('==========================');
     const order = await db_1.Order.create({
         customer_name,
         customer_email: contact_email,
@@ -137,8 +130,6 @@ router.post("/solicitud/paso1", async (req, res) => {
         raw_form_json: req.body,
         status: "lead",
     });
-    console.log('Order created with ID:', order._id);
-    console.log('==========================');
     // Enviar notificación a Discord (fire and forget)
     sendDiscordNotification(order).catch(err => console.error('Discord notification error:', err));
     res.redirect(`/solicitud/paso2/${order._id}`);
@@ -151,7 +142,7 @@ router.get("/solicitud/paso2/:orderId", async (req, res) => {
         order = await db_1.Order.findById(orderId);
     }
     catch (error) {
-        console.log('Invalid order ID format:', orderId);
+        console.error("Invalid order ID format:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!order) {
@@ -176,7 +167,7 @@ router.post("/solicitud/paso2/:orderId", async (req, res) => {
         order = await db_1.Order.findById(orderId);
     }
     catch (error) {
-        console.log('Invalid order ID format:', orderId);
+        console.error("Invalid order ID format:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!order) {
@@ -228,7 +219,7 @@ router.post("/solicitud/paso2/:orderId", async (req, res) => {
         });
     }
     catch (error) {
-        console.log('Invalid order ID format for update:', orderId);
+        console.error("Invalid order ID format for update:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     res.redirect(`/pago/${orderId}`);
@@ -261,7 +252,7 @@ router.get("/pago/:orderId", async (req, res) => {
         order = await db_1.Order.findById(orderId);
     }
     catch (error) {
-        console.log('Invalid order ID format:', orderId);
+        console.error("Invalid order ID format:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!order) {
@@ -277,7 +268,7 @@ router.post("/pago/:orderId", async (req, res) => {
         order = await db_1.Order.findById(orderId);
     }
     catch (error) {
-        console.log('Invalid order ID format:', orderId);
+        console.error("Invalid order ID format:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!order) {
@@ -290,7 +281,7 @@ router.post("/pago/:orderId", async (req, res) => {
         });
     }
     catch (error) {
-        console.log('Invalid order ID format for update:', orderId);
+        console.error("Invalid order ID format for update:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (paymentMethod === "transferencia") {
@@ -315,7 +306,7 @@ router.get("/confirmacion/:orderId", async (req, res) => {
         order = await db_1.Order.findById(orderId);
     }
     catch (error) {
-        console.log('Invalid order ID format:', orderId);
+        console.error("Invalid order ID format:", orderId);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!order) {

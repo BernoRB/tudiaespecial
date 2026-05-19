@@ -11,9 +11,123 @@ async function getEventBySlug(slug: string) {
   try {
     return await Event.findOne({ slug });
   } catch (error) {
-    console.log('Error finding event by slug:', slug, error);
+    console.error("Error finding event by slug:", slug, error);
     return null;
   }
+}
+
+function xmlEscape(value: any) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+const crcTable = (() => {
+  const table = new Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    table[n] = c >>> 0;
+  }
+  return table;
+})();
+
+function crc32(buffer: Buffer) {
+  let c = 0xffffffff;
+  for (const byte of buffer) c = crcTable[(c ^ byte) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+function makeZip(files: Array<{ name: string; data: Buffer }>) {
+  const locals: Buffer[] = [];
+  const centrals: Buffer[] = [];
+  let offset = 0;
+  for (const file of files) {
+    const name = Buffer.from(file.name);
+    const checksum = crc32(file.data);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0, 6);
+    local.writeUInt16LE(0, 8);
+    local.writeUInt32LE(0, 10);
+    local.writeUInt32LE(checksum, 14);
+    local.writeUInt32LE(file.data.length, 18);
+    local.writeUInt32LE(file.data.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    locals.push(local, name, file.data);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0, 8);
+    central.writeUInt16LE(0, 10);
+    central.writeUInt32LE(0, 12);
+    central.writeUInt32LE(checksum, 16);
+    central.writeUInt32LE(file.data.length, 20);
+    central.writeUInt32LE(file.data.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt32LE(offset, 42);
+    centrals.push(central, name);
+    offset += local.length + name.length + file.data.length;
+  }
+
+  const centralSize = centrals.reduce((sum, item) => sum + item.length, 0);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(files.length, 8);
+  end.writeUInt16LE(files.length, 10);
+  end.writeUInt32LE(centralSize, 12);
+  end.writeUInt32LE(offset, 16);
+  return Buffer.concat([...locals, ...centrals, end]);
+}
+
+function buildXlsx(rows: any[][]) {
+  const sheetRows = rows.map((row, rowIndex) => {
+    const cells = row.map((cell, cellIndex) => {
+      const col = String.fromCharCode(65 + cellIndex);
+      return `<c r="${col}${rowIndex + 1}" t="inlineStr"><is><t>${xmlEscape(cell)}</t></is></c>`;
+    }).join("");
+    return `<row r="${rowIndex + 1}">${cells}</row>`;
+  }).join("");
+  const files = [
+    {
+      name: "[Content_Types].xml",
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`),
+    },
+    {
+      name: "_rels/.rels",
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`),
+    },
+    {
+      name: "xl/workbook.xml",
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Invitados" sheetId="1" r:id="rId1"/></sheets></workbook>`),
+    },
+    {
+      name: "xl/_rels/workbook.xml.rels",
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`),
+    },
+    {
+      name: "xl/worksheets/sheet1.xml",
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows}</sheetData></worksheet>`),
+    },
+  ];
+  return makeZip(files);
+}
+
+async function getAdminGroup(event: any) {
+  const groupEvents = event.rsvp_group_key
+    ? await Event.find({ rsvp_group_key: event.rsvp_group_key }).sort({ created_at: 1 }).lean()
+    : [event.toObject ? event.toObject() : event];
+  const groupEventIds = groupEvents.map((item: any) => item._id);
+  const eventLabels = groupEvents.reduce((acc: Record<string, string>, item: any) => {
+    acc[String(item._id)] = item.custom_data?.variant_label || item.title || item.slug;
+    return acc;
+  }, {});
+  return { groupEvents, groupEventIds, eventLabels };
 }
 
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
@@ -34,16 +148,12 @@ function requireOwner(req: Request, res: Response, next: NextFunction) {
 }
 
 async function getOrdersForDashboard() {
-  console.log('=== GET ORDERS DEBUG ===');
   const orders = await Order.find().sort({ created_at: -1 }).lean();
-  console.log('Orders found:', orders.length);
   const result = [];
   for (const order of orders) {
-    console.log('Processing order:', order._id, 'event_id:', order.event_id);
     let eventSlug = null;
     let eventAdminPin = null;
     if (order.event_id) {
-      console.log('Trying to find event with event_id:', order.event_id);
       try {
         const event = await Event.findById(order.event_id).lean();
         if (event) {
@@ -51,7 +161,7 @@ async function getOrdersForDashboard() {
           eventAdminPin = event.admin_pin;
         }
       } catch (error) {
-        console.log('Invalid event_id format:', order.event_id);
+        console.error("Invalid order event_id format:", order._id);
       }
     }
     let notes = "";
@@ -60,7 +170,6 @@ async function getOrdersForDashboard() {
     }
     result.push({ ...order, event_slug: eventSlug, event_admin_pin: eventAdminPin, notes });
   }
-  console.log('========================');
   return result;
 }
 
@@ -102,17 +211,20 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
-  const groupEvents = event.rsvp_group_key
-    ? await Event.find({ rsvp_group_key: event.rsvp_group_key }).sort({ created_at: 1 }).lean()
-    : [event.toObject ? event.toObject() : event];
-  const groupEventIds = groupEvents.map((item: any) => item._id);
-  const eventLabels = groupEvents.reduce((acc: Record<string, string>, item: any) => {
-    acc[String(item._id)] = item.custom_data?.variant_label || item.title || item.slug;
-    return acc;
-  }, {});
+  const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
   const showFoodPreferences = !groupEvents.some((item: any) => item.custom_data?.hide_food_preferences === true);
+  const showSongSuggestions = groupEvents.some((item: any) => item.sections?.music === true);
+  const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
+  const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
+  const filteredEventIds = selectedEventId && groupEventIds.some((id: any) => String(id) === selectedEventId)
+    ? [selectedEventId]
+    : groupEventIds;
+  const rsvpQuery: any = { event_id: { $in: filteredEventIds } };
+  if (selectedStatus === "confirmed" || selectedStatus === "declined") {
+    rsvpQuery.status = selectedStatus;
+  }
 
-  const rsvps = await Rsvp.find({ event_id: { $in: groupEventIds } }).sort({ created_at: -1 }).lean();
+  const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
   const rsvpsWithEvent = rsvps.map((r: any) => ({
     ...r,
     event_label: eventLabels[String(r.event_id)] || "",
@@ -146,7 +258,57 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
     groupEvents,
     totalsByEvent,
     showFoodPreferences,
+    showSongSuggestions,
+    selectedStatus,
+    selectedEventId,
   });
+});
+
+router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: Response) => {
+  const slug = Array.isArray(req.params.slug) ? req.params.slug[0] : req.params.slug;
+  const event = await getEventBySlug(slug);
+  if (!event) return res.status(404).render("errors/404", { url: req.originalUrl });
+
+  const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
+  const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
+  const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
+  const filteredEventIds = selectedEventId && groupEventIds.some((id: any) => String(id) === selectedEventId)
+    ? [selectedEventId]
+    : groupEventIds;
+  const rsvpQuery: any = { event_id: { $in: filteredEventIds } };
+  if (selectedStatus === "confirmed" || selectedStatus === "declined") rsvpQuery.status = selectedStatus;
+
+  const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
+  const rows = [
+    ["Fecha", "Invitacion", "Quien confirma", "Personas", "Estado", "Nombres", "Comida", "Temas", "Comentarios"],
+    ...rsvps.map((r: any) => [
+      r.created_at ? new Date(r.created_at).toLocaleString("es-AR") : "",
+      eventLabels[String(r.event_id)] || "",
+      r.contact_name || "",
+      r.people_count || "",
+      r.status === "declined" ? "No asiste" : "Confirmado",
+      r.people_names || "",
+      r.food_preferences || "",
+      r.song_suggestions || "",
+      r.comments || "",
+    ]),
+  ];
+  const file = buildXlsx(rows);
+  res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  const exportBase = event.rsvp_group_key === "isabella-15-2026" ? "isabella" : slug;
+  res.setHeader("Content-Disposition", `attachment; filename="${exportBase}-invitados.xlsx"`);
+  res.send(file);
+});
+
+router.post("/:slug/admin/rsvps/:rsvpId/delete", requireAdmin, async (req: Request, res: Response) => {
+  const slug = Array.isArray(req.params.slug) ? req.params.slug[0] : req.params.slug;
+  const event = await getEventBySlug(slug);
+  if (!event) return res.status(404).render("errors/404", { url: req.originalUrl });
+
+  const { groupEventIds } = await getAdminGroup(event);
+  await Rsvp.deleteOne({ _id: req.params.rsvpId, event_id: { $in: groupEventIds } });
+  const query = new URLSearchParams(req.query as Record<string, string>).toString();
+  res.redirect(`/${slug}/admin${query ? `?${query}` : ""}`);
 });
 
 // Admin global de pedidos
@@ -184,7 +346,7 @@ router.get("/admin/orders/:id/publish", requireOwner, async (req: Request, res: 
   try {
     order = await Order.findById(orderId);
   } catch (error) {
-    console.log('Invalid order ID format:', orderId);
+    console.error("Invalid order ID format:", orderId);
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
   
@@ -211,7 +373,7 @@ router.post("/admin/orders/:id/publish", requireOwner, async (req: Request, res:
   try {
     order = await Order.findById(orderId);
   } catch (error) {
-    console.log('Invalid order ID format:', orderId);
+    console.error("Invalid order ID format:", orderId);
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
   
@@ -386,7 +548,7 @@ router.get("/admin/events/:id/edit", requireOwner, async (req: Request, res: Res
   try {
     event = await Event.findById(eventId);
   } catch (error) {
-    console.log('Invalid event ID format:', eventId);
+    console.error("Invalid event ID format:", eventId);
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
   
@@ -430,7 +592,7 @@ router.post("/admin/events/:id/edit", requireOwner, async (req: Request, res: Re
   try {
     event = await Event.findById(eventId);
   } catch (error) {
-    console.log('Invalid event ID format:', eventId);
+    console.error("Invalid event ID format:", eventId);
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
   

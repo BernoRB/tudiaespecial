@@ -2,3 +2,5 @@ node_modules
 dist
 data/app.db
 .env
+_incoming/
+server-local.log

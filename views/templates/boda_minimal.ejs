@@ -224,7 +224,6 @@
     try {
       itinerary = JSON.parse(event.itinerary_json);
     } catch (e) {
-      console.log('Error parsing itinerary_json:', e);
       itinerary = {};
     }
   }
@@ -233,12 +232,6 @@
     itinerary = event.itinerary;
   }
 %>
-          <!-- TEMPLATE ITINERARY DEBUG -->
-          <% console.log('TEMPLATE: sections.itinerary =', sections.itinerary); %>
-          <% console.log('TEMPLATE: event.itinerary =', event.itinerary); %>
-          <% console.log('TEMPLATE: local itinerary =', itinerary); %>
-          <% console.log('TEMPLATE: itinerary.ceremony =', itinerary.ceremony); %>
-          <!-- END TEMPLATE DEBUG -->
           <% if (itinerary.ceremony && itinerary.ceremony.trim()) { %>
           <div class="itinerary-item">
             <div class="itinerary-time"><%= itinerary.ceremony %></div>
@@ -369,4 +362,3 @@
   </script>
 </body>
 </html>
-

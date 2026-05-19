@@ -2,31 +2,35 @@
 <html lang="es-AR">
 <head>
 <%- include('../partials/meta-tags', {
-  title: (event.honorees || "Nuestra boda") + " · Invitación Digital",
-  description: (event.honorees || "Nuestra boda") + " - " + (event.venue_name || "") + ". Invitación digital con confirmación de asistencia, ubicación y agenda. Servicio en Argentina.",
-  keywords: "invitación digital bodas, " + (event.honorees || "") + ", " + (event.venue_name || "") + ", Argentina",
+  title: (event.honorees || "Mis 15") + " · Invitación Digital",
+  description: (event.honorees || "Mis 15") + " - " + (event.venue_name || "") + ". Invitación digital con confirmación de asistencia, ubicación y agenda. Servicio en Argentina.",
+  keywords: "invitación digital quinces, " + (event.honorees || "") + ", " + (event.venue_name || "") + ", Argentina",
   url: "https://tudiaespecial.com" + req.originalUrl,
   type: "article"
 }) %>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="/images/favicon.png">
 <style>
     :root {
-      --bg: #080508;
-      --card: #1a0a10;
-      --ink: #f5f0eb;
-      --muted: #a09090;
-      --accent: #8b1a3c;
-      --accent-soft: rgba(139, 26, 60, 0.15);
-      --line: rgba(139, 26, 60, 0.4);
-      --shadow: 0 18px 45px rgba(139, 26, 60, 0.2);
+      --bg: #0a0a0a;
+      --card: #1a1a1a;
+      --ink: #ffffff;
+      --muted: #c8c8c8;
+      --accent: #f7fbff;
+      --accent-soft: rgba(247, 251, 255, 0.11);
+      --line: rgba(247, 251, 255, 0.34);
+      --shadow: 0 18px 45px rgba(247, 251, 255, 0.14);
+      --neon: 0 0 8px rgba(255,255,255,.9), 0 0 22px rgba(220,235,255,.72), 0 0 42px rgba(210,225,245,.42);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Lato", sans-serif;
-      background: var(--bg);
+      font-family: "Rajdhani", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 100% 30%, rgba(210, 225, 245, 0.1) 0%, transparent 40%),
+        var(--bg);
       color: var(--ink);
     }
     .page {
@@ -43,14 +47,14 @@
       min-height: 90vh;
       box-shadow: var(--shadow);
       margin-bottom: 24px;
-      background: #080508;
+      background: #000;
     }
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to top, rgba(8, 5, 8, 0.9), rgba(8, 5, 8, 0.3) 40%, rgba(8, 5, 8, 0.5));
+        linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.5));
       z-index: 1;
     }
     .hero img {
@@ -59,11 +63,6 @@
       object-fit: cover;
       position: absolute;
       inset: 0;
-    }
-    @media (max-width: 899px) {
-      .hero img {
-        object-position: 70% center;
-      }
     }
     .hero-content {
       position: relative;
@@ -78,25 +77,36 @@
       gap: 8px;
       text-align: center;
     }
+    .hero-kicker {
+      font-family: "Orbitron", sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.95;
+      color: var(--accent);
+      text-shadow: var(--neon);
+      transform: translateY(-22px);
+    }
     .hero-name {
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       font-weight: 700;
       font-size: clamp(3rem, 12vw, 5rem);
       margin: 0;
       line-height: 1;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
     }
     .hero-title {
-      font-family: "Cinzel", serif;
-      font-weight: 400;
-      font-style: italic;
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-family: "Great Vibes", cursive;
+      font-weight: 600;
+      font-size: clamp(4.8rem, 17vw, 7.8rem);
       margin: 0;
       opacity: 0.95;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+      letter-spacing: 0;
+      text-shadow: var(--neon);
+      visibility: hidden;
     }
+    .fonts-ready .hero-title { visibility: visible; }
 
     .hero-countdown {
       position: absolute;
@@ -110,21 +120,21 @@
       text-align: center;
     }
     .hero-count-number {
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       font-weight: 700;
       font-size: 2rem;
       color: var(--accent);
+      text-shadow: var(--neon);
       line-height: 1;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     }
     .hero-count-separator {
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       font-weight: 700;
       font-size: 2rem;
       color: var(--accent);
+      text-shadow: var(--neon);
       line-height: 1;
       opacity: 0.5;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     }
 
     .grid {
@@ -142,13 +152,14 @@
       padding: 40px 28px;
     }
     .section-title {
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       font-weight: 600;
       font-size: 1.65rem;
       margin: 0 0 14px;
       color: var(--ink);
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      text-shadow: var(--neon);
     }
     .section-sub {
       margin: 0 0 16px;
@@ -169,7 +180,7 @@
       margin: 0 auto 22px auto;
       object-fit: contain;
       display: block;
-      background: #2a151a;
+      background: #000;
       border-radius: 50%;
       padding: 8px;
       border: 2px solid var(--accent);
@@ -187,8 +198,8 @@
     .calendar-btn {
       margin-top: 12px;
       border: none;
-      background: var(--accent);
-      color: #f5f0eb;
+      background: linear-gradient(90deg, #ffffff, #d8e1ea);
+      color: #000;
       border-radius: 6px;
       padding: 11px 16px;
       font-size: 0.78rem;
@@ -197,7 +208,7 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       font-weight: 600;
     }
 
@@ -206,7 +217,7 @@
       overflow: hidden;
       border: 1px solid var(--line);
       min-height: 250px;
-      background: #1a0a10;
+      background: #111;
     }
     .map-wrap iframe {
       width: 100%;
@@ -227,10 +238,10 @@
       border-radius: 8px;
       overflow: hidden;
       border: 3px solid var(--accent);
-      box-shadow: 0 12px 32px rgba(139, 26, 60, 0.25);
+      box-shadow: 0 12px 32px rgba(247, 251, 255, 0.2);
       cursor: pointer;
       scroll-snap-align: start;
-      background: #1a0a10;
+      background: #111;
       aspect-ratio: 4/5;
     }
     .gallery-item img {
@@ -250,7 +261,7 @@
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
       letter-spacing: 0.05em;
     }
     .gift-box {
@@ -261,11 +272,35 @@
       border-radius: 8px;
       color: var(--muted);
       font-size: 0.95rem;
-      background: #1a0a10;
+      background: #111;
       line-height: 1.6;
       text-align: center;
     }
     .gift-box.visible { display: block; }
+
+    .price-list {
+      display: grid;
+      gap: 12px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--ink);
+      font-size: 1.1rem;
+    }
+    .price-row span:last-child {
+      font-family: "Orbitron", sans-serif;
+      color: var(--accent);
+      text-shadow: var(--neon);
+      white-space: nowrap;
+    }
 
     .rsvp-section {
       background: var(--card);
@@ -297,11 +332,7 @@
       font: inherit;
       font-size: 0.92rem;
       color: var(--ink);
-      background: #1a0a10;
-    }
-    .rsvp-field input::placeholder,
-    .rsvp-field textarea::placeholder {
-      opacity: 0.5;
+      background: #111;
     }
     .rsvp-field textarea {
       min-height: 72px;
@@ -312,8 +343,8 @@
       margin-top: 16px;
       width: 100%;
       border: none;
-      background: var(--accent);
-      color: #f5f0eb;
+      background: linear-gradient(90deg, #ffffff, #d8e1ea);
+      color: #000;
       border-radius: 6px;
       padding: 14px;
       font-size: 0.82rem;
@@ -321,14 +352,38 @@
       text-transform: uppercase;
       cursor: pointer;
       font-weight: 700;
-      font-family: "Cinzel", serif;
+      font-family: "Orbitron", sans-serif;
     }
+    .send-btn.is-loading {
+      opacity: .78;
+      pointer-events: none;
+    }
+    .rsvp-result {
+      display: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.07);
+      border-radius: 12px;
+      padding: 28px 18px;
+      color: var(--ink);
+    }
+    .rsvp-result.visible { display: block; }
+    .rsvp-spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 2px solid rgba(255,255,255,.22);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin-bottom: 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .lightbox {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(8, 5, 8, 0.95);
+      background: rgba(0, 0, 0, 0.95);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -339,53 +394,20 @@
       max-width: 100%;
       max-height: 85vh;
       border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(139, 26, 60, 0.3);
+      box-shadow: 0 20px 60px rgba(247, 251, 255, 0.24);
     }
     .lightbox-close {
       position: absolute;
       top: 12px;
       right: 14px;
       border: 0;
-      background: rgba(139, 26, 60, 0.2);
+      background: rgba(247, 251, 255, 0.18);
       color: #fff;
       width: 38px;
       height: 38px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.3rem;
-    }
-
-    .itinerary-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 8px 0;
-    }
-    .itinerary-item {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 16px 20px;
-      background: linear-gradient(135deg, #1a0a10 0%, #2a151a 100%);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-    .itinerary-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(139, 26, 60, 0.15);
-      border-color: var(--accent);
-    }
-    .itinerary-time {
-      font-family: "Cinzel", serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--accent);
-      min-width: 80px;
-    }
-    .itinerary-event {
-      font-size: 1.1rem;
-      color: var(--ink);
     }
 
     @media (min-width: 900px) {
@@ -475,6 +497,9 @@
         font-size: 0.9rem;
         padding: 16px;
       }
+      .price-row {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
@@ -482,31 +507,24 @@
   <%
     const heroImage =
       event.hero_image ||
-      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80";
+      "/images/events/isabella-15/hero-disco.webp";
     const galleryImages =
       event.gallery && Array.isArray(event.gallery) && event.gallery.length
         ? event.gallery
         : [
-            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80",
-            "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1000&q=80",
-            "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1000&q=80",
-          ];
-    const gallery2Images =
-      event.gallery2 && Array.isArray(event.gallery2) && event.gallery2.length
-        ? event.gallery2
-        : [
-            "https://images.unsplash.com/photo-1591604442449-ecc9943efabf?auto=format&fit=crop&w=1000&q=80",
-            "https://plus.unsplash.com/premium_photo-1664530453104-68710b5f517c?auto=format&fit=crop&w=1000&q=80",
-            "https://plus.unsplash.com/premium_photo-1664297755132-af79f91c26df?auto=format&fit=crop&w=1000&q=80",
-            "https://img.freepik.com/fotos-premium/imagen-emocional-pareja-recien-casada-pie-campo-besandose-rio-fondo-objetivos-pareja_232070-4172.jpg"
+            "/images/events/isabella-15/gallery-01.webp",
+            "/images/events/isabella-15/gallery-02.webp",
+            "/images/events/isabella-15/gallery-03.webp",
+            "/images/events/isabella-15/gallery-04.webp",
+            "/images/events/isabella-15/gallery-05.webp",
+            "/images/events/isabella-15/gallery-06.webp"
           ];
     const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Buenos Aires");
-    const giftCbu = event.gift_cbu || "0000000000000000000000";
-    const giftAlias = event.gift_alias || "boda.alias";
-    const eventDateForCalendar = event.date || "2026-11-14";
-    const eventTimeForCalendar = event.time || "19:30";
+    const cardPrices = event.custom_data && Array.isArray(event.custom_data.card_prices) ? event.custom_data.card_prices : [];
+    const eventDateForCalendar = event.date || "2026-09-05";
+    const eventTimeForCalendar = event.time || "21:00";
     const startLocal = new Date(`${eventDateForCalendar}T${eventTimeForCalendar}:00`);
-    const endLocal = new Date(startLocal.getTime() + 5 * 60 * 60 * 1000);
+    const endLocal = new Date(startLocal.getTime() + 4 * 60 * 60 * 1000);
     function toGoogleDate(d) {
       const yyyy = d.getUTCFullYear();
       const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
@@ -518,13 +536,13 @@
     }
     const googleCalendarUrl =
       "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-      `&text=${encodeURIComponent(`Boda - ${event.honorees || "Invitación"}`)}` +
+      `&text=${encodeURIComponent(`Mis 15 - ${event.honorees || "Invitacion"}`)}` +
       `&dates=${toGoogleDate(startLocal)}/${toGoogleDate(endLocal)}` +
-      `&details=${encodeURIComponent("Nos encantaría contar con tu presencia en este día especial.")}` +
+      `&details=${encodeURIComponent("Te esperamos para celebrar juntos este dia especial.")}` +
       `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
     function formatDate(dateStr) {
-      if (!dateStr) return "14 de noviembre de 2026";
-      const date = new Date(dateStr);
+      if (!dateStr) return "22 de octubre de 2026";
+      const date = new Date(dateStr + "T00:00:00");
       const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
       return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
     }
@@ -532,10 +550,10 @@
 
   <main class="page">
     <header class="hero">
-      <img src="<%= heroImage %>" alt="Foto principal de la boda" />
+      <img src="<%= heroImage %>" alt="Foto principal del evento" />
       <div class="hero-content">
-        <h1 class="hero-name"><%= event.hero_message || "Nos casamos" %></h1>
-        <p class="hero-title"><%= event.honorees || "Nombre & Nombre" %></p>
+        <div class="hero-kicker">INVITACION &middot; MIS QUINCE</div>
+        <p class="hero-title"><%= event.honorees || "Isabella" %></p>
       </div>
       <div class="hero-countdown" id="hero-countdown" data-date="<%= event.date || "" %>" data-time="<%= event.time || "" %>">
         <div class="hero-count-number" data-unit="days">--</div>
@@ -552,11 +570,11 @@
       <article class="section-card">
         <div class="section-inner">
           <img src="/images/GifDestellos.webp" alt="Destellos" class="section-icon">
-          <h2 class="section-title">¿Cuándo?</h2>
+          <h2 class="section-title">&iquest;Cu&aacute;ndo?</h2>
           <div class="section-divider"></div>
           <div class="info-list">
             <div><%= formatDate(event.date) %></div>
-            <div><%= event.time || "19:30" %> hs</div>
+            <div><%= event.time || "21:00" %> hs</div>
           </div>
           <a class="calendar-btn" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">
             Agregar al calendario
@@ -567,11 +585,11 @@
       <article class="section-card">
         <div class="section-inner">
           <img src="/images/GifMapa.webp" alt="Mapa" class="section-icon">
-          <h2 class="section-title">¿Dónde?</h2>
+          <h2 class="section-title">&iquest;D&oacute;nde?</h2>
           <div class="section-divider"></div>
           <div class="info-list">
-            <div><strong>Lugar:</strong> <%= event.venue_name || "Lugar del evento" %></div>
-            <div><strong>Dirección:</strong> <%= event.venue_address || "Dirección" %></div>
+            <div><strong>Lugar:</strong> <%= event.venue_name || "Salon de fiestas" %></div>
+            <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "Direccion del evento" %></div>
           </div>
         </div>
       </article>
@@ -579,7 +597,8 @@
       <% if (sections && sections.location) { %>
       <article class="section-card">
         <div class="section-inner">
-          <h2 class="section-title">Cómo llegar</h2>
+          <img src="/images/GifMapa.webp" alt="Mapa" class="section-icon">
+          <h2 class="section-title">C&oacute;mo llegar</h2>
           <div class="section-divider"></div>
           <div class="map-wrap">
             <iframe
@@ -593,6 +612,22 @@
       </article>
       <% } %>
 
+      <article class="section-card">
+        <div class="section-inner">
+          <img src="/images/GifRevista.webp" alt="Tarjeta" class="section-icon">
+          <h2 class="section-title">Valor de la Tarjeta</h2>
+          <div class="section-divider"></div>
+          <div class="price-list">
+            <% cardPrices.forEach(function(item) { %>
+              <div class="price-row">
+                <span><%= item.label %></span>
+                <span><%= item.value %></span>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </article>
+
       <% if (sections && sections.dress_code) { %>
       <article class="section-card">
         <div class="section-inner">
@@ -601,68 +636,7 @@
           <div class="section-divider"></div>
           <div class="info-list">
             <div><strong><%= event.dress_code || "Elegante Sport" %></strong></div>
-            <div><%= event.reserved_message || (event.reserved_color ? `El color ${event.reserved_color} se reserva a la novia` : "") %></div>
-          </div>
-        </div>
-      </article>
-      <% } %>
-
-      <% if (sections && sections.itinerary) { %>
-      <article class="section-card">
-        <div class="section-inner">
-          <img src="/images/GifMatrimonio.webp" alt="Matrimonio" class="section-icon">
-          <h2 class="section-title">Itinerario</h2>
-          <div class="section-divider"></div>
-          <div class="itinerary-list">
-          <%
-  let itinerary = {};
-  if (event.itinerary_json) {
-    try {
-      itinerary = JSON.parse(event.itinerary_json);
-    } catch (e) {
-      itinerary = {};
-    }
-  }
-  else if (event.itinerary) {
-    itinerary = event.itinerary;
-  }
-%>
-          <% if (itinerary.ceremony && itinerary.ceremony.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.ceremony %></div>
-            <div class="itinerary-event">Ceremonia</div>
-          </div>
-          <% } %>
-          <% if (itinerary.civil && itinerary.civil.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.civil %></div>
-            <div class="itinerary-event">Civil</div>
-          </div>
-          <% } %>
-          <% if (itinerary.reception && itinerary.reception.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.reception %></div>
-            <div class="itinerary-event">Recepción</div>
-          </div>
-          <% } %>
-          <% if (itinerary.dinner && itinerary.dinner.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.dinner %></div>
-            <div class="itinerary-event">Cena</div>
-          </div>
-          <% } %>
-          <% if (itinerary.party && itinerary.party.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.party %></div>
-            <div class="itinerary-event">Fiesta</div>
-          </div>
-          <% } %>
-          <% if (itinerary.party_end && itinerary.party_end.trim()) { %>
-          <div class="itinerary-item">
-            <div class="itinerary-time"><%= itinerary.party_end %></div>
-            <div class="itinerary-event">Fin de Fiesta</div>
-          </div>
-          <% } %>
+            <div><%= event.reserved_message || (event.reserved_color ? `El color ${event.reserved_color} se reserva a la cumpleañera` : "") %></div>
           </div>
         </div>
       </article>
@@ -671,12 +645,13 @@
       <% if (sections && sections.gallery) { %>
       <article class="section-card">
         <div class="section-inner">
-          <h2 class="section-title">Galería</h2>
+          <img src="/images/GifCamara.webp" alt="Camara" class="section-icon">
+          <h2 class="section-title">Galer&iacute;a</h2>
           <div class="section-divider"></div>
           <div class="gallery-track">
             <% galleryImages.forEach(function(photo) { %>
               <div class="gallery-item" data-photo="<%= photo %>">
-                <img src="<%= photo %>" alt="Foto de galería de la boda" />
+                <img src="<%= photo %>" alt="Foto de galería del evento" />
               </div>
             <% }) %>
           </div>
@@ -686,11 +661,10 @@
 
       <article class="section-card">
         <div class="section-inner" style="text-align: center; padding: 32px 24px;">
+          <img src="/images/GifStar.webp" alt="Estrella" class="section-icon">
           <div style="border-top: 1px solid var(--line); margin-bottom: 20px;"></div>
-          <p style="font-family: 'Cinzel', serif; font-style: italic; font-weight: 400; font-size: 1.15rem; line-height: 1.7; margin: 0 0 20px; color: var(--ink); letter-spacing: 0.03em;">
-            Como el eclipse que transforma el cielo,<br/>
-            nuestro amor transforma nuestras vidas,<br/>
-            en un momento que queda grabado para siempre
+          <p style="font-family: 'Rajdhani', sans-serif; font-weight: 500; font-size: 1.15rem; line-height: 1.7; margin: 0 0 20px; color: var(--ink); letter-spacing: 0.03em;">
+            <%= event.quote_message || "Como estrella de un mismo cielo, voy a esperar en cada luna, recordar mi niñez, para que ese brillo especial nunca se pierda en la inmensidad del universo." %>
           </p>
           <div style="border-bottom: 1px solid var(--line);"></div>
         </div>
@@ -700,78 +674,58 @@
       <article class="section-card">
         <div class="section-inner">
           <img src="/images/GifRegalo.webp" alt="Regalo" class="section-icon">
-          <h2 class="section-title">Obsequio</h2>
+          <h2 class="section-title">Regalo</h2>
           <div class="section-divider"></div>
-          <p class="section-sub"><%= event.gift_message || "Tu presencia es el mejor regalo. Pero si querés hacernos un obsequio, podés contribuir a nuestra luna de miel:" %></p>
-          <button type="button" class="gift-toggle" id="gift-toggle">
-            Ver datos para regalo
-          </button>
-          <div class="gift-box" id="gift-box">
-            <div><strong>Alias:</strong> <%= giftAlias %></div>
-            <div><strong>CBU:</strong> <%= giftCbu %></div>
-            <div><strong>Titular:</strong> <%= event.gift_holder || "Nombre del titular" %></div>
-          </div>
+          <p class="section-sub"><%= event.gift_message || "Con tu presencia alcanza, pero si deseas hacerme un regalo será recibido con mucho amor." %></p>
         </div>
       </article>
       <% } %>
 
-      <% if (sections && sections.gallery2) { %>
-      <article class="section-card">
-        <div class="section-inner">
-          <div class="gallery-track">
-            <% gallery2Images.forEach(function(photo) { %>
-              <div class="gallery-item" data-photo="<%= photo %>">
-                <img src="<%= photo %>" alt="Foto de galería de la boda" />
-              </div>
-            <% }) %>
-          </div>
-        </div>
-      </article>
-      <% } %>
     </section>
 
     <section class="rsvp-section" style="margin-top:16px;">
       <h2 class="section-title">Confirmar asistencia</h2>
       <div class="section-divider"></div>
-      <p class="section-sub">Por favor completá este formulario para ayudarnos a organizar mejor.</p>
-      <form action="/api/<%= event.slug %>/rsvp" method="post">
+      <p class="section-sub">&iexcl;Quiero saber si vas a estar! Complet&aacute; tus datos ac&aacute; abajo.</p>
+      <form action="/api/<%= event.slug %>/rsvp" method="post" id="rsvp-form">
         <div class="rsvp-grid">
           <div class="rsvp-field full">
             <label for="contact_name">Nombre de quien confirma</label>
             <input type="text" id="contact_name" name="contact_name" required>
           </div>
           <div class="rsvp-field">
-            <label for="people_count">¿Cuántas personas van?</label>
+            <label for="people_count">&iquest;Cu&aacute;ntos vienen?</label>
             <input type="number" id="people_count" name="people_count" min="1" value="1" required>
           </div>
           <div class="rsvp-field">
             <label for="status">Asistencia</label>
             <select id="status" name="status">
-              <option value="confirmed">Asistiremos</option>
-              <option value="declined">No podemos asistir</option>
+              <option value="confirmed">Voy / Vamos</option>
+              <option value="declined">No puedo ir</option>
             </select>
           </div>
           <div class="rsvp-field full">
-            <label for="people_names">Nombre y apellido de todos los que te acompañan</label>
-            <textarea id="people_names" name="people_names" placeholder="Ej: Juan Pérez, Ana Gómez, Sofía López"></textarea>
+            <label for="people_names">Nombre y apellido de todos los que te acompa&ntilde;an</label>
+            <textarea id="people_names" name="people_names" placeholder="Ej: Juan Perez, Ana Gomez, Sofia Lopez"></textarea>
           </div>
           <div class="rsvp-field full">
             <label for="food_preferences">Preferencias de comida</label>
-            <textarea id="food_preferences" name="food_preferences" placeholder="Aclaraciones sobre alergias, vegetarianos, etc."></textarea>
+            <textarea id="food_preferences" name="food_preferences" placeholder="Aclaraciones sobre comida"></textarea>
           </div>
           <% if (sections && sections.music) { %>
-          <div class="rsvp-field full">
-            <label for="song_suggestions">Sugerencias de canciones</label>
-            <textarea id="song_suggestions" name="song_suggestions" placeholder="Temas que te gustaría escuchar en la fiesta"></textarea>
-          </div>
+            <div class="rsvp-field full">
+              <label for="song_suggestions">Temas que no pueden faltar</label>
+              <textarea id="song_suggestions" name="song_suggestions" placeholder="Decime que canciones queres bailar"></textarea>
+            </div>
           <% } %>
           <div class="rsvp-field full">
-            <label for="comments">Comentarios adicionales</label>
+            <label for="comments">Mensajito para m&iacute;</label>
             <textarea id="comments" name="comments"></textarea>
           </div>
         </div>
-        <button type="submit" class="send-btn">Enviar confirmación</button>
+        <button type="submit" class="send-btn">Enviar confirmaci&oacute;n</button>
       </form>
+      <div class="rsvp-result" id="rsvp-result" aria-live="polite"></div>
     </section>
   </main>
 
@@ -782,12 +736,18 @@
 
   <script>
     (function() {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() { document.documentElement.classList.add("fonts-ready"); });
+      } else {
+        document.documentElement.classList.add("fonts-ready");
+      }
+
       const qs = new URLSearchParams(window.location.search);
       if (qs.get("rsvp") === "ok") {
-        window.alert("Gracias por confirmar tu asistencia.");
         qs.delete("rsvp");
         const clean = window.location.pathname + (qs.toString() ? "?" + qs.toString() : "");
         window.history.replaceState({}, "", clean);
+        showRsvpResult(false);
       }
 
       const el = document.getElementById("hero-countdown");
@@ -818,14 +778,37 @@
         }
       }
 
-      const giftToggle = document.getElementById("gift-toggle");
-      const giftBox = document.getElementById("gift-box");
-      if (giftToggle && giftBox) {
-        giftToggle.addEventListener("click", function() {
-          giftBox.classList.toggle("visible");
-          giftToggle.textContent = giftBox.classList.contains("visible")
-            ? "Ocultar datos para regalo"
-            : "Ver datos para regalo";
+      const rsvpForm = document.getElementById("rsvp-form");
+      const rsvpResult = document.getElementById("rsvp-result");
+      const sendBtn = rsvpForm ? rsvpForm.querySelector(".send-btn") : null;
+      function showRsvpResult(loading) {
+        if (!rsvpForm || !rsvpResult) return;
+        rsvpForm.style.display = "none";
+        rsvpResult.classList.add("visible");
+        rsvpResult.innerHTML = loading
+          ? '<span class="rsvp-spinner"></span><p class="section-sub" style="margin:0;">Enviando confirmacion...</p>'
+          : '<h3 class="section-title" style="font-size:1.35rem;margin-bottom:10px;">Gracias por confirmar</h3><p class="section-sub" style="margin:0;">&iexcl;La vamos a pasar muy bien!</p>';
+      }
+      if (rsvpForm) {
+        rsvpForm.addEventListener("submit", async function(e) {
+          e.preventDefault();
+          if (sendBtn) sendBtn.classList.add("is-loading");
+          showRsvpResult(true);
+          try {
+            const response = await fetch(rsvpForm.action, {
+              method: "POST",
+              body: new URLSearchParams(new FormData(rsvpForm)),
+              headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+            });
+            if (!response.ok) throw new Error("No se pudo enviar");
+            setTimeout(function() { showRsvpResult(false); }, 900);
+          } catch (error) {
+            rsvpForm.style.display = "";
+            rsvpResult.classList.remove("visible");
+            rsvpResult.innerHTML = "";
+            if (sendBtn) sendBtn.classList.remove("is-loading");
+            window.alert("No pudimos enviar la confirmacion. Intentá nuevamente.");
+          }
         });
       }
 
