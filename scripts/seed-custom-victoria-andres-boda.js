@@ -38,12 +38,12 @@ const shared = {
   reserved_message: "El color blanco se reserva a la novia.",
   hero_message: "Como un sueño que se hace realidad",
   quote_message: "Como un sueño que se hace realidad,\nnuestro amor fluye suavemente,\ny en este momento se vuelve eterno",
-  hero_image: "/images/events/victoria-andres/portada.jpeg",
+  hero_image: "/images/events/victoria-andres/2.jpeg?v=20260603",
   sections,
   sections_json: JSON.stringify(sections),
   gallery: [
     "/images/events/victoria-andres/1.jpeg",
-    "/images/events/victoria-andres/2.jpeg",
+    "/images/events/victoria-andres/portada.jpeg",
     "/images/events/victoria-andres/3.jpeg",
   ],
   gallery2: [

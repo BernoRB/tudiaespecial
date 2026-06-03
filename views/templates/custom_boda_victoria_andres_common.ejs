@@ -5,12 +5,19 @@
   const customData = event.custom_data || {};
   const themeKey = locals.theme || customData.theme || "classic";
   const endTime = customData.end_time || "03:00";
-  const heroImage = event.hero_image || "/images/events/victoria-andres/portada.jpeg";
-  const galleryImages = Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
+  const heroImage = "/images/events/victoria-andres/2.jpeg?v=20260603";
+  const normalizeGallery = function(photos) {
+    return photos.map(function(photo) {
+      return String(photo).includes("/images/events/victoria-andres/2.jpeg")
+        ? "/images/events/victoria-andres/portada.jpeg"
+        : photo;
+    });
+  };
+  const galleryImages = normalizeGallery(Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
     "/images/events/victoria-andres/1.jpeg",
-    "/images/events/victoria-andres/2.jpeg",
+    "/images/events/victoria-andres/portada.jpeg",
     "/images/events/victoria-andres/3.jpeg"
-  ];
+  ]);
   const gallery2Images = Array.isArray(event.gallery2) && event.gallery2.length ? event.gallery2 : [
     "/images/events/victoria-andres/4.jpeg",
     "/images/events/victoria-andres/5.jpeg",

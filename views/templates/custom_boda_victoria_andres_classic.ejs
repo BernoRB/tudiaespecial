@@ -6,7 +6,7 @@
   description: (event.honorees || "Victoria & Andrés") + " - " + (event.venue_name || "") + ". Invitación digital con confirmación de asistencia, ubicación y agenda.",
   keywords: "invitación digital bodas, Victoria y Andrés, Sum Eventos, Rosario",
   url: "https://tudiaespecial.com" + req.originalUrl,
-  image: "https://tudiaespecial.com" + (event.hero_image || "/images/events/victoria-andres/portada.jpeg"),
+  image: "https://tudiaespecial.com/images/events/victoria-andres/2.jpeg?v=20260603",
   type: "article"
 }) %>
 
@@ -414,12 +414,19 @@
 </head>
 <body>
   <%
-    const heroImage = event.hero_image || "/images/events/victoria-andres/portada.jpeg";
-    const galleryImages = event.gallery && Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
+    const heroImage = "/images/events/victoria-andres/2.jpeg?v=20260603";
+    const normalizeGallery = function(photos) {
+      return photos.map(function(photo) {
+        return String(photo).includes("/images/events/victoria-andres/2.jpeg")
+          ? "/images/events/victoria-andres/portada.jpeg"
+          : photo;
+      });
+    };
+    const galleryImages = normalizeGallery(event.gallery && Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
       "/images/events/victoria-andres/1.jpeg",
-      "/images/events/victoria-andres/2.jpeg",
+      "/images/events/victoria-andres/portada.jpeg",
       "/images/events/victoria-andres/3.jpeg"
-    ];
+    ]);
     const gallery2Images = event.gallery2 && Array.isArray(event.gallery2) && event.gallery2.length ? event.gallery2 : [
       "/images/events/victoria-andres/4.jpeg",
       "/images/events/victoria-andres/5.jpeg",
