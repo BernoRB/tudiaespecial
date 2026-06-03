@@ -263,6 +263,7 @@
       width: 100%;
     }
     .rsvp-success { display: none; padding: 24px 12px; text-align: center; }
+    .rsvp.success .rsvp-intro { display: none; }
     .rsvp.success .rsvp-form { display: none; }
     .rsvp.success .rsvp-success { display: block; }
     .spinner { width: 28px; height: 28px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 14px; animation: spin .8s linear infinite; }
@@ -568,9 +569,11 @@
     </section>
 
     <section class="card rsvp" id="rsvp" style="margin-top:16px;">
-      <h2 class="title">Confirmar asistencia</h2>
-      <div class="divider"></div>
-      <p class="sub">Por favor completá este formulario para ayudarnos a organizar mejor.</p>
+      <div class="rsvp-intro">
+        <h2 class="title">Confirmar asistencia</h2>
+        <div class="divider"></div>
+        <p class="sub">Por favor completá este formulario para ayudarnos a organizar mejor.</p>
+      </div>
       <form class="rsvp-form" action="/api/<%= event.slug %>/rsvp" method="post">
         <div class="rsvp-grid">
           <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input type="text" id="contact_name" name="contact_name" required></div>
@@ -614,13 +617,20 @@
           const button = form.querySelector(".send-btn");
           if (button) button.textContent = "Enviando...";
           try {
-            await fetch(form.action, { method: "POST", body: new FormData(form), credentials: "same-origin" });
+            const response = await fetch(form.action, {
+              method: "POST",
+              body: new URLSearchParams(new FormData(form)),
+              headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+              credentials: "same-origin"
+            });
+            if (!response.ok) throw new Error("No se pudo enviar");
             rsvp.classList.add("success");
             const spinner = rsvp.querySelector("[data-spinner]");
             if (spinner) setTimeout(function(){ spinner.style.display = "none"; }, 850);
             rsvp.scrollIntoView({ behavior: "smooth", block: "center" });
           } catch (error) {
-            form.submit();
+            if (button) button.textContent = "Enviar confirmación";
+            window.alert("No pudimos enviar la confirmación. Intentá nuevamente.");
           }
         });
       }
