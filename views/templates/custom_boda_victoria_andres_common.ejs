@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%
+  const customData = event.custom_data || {};
+  const themeKey = locals.theme || customData.theme || "classic";
+  const endTime = customData.end_time || "03:00";
+  const heroImage = event.hero_image || "/images/events/victoria-andres/portada.jpeg";
+  const galleryImages = Array.isArray(event.gallery) && event.gallery.length ? event.gallery : [
+    "/images/events/victoria-andres/1.jpeg",
+    "/images/events/victoria-andres/2.jpeg",
+    "/images/events/victoria-andres/3.jpeg"
+  ];
+  const gallery2Images = Array.isArray(event.gallery2) && event.gallery2.length ? event.gallery2 : [
+    "/images/events/victoria-andres/4.jpeg",
+    "/images/events/victoria-andres/5.jpeg",
+    "/images/events/victoria-andres/6.jpeg",
+    "/images/events/victoria-andres/7.jpeg"
+  ];
+  const quoteLines = String(event.quote_message || "Como un sueño que se hace realidad,\nnuestro amor fluye suavemente,\ny en este momento se vuelve eterno").split(/\r?\n/).filter(Boolean);
+  const mapsQuery = encodeURIComponent(event.venue_address || event.venue_name || "Rosario, Argentina");
+  const eventDateForCalendar = event.date || "2026-10-30";
+  const eventTimeForCalendar = event.time || "21:00";
+  function calendarStamp(date, time) {
+    return String(date).replace(/-/g, "") + "T" + String(time).replace(":", "") + "00";
+  }
+  function nextDate(value) {
+    const parts = String(value).split("-").map(Number);
+    const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+    d.setUTCDate(d.getUTCDate() + 1);
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
+  }
+  const endDateForCalendar = endTime < eventTimeForCalendar ? nextDate(eventDateForCalendar) : eventDateForCalendar;
+  const googleCalendarUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+    `&text=${encodeURIComponent(`Boda - ${event.honorees || "Victoria & Andrés"}`)}` +
+    `&dates=${calendarStamp(eventDateForCalendar, eventTimeForCalendar)}/${calendarStamp(endDateForCalendar, endTime)}` +
+    `&ctz=America/Argentina/Buenos_Aires` +
+    `&details=${encodeURIComponent("Nos encantaria contar con tu presencia en este dia especial.")}` +
+    `&location=${encodeURIComponent(event.venue_address || event.venue_name || "")}`;
+  function formatDate(value) {
+    if (!value) return "30 de octubre de 2026";
+    const parts = String(value).split("-").map(Number);
+    const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+    return new Intl.DateTimeFormat("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d);
+  }
+%>
+<%- include('../partials/meta-tags', {
+  title: (event.honorees || "Victoria & Andrés") + " - Nuestra Boda",
+  description: (event.honorees || "Victoria & Andrés") + " - Te invitamos a celebrar nuestra boda.",
+  keywords: "boda victoria andres, invitacion digital boda, casamiento rosario",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  image: "https://tudiaespecial.com" + heroImage,
+  type: "article"
+}) %>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Italiana&family=Marcellus&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
+  :root {
+    --bg: #f7efe8;
+    --paper: #fffaf5;
+    --paper-2: #f2e5d8;
+    --ink: #44312b;
+    --muted: #8f766d;
+    --accent: #b98b78;
+    --accent-2: #dcc4aa;
+    --line: rgba(130, 91, 76, .22);
+    --shadow: 0 24px 60px rgba(98, 66, 54, .14);
+    --serif: "Cormorant Garamond", serif;
+    --display: "Playfair Display", serif;
+    --sans: "Montserrat", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--bg);
+    font-family: var(--sans);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+  }
+  .page { width: min(1120px, calc(100% - 24px)); margin: 0 auto; padding: 16px 0 58px; }
+  .hero, .card, .rsvp { position: relative; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .hero { min-height: 76vh; margin-bottom: 18px; isolation: isolate; }
+  .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; }
+  .hero-content { min-height: 76vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; text-align: center; padding: 36px 18px; color: #fffaf5; }
+  .kicker { text-transform: uppercase; letter-spacing: .22em; font-size: .72rem; margin-bottom: 8px; }
+  .names { margin: 0; line-height: .9; font-family: var(--display); font-size: clamp(3.1rem, 14vw, 7.2rem); font-weight: 500; }
+  .hero-message { margin: 14px 0 0; font-family: var(--serif); font-style: italic; font-size: clamp(1.1rem, 4vw, 1.6rem); }
+  .hero-date { margin-top: 18px; letter-spacing: .16em; text-transform: uppercase; font-size: .86rem; }
+  .section-stack { display: grid; gap: 18px; }
+  .card, .rsvp { background: var(--paper); }
+  .inner { padding: 36px 22px; text-align: center; }
+  .eyebrow { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .title { margin: 0; font-family: var(--display); font-size: clamp(1.7rem, 8vw, 3rem); font-weight: 500; }
+  .sub { margin: 14px auto 0; max-width: 620px; color: var(--muted); line-height: 1.65; font-size: .98rem; }
+  .divider { width: 90px; height: 20px; margin: 18px auto; color: var(--accent); }
+  .divider svg { width: 100%; height: 100%; display: block; }
+  .section-icon {
+    width: 72px;
+    height: 72px;
+    display: block;
+    object-fit: contain;
+    margin: 0 auto 18px;
+    padding: 9px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #765a4e;
+    box-shadow: 0 12px 24px rgba(98, 66, 54, .16);
+    filter: sepia(.05) saturate(.92);
+  }
+  .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+  .count-box { padding: 14px 5px; border: 1px solid var(--line); background: rgba(255,255,255,.42); }
+  .count-number { display: block; font-family: var(--display); font-size: 1.55rem; color: var(--ink); }
+  .count-label { display: block; margin-top: 3px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: .62rem; }
+  .button, .send-btn, .gift-toggle {
+    appearance: none;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fffaf5;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    margin-top: 20px;
+    font: 600 .72rem var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .16em;
+  }
+  .info-list { display: grid; gap: 12px; color: var(--muted); line-height: 1.6; font-size: 1.02rem; }
+  .info-list strong { color: var(--ink); font-weight: 600; }
+  .two-col { display: grid; gap: 16px; }
+  .mini-card { border: 1px solid var(--line); background: rgba(255,255,255,.38); padding: 18px; }
+  .map-wrap { margin-top: 20px; border: 1px solid var(--line); overflow: hidden; background: var(--paper-2); }
+  .map-wrap iframe { display: block; width: 100%; height: 280px; border: 0; filter: saturate(.82) contrast(.95); }
+  .gallery-track { display: grid; grid-auto-flow: column; grid-auto-columns: 76%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+  .gallery-item { aspect-ratio: 4/5; overflow: hidden; border: 1px solid var(--line); cursor: pointer; scroll-snap-align: start; background: var(--paper-2); }
+  .gallery-item img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .gallery-item:hover img { transform: scale(1.045); }
+  .quote { font-family: var(--serif); font-size: clamp(1.25rem, 5vw, 2rem); line-height: 1.35; color: var(--ink); }
+  .quote span { display: block; }
+  .gift-box { display: none; margin-top: 14px; padding: 16px; border: 1px solid var(--line); color: var(--muted); line-height: 1.7; }
+  .gift-box.visible { display: grid; gap: 5px; }
+  .rsvp { margin-top: 18px; }
+  .rsvp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { display: block; margin-bottom: 5px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; font-size: .68rem; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.7);
+    color: var(--ink);
+    padding: 11px 12px;
+    font: 400 .92rem var(--sans);
+    border-radius: 0;
+  }
+  .field textarea { min-height: 78px; resize: vertical; }
+  .send-btn { width: 100%; }
+  .rsvp-success { display: none; padding: 24px 12px; text-align: center; }
+  .rsvp.success .rsvp-form { display: none; }
+  .rsvp.success .rsvp-success { display: block; }
+  .spinner { width: 28px; height: 28px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; margin: 0 auto 14px; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(35, 25, 22, .92); align-items: center; justify-content: center; padding: 18px; }
+  .lightbox.visible { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 86vh; object-fit: contain; box-shadow: 0 24px 80px rgba(0,0,0,.34); }
+  .lightbox-close { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.4); background: rgba(255,255,255,.12); color: white; cursor: pointer; font-size: 1.4rem; }
+
+  .theme-classic {
+    --bg: #f8f0ea;
+    --paper: #fffaf6;
+    --paper-2: #f1e1d5;
+    --ink: #4b342d;
+    --muted: #93796f;
+    --accent: #b68776;
+    --accent-2: #e2c6b5;
+    --display: "Cormorant Garamond", serif;
+    --sans: "Montserrat", sans-serif;
+  }
+  .theme-classic body::before, body.theme-classic::before {
+    background:
+      radial-gradient(circle at 8% 5%, rgba(255,255,255,.9), transparent 28%),
+      radial-gradient(circle at 95% 8%, rgba(222,190,172,.35), transparent 34%),
+      linear-gradient(135deg, #f8f0ea, #efe1d4);
+  }
+  .theme-classic .hero { border-radius: 18px; }
+  .theme-classic .hero::after { background: linear-gradient(to top, rgba(63,42,35,.78), rgba(63,42,35,.24) 52%, rgba(255,250,246,.12)); }
+  .theme-classic .card, .theme-classic .rsvp { border-radius: 18px; }
+  .theme-classic .button, .theme-classic .send-btn, .theme-classic .gift-toggle { border-radius: 999px; }
+  .theme-classic .gallery-item, .theme-classic .map-wrap, .theme-classic .mini-card, .theme-classic .gift-box { border-radius: 14px; }
+
+  .theme-editorial {
+    --bg: #f8f0e7;
+    --paper: rgba(255,250,244,.9);
+    --paper-2: #eee0d2;
+    --ink: #46342d;
+    --muted: #937568;
+    --accent: #b88978;
+    --accent-2: #e3c8b8;
+    --line: rgba(178, 132, 110, .3);
+    --shadow: 0 20px 48px rgba(137, 96, 76, .14);
+    --display: "Italiana", serif;
+    --serif: "Cormorant Garamond", serif;
+    --sans: "Inter", sans-serif;
+  }
+  body.theme-editorial::before {
+    background:
+      linear-gradient(90deg, rgba(178,132,110,.08) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(178,132,110,.06) 1px, transparent 1px),
+      radial-gradient(circle at 0 0, rgba(227,200,184,.5), transparent 30%),
+      linear-gradient(135deg, #fff8f1, #f1e2d4);
+    background-size: 42px 42px, 42px 42px, auto, auto;
+  }
+  body.theme-editorial::after {
+    content: "";
+    position: fixed;
+    right: -70px;
+    top: 70px;
+    width: 340px;
+    height: 430px;
+    pointer-events: none;
+    opacity: .22;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 260 360' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23b88978' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M130 340C120 255 119 168 138 54'/%3E%3Cpath d='M135 126c-52-22-84-10-97 37 46 14 78 2 97-37Z'/%3E%3Cpath d='M142 180c55-30 92-18 111 36-50 21-88 9-111-36Z'/%3E%3Cpath d='M124 246c-42-22-72-14-91 25 40 18 70 10 91-25Z'/%3E%3Cpath d='M146 84c32-51 68-55 94-14-25 39-58 44-94 14Z'/%3E%3C/g%3E%3Cg fill='%23d9b7a6' opacity='.55'%3E%3Ccircle cx='145' cy='48' r='13'/%3E%3Ccircle cx='122' cy='58' r='11'/%3E%3Ccircle cx='156' cy='70' r='12'/%3E%3Ccircle cx='132' cy='82' r='10'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .theme-editorial .page { width: min(1180px, calc(100% - 18px)); }
+  .theme-editorial .hero { display: grid; min-height: 82vh; background: var(--paper); border-radius: 0; }
+  .theme-editorial .hero-photo { position: relative; min-height: 48vh; height: 100%; }
+  .theme-editorial .hero::after { background: linear-gradient(to bottom, rgba(35,45,31,.18), rgba(35,45,31,.04)); }
+  .theme-editorial .hero-content { justify-content: center; min-height: 36vh; color: var(--ink); background: linear-gradient(135deg, rgba(255,250,244,.95), rgba(238,224,210,.9)); padding: 30px 22px; }
+  .theme-editorial .names { font-size: clamp(3rem, 13vw, 6.6rem); letter-spacing: .02em; }
+  .theme-editorial .kicker, .theme-editorial .hero-date { color: var(--accent); }
+  .theme-editorial .card, .theme-editorial .rsvp { border-radius: 2px 34px 2px 34px; backdrop-filter: blur(8px); }
+  .theme-editorial .inner { padding: 42px 24px; }
+  .theme-editorial .button, .theme-editorial .send-btn, .theme-editorial .gift-toggle { border-radius: 2px 20px 2px 20px; box-shadow: 0 14px 28px rgba(137,96,76,.16); }
+  .theme-editorial .gallery-track { grid-auto-columns: 70%; }
+  .theme-editorial .gallery-item { border-radius: 44% 44% 4px 4px; }
+  .theme-editorial .mini-card { border-radius: 2px 22px; }
+  .theme-editorial .section-icon { background: #73584d; filter: sepia(.08) saturate(.88); border-color: rgba(255,250,244,.72); }
+  .theme-editorial .hero-content::before {
+    content: "";
+    width: 118px;
+    height: 64px;
+    margin-bottom: 16px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: .72;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23b88978' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M22 58c27-34 84-34 116 0'/%3E%3Cpath d='M54 46c-25-8-36 2-43 20 23 7 36-1 43-20Z'/%3E%3Cpath d='M106 46c25-8 36 2 43 20-23 7-36-1-43-20Z'/%3E%3C/g%3E%3Cg fill='%23d8b7a7' opacity='.75'%3E%3Ccircle cx='80' cy='24' r='8'/%3E%3Ccircle cx='66' cy='30' r='7'/%3E%3Ccircle cx='94' cy='30' r='7'/%3E%3Ccircle cx='80' cy='39' r='6'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .theme-champagne {
+    --bg: #f6eee2;
+    --paper: rgba(255, 250, 241, .93);
+    --paper-2: #eadcc8;
+    --ink: #4a3527;
+    --muted: #8a725d;
+    --accent: #b99459;
+    --accent-2: #f4dfb8;
+    --line: rgba(198,160,94,.34);
+    --shadow: 0 28px 80px rgba(128, 91, 52, .18);
+    --display: "Allura", cursive;
+    --serif: "Marcellus", serif;
+    --sans: "Inter", sans-serif;
+  }
+  body.theme-champagne::before {
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255,239,190,.55), transparent 26%),
+      radial-gradient(circle at 82% 6%, rgba(255,255,255,.72), transparent 20%),
+      radial-gradient(circle at 50% 100%, rgba(198,160,94,.2), transparent 36%),
+      linear-gradient(135deg, #fff8ef, #ead9c4 46%, #f8efe5);
+  }
+  .theme-champagne .page { width: 100%; padding-top: 0; }
+  .theme-champagne .hero { min-height: 92vh; border: 0; border-radius: 0; margin-bottom: 0; }
+  .theme-champagne .hero-content { min-height: 92vh; justify-content: center; padding: 36px 20px; text-shadow: 0 10px 34px rgba(0,0,0,.42); }
+  .theme-champagne .hero::after { background: radial-gradient(circle, rgba(255,243,210,.18), transparent 45%), linear-gradient(to top, rgba(77,52,36,.66), rgba(77,52,36,.12) 44%, rgba(255,248,238,.2)); }
+  .theme-champagne .names { font-size: clamp(4.4rem, 20vw, 9.5rem); font-weight: 400; }
+  .theme-champagne .section-stack, .theme-champagne .rsvp { width: min(1080px, calc(100% - 24px)); margin-left: auto; margin-right: auto; }
+  .theme-champagne .section-stack { margin-top: -38px; position: relative; z-index: 3; }
+  .theme-champagne .card, .theme-champagne .rsvp { border-radius: 0; }
+  .theme-champagne .title { font-family: var(--serif); text-transform: uppercase; letter-spacing: .07em; font-size: clamp(1.4rem, 7vw, 2.45rem); }
+  .theme-champagne .button, .theme-champagne .send-btn, .theme-champagne .gift-toggle { background: linear-gradient(135deg, #9f773b, #d9b86d); border-color: #d9b86d; color: #fffaf0; box-shadow: 0 18px 36px rgba(118,82,35,.22); border-radius: 0; }
+  .theme-champagne .gallery-track { grid-auto-columns: 78%; }
+  .theme-champagne .gallery-item { border-radius: 0; box-shadow: inset 0 0 0 8px rgba(255,248,234,.18); }
+  .theme-champagne .count-box { background: rgba(255,248,234,.62); }
+  .theme-champagne .section-icon { background: #74533f; filter: sepia(.08) saturate(.88); border-color: rgba(255,248,234,.72); }
+
+  @media (min-width: 820px) {
+    .page { padding-top: 28px; padding-bottom: 84px; }
+    .section-stack { gap: 28px; }
+    .inner { padding: 54px 48px; }
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .countdown { gap: 14px; }
+    .count-box { padding: 20px 10px; }
+    .count-number { font-size: 2rem; }
+    .gallery-track { grid-auto-flow: initial; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+    .gallery-track.gallery-four { grid-template-columns: repeat(4, 1fr); }
+    .gallery-item { aspect-ratio: 4/5; }
+    .rsvp-grid { gap: 16px; }
+    .theme-editorial .hero, .theme-champagne .hero { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 82vh; background: var(--paper); }
+    .theme-editorial .hero-photo, .theme-champagne .hero-photo { position: relative; inset: auto; z-index: 0; min-height: 82vh; height: 100%; }
+    .theme-editorial .hero-content, .theme-champagne .hero-content { min-height: 82vh; }
+    .theme-editorial .hero::after, .theme-champagne .hero::after { display: none; }
+    .theme-champagne .hero { margin-bottom: 28px; border: 1px solid var(--line); }
+    .theme-champagne .hero-content { color: var(--ink); text-shadow: none; background: linear-gradient(135deg, rgba(255,250,241,.95), rgba(234,220,200,.88)); }
+    .theme-champagne .section-stack { margin-top: 0; }
+  }
+  @media (max-width: 520px) {
+    .page { width: calc(100% - 16px); padding-top: 8px; }
+    .hero, .hero-content { min-height: 74vh; }
+    .inner { padding: 30px 16px; }
+    .rsvp-grid { grid-template-columns: 1fr; }
+    .countdown { gap: 6px; }
+    .count-number { font-size: 1.3rem; }
+    .count-label { font-size: .56rem; }
+    .theme-champagne .page { width: 100%; }
+    .theme-champagne .section-stack, .theme-champagne .rsvp { width: calc(100% - 16px); }
+  }
+</style>
+</head>
+<body class="theme-<%= themeKey %>">
+  <main class="page">
+    <header class="hero">
+      <img class="hero-photo" src="<%= heroImage %>" alt="Foto principal de la boda de Victoria y Andrés">
+      <div class="hero-content">
+        <div class="kicker">Invitaci&oacute;n &middot; Boda</div>
+        <h1 class="names"><%= event.honorees || "Victoria & Andrés" %></h1>
+        <p class="hero-message"><%= event.hero_message || "Como un sueño que se hace realidad" %></p>
+        <div class="hero-date"><%= formatDate(event.date) %></div>
+      </div>
+    </header>
+
+    <section class="section-stack">
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifReloj.webp" alt="Reloj" class="section-icon">
+          <h2 class="title">Cuenta regresiva</h2>
+          <div class="divider"><svg viewBox="0 0 120 24" aria-hidden="true"><path d="M4 12h38M78 12h38" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M60 3c10 7 10 11 0 18C50 14 50 10 60 3Z" fill="currentColor" opacity=".72"/></svg></div>
+          <p class="sub">Cada segundo nos acerca al d&iacute;a en que celebramos nuestro amor.</p>
+          <div class="countdown" id="countdown" data-date="<%= event.date || '' %>" data-time="<%= event.time || '' %>">
+            <div class="count-box"><span class="count-number" data-unit="days">--</span><span class="count-label">D&iacute;as</span></div>
+            <div class="count-box"><span class="count-number" data-unit="hours">--</span><span class="count-label">Horas</span></div>
+            <div class="count-box"><span class="count-number" data-unit="minutes">--</span><span class="count-label">Min</span></div>
+            <div class="count-box"><span class="count-number" data-unit="seconds">--</span><span class="count-label">Seg</span></div>
+          </div>
+          <a class="button" href="<%= googleCalendarUrl %>" target="_blank" rel="noopener noreferrer">Agregar al calendario</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifMapa.webp" alt="Mapa" class="section-icon">
+          <div class="eyebrow">Cu&aacute;ndo & d&oacute;nde</div>
+          <h2 class="title">Informaci&oacute;n del evento</h2>
+          <div class="divider"><svg viewBox="0 0 120 24" aria-hidden="true"><path d="M8 12c20-12 34-12 52 0s32 12 52 0" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+          <div class="two-col">
+            <div class="mini-card info-list">
+              <div><strong>Fecha:</strong> <%= formatDate(event.date) %></div>
+              <div><strong>Horario:</strong> <%= event.time || "21:00" %> hs a <%= endTime %> hs</div>
+            </div>
+            <div class="mini-card info-list">
+              <div><strong>Lugar:</strong> <%= event.venue_name || "Sum Eventos" %></div>
+              <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "San Luis 514, Rosario, Argentina" %></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <% if (sections && sections.location) { %>
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifMapa.webp" alt="Mapa" class="section-icon">
+          <div class="eyebrow">C&oacute;mo llegar</div>
+          <h2 class="title">Mapa del sal&oacute;n</h2>
+          <p class="sub">Sum Eventos, en Rosario. Toc&aacute; el mapa para ver el recorrido.</p>
+          <div class="map-wrap">
+            <iframe title="Mapa del evento" src="https://www.google.com/maps?q=<%= mapsQuery %>&output=embed" loading="lazy"></iframe>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.dress_code) { %>
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifDiamante.webp" alt="Dress code" class="section-icon">
+          <div class="eyebrow">Dress code</div>
+          <h2 class="title"><%= event.dress_code || "Elegante Sport" %></h2>
+          <p class="sub"><%= event.reserved_message || "El color blanco se reserva a la novia." %></p>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.gallery) { %>
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifCamara.webp" alt="Galería" class="section-icon">
+          <div class="eyebrow">Galer&iacute;a</div>
+          <h2 class="title">Nuestra historia</h2>
+          <div class="gallery-track">
+            <% galleryImages.forEach(function(photo) { %>
+              <div class="gallery-item" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto de Victoria y Andrés"></div>
+            <% }) %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifCOrazon.webp" alt="Corazón" class="section-icon">
+          <div class="divider"><svg viewBox="0 0 120 24" aria-hidden="true"><path d="M4 12h38M78 12h38" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="60" cy="12" r="5" fill="currentColor"/></svg></div>
+          <div class="quote">
+            <% quoteLines.forEach(function(line) { %><span><%= line %></span><% }) %>
+          </div>
+          <div class="divider"><svg viewBox="0 0 120 24" aria-hidden="true"><path d="M4 12h38M78 12h38" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="60" cy="12" r="5" fill="currentColor"/></svg></div>
+        </div>
+      </article>
+
+      <% if (sections && sections.gifts) { %>
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifRegalo.webp" alt="Regalo" class="section-icon">
+          <div class="eyebrow">Obsequio</div>
+          <h2 class="title">Gracias por acompa&ntilde;arnos</h2>
+          <p class="sub"><%= event.gift_message || "Tu presencia es el mejor regalo. Si dese&aacute;s hacernos un obsequio, te dejamos nuestros datos." %></p>
+          <button type="button" class="gift-toggle" id="gift-toggle">Ver datos para regalo</button>
+          <div class="gift-box" id="gift-box">
+            <div><strong>Alias:</strong> <%= event.gift_alias || "maria.victoria1705" %></div>
+            <div><strong>CBU:</strong> <%= event.gift_cbu || "0000003100053556152329" %></div>
+            <% if (event.gift_holder) { %><div><strong>Titular:</strong> <%= event.gift_holder %></div><% } %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+
+      <% if (sections && sections.gallery2) { %>
+      <article class="card">
+        <div class="inner">
+          <img src="/images/GifCamara.webp" alt="Momentos" class="section-icon">
+          <div class="eyebrow">Momentos</div>
+          <h2 class="title">Para guardar</h2>
+          <div class="gallery-track gallery-four">
+            <% gallery2Images.forEach(function(photo) { %>
+              <div class="gallery-item" data-photo="<%= photo %>"><img src="<%= photo %>" alt="Foto de Victoria y Andrés"></div>
+            <% }) %>
+          </div>
+        </div>
+      </article>
+      <% } %>
+    </section>
+
+    <section class="card rsvp" id="rsvp">
+      <div class="inner">
+        <img src="/images/GifEmail.webp" alt="Confirmar asistencia" class="section-icon">
+        <div class="eyebrow">RSVP</div>
+        <h2 class="title">Confirmar asistencia</h2>
+        <p class="sub">Por favor complet&aacute; estos datos para ayudarnos a organizar mejor.</p>
+        <form class="rsvp-form" action="/api/<%= event.slug %>/rsvp" method="post">
+          <div class="rsvp-grid">
+            <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input type="text" id="contact_name" name="contact_name" required></div>
+            <div class="field"><label for="people_count">&iquest;Cu&aacute;ntas personas van?</label><input type="number" id="people_count" name="people_count" min="1" value="1" required></div>
+            <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Asistiremos</option><option value="declined">No podemos asistir</option></select></div>
+            <div class="field full"><label for="people_names">Nombre y apellido de quienes asisten</label><textarea id="people_names" name="people_names" placeholder="Ej: Juan P&eacute;rez, Ana G&oacute;mez"></textarea></div>
+            <% if (sections && sections.music) { %><div class="field full"><label for="song_suggestions">Sugerencias de canciones</label><textarea id="song_suggestions" name="song_suggestions" placeholder="Temas que te gustar&iacute;a escuchar"></textarea></div><% } %>
+            <div class="field full"><label for="comments">Comentarios adicionales</label><textarea id="comments" name="comments"></textarea></div>
+          </div>
+          <button type="submit" class="send-btn">Enviar confirmaci&oacute;n</button>
+        </form>
+        <div class="rsvp-success" aria-live="polite">
+          <div class="spinner" data-spinner></div>
+          <h3 class="title" style="font-size:clamp(1.4rem,7vw,2.4rem);">Gracias por confirmar</h3>
+          <p class="sub">Tu respuesta fue registrada correctamente. Los esperamos para celebrar juntos.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightbox-close" aria-label="Cerrar">&times;</button><img src="" alt="Foto ampliada" id="lightbox-image"></div>
+  <script>
+    (function(){
+      const qs = new URLSearchParams(window.location.search);
+      const rsvp = document.getElementById("rsvp");
+      if (qs.get("rsvp") === "ok" && rsvp) {
+        rsvp.classList.add("success");
+        const spinner = rsvp.querySelector("[data-spinner]");
+        if (spinner) spinner.style.display = "none";
+        qs.delete("rsvp");
+        history.replaceState({}, "", location.pathname + (qs.toString() ? "?" + qs.toString() : ""));
+      }
+      const el = document.getElementById("countdown");
+      if (el) {
+        const ds = el.getAttribute("data-date");
+        const ts = el.getAttribute("data-time") || "00:00";
+        if (ds) {
+          const target = new Date(ds + "T" + ts + ":00");
+          function update() {
+            let diff = Math.max(0, target.getTime() - Date.now());
+            const set = (unit, value) => {
+              const node = el.querySelector('[data-unit="' + unit + '"]');
+              if (node) node.textContent = String(value).padStart(2, "0");
+            };
+            set("days", Math.floor(diff / 86400000));
+            set("hours", Math.floor(diff / 3600000) % 24);
+            set("minutes", Math.floor(diff / 60000) % 60);
+            set("seconds", Math.floor(diff / 1000) % 60);
+          }
+          update();
+          setInterval(update, 1000);
+        }
+      }
+      const giftToggle = document.getElementById("gift-toggle");
+      const giftBox = document.getElementById("gift-box");
+      if (giftToggle && giftBox) {
+        giftToggle.addEventListener("click", function(){
+          giftBox.classList.toggle("visible");
+          giftToggle.textContent = giftBox.classList.contains("visible") ? "Ocultar datos" : "Ver datos para regalo";
+        });
+      }
+      const lb = document.getElementById("lightbox");
+      const lbi = document.getElementById("lightbox-image");
+      const lbc = document.getElementById("lightbox-close");
+      document.querySelectorAll(".gallery-item").forEach(function(item){
+        item.addEventListener("click", function(){
+          const photo = item.getAttribute("data-photo");
+          if (!photo || !lb || !lbi) return;
+          lbi.src = photo;
+          lb.classList.add("visible");
+        });
+      });
+      if (lbc && lb) {
+        lbc.addEventListener("click", function(){ lb.classList.remove("visible"); });
+        lb.addEventListener("click", function(e){ if (e.target === lb) lb.classList.remove("visible"); });
+      }
+      const form = document.querySelector(".rsvp-form");
+      if (form && rsvp) {
+        form.addEventListener("submit", async function(e){
+          e.preventDefault();
+          const button = form.querySelector(".send-btn");
+          if (button) button.textContent = "Enviando...";
+          try {
+            await fetch(form.action, { method: "POST", body: new FormData(form), credentials: "same-origin" });
+            rsvp.classList.add("success");
+            const spinner = rsvp.querySelector("[data-spinner]");
+            if (spinner) setTimeout(function(){ spinner.style.display = "none"; }, 850);
+            rsvp.scrollIntoView({ behavior: "smooth", block: "center" });
+          } catch (error) {
+            form.submit();
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
