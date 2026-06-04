@@ -16,6 +16,12 @@ async function getEventBySlug(slug: string) {
   }
 }
 
+function shouldHideContactName(event: any) {
+  return event?.custom_data?.hide_contact_name === true
+    || event?.slug === "boda-victoria-andres"
+    || event?.template_key === "custom_boda_victoria_andres_champagne";
+}
+
 function xmlEscape(value: any) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -224,6 +230,7 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
   }
 
   const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
+  const showContactName = !groupEvents.some((item: any) => shouldHideContactName(item));
   const showFoodPreferences = !groupEvents.some((item: any) => item.custom_data?.hide_food_preferences === true);
   const showSongSuggestions = groupEvents.some((item: any) => item.sections?.music === true);
   const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
@@ -270,6 +277,7 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
     totals,
     groupEvents,
     totalsByEvent,
+    showContactName,
     showFoodPreferences,
     showSongSuggestions,
     selectedStatus,
@@ -283,6 +291,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
   if (!event) return res.status(404).render("errors/404", { url: req.originalUrl });
 
   const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
+  const showContactName = !groupEvents.some((item: any) => shouldHideContactName(item));
   const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
   const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
   const filteredEventIds = selectedEventId && groupEventIds.some((id: any) => String(id) === selectedEventId)
@@ -293,10 +302,20 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
 
   const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
   const rows = [
-    ["Invitacion", "Quien confirma", "Personas", "Estado", "Nombres", "Comida", "Temas", "Comentarios", "Fecha"],
+    [
+      "Invitacion",
+      ...(showContactName ? ["Quien confirma"] : []),
+      "Personas",
+      "Estado",
+      "Nombres",
+      "Comida",
+      "Temas",
+      "Comentarios",
+      "Fecha",
+    ],
     ...rsvps.map((r: any) => [
       eventLabels[String(r.event_id)] || "",
-      r.contact_name || "",
+      ...(showContactName ? [r.contact_name || ""] : []),
       r.people_count || "",
       r.status === "declined" ? "No asiste" : "Confirmado",
       r.people_names || "",

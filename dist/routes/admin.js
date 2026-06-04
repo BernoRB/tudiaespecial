@@ -12,6 +12,11 @@ async function getEventBySlug(slug) {
         return null;
     }
 }
+function shouldHideContactName(event) {
+    return event?.custom_data?.hide_contact_name === true
+        || event?.slug === "boda-victoria-andres"
+        || event?.template_key === "custom_boda_victoria_andres_champagne";
+}
 function xmlEscape(value) {
     return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -207,6 +212,7 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
+    const showContactName = !groupEvents.some((item) => shouldHideContactName(item));
     const showFoodPreferences = !groupEvents.some((item) => item.custom_data?.hide_food_preferences === true);
     const showSongSuggestions = groupEvents.some((item) => item.sections?.music === true);
     const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
@@ -247,6 +253,7 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         totals,
         groupEvents,
         totalsByEvent,
+        showContactName,
         showFoodPreferences,
         showSongSuggestions,
         selectedStatus,
@@ -259,6 +266,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
     if (!event)
         return res.status(404).render("errors/404", { url: req.originalUrl });
     const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
+    const showContactName = !groupEvents.some((item) => shouldHideContactName(item));
     const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
     const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
     const filteredEventIds = selectedEventId && groupEventIds.some((id) => String(id) === selectedEventId)
@@ -269,10 +277,20 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
         rsvpQuery.status = selectedStatus;
     const rsvps = await db_1.Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
     const rows = [
-        ["Invitacion", "Quien confirma", "Personas", "Estado", "Nombres", "Comida", "Temas", "Comentarios", "Fecha"],
+        [
+            "Invitacion",
+            ...(showContactName ? ["Quien confirma"] : []),
+            "Personas",
+            "Estado",
+            "Nombres",
+            "Comida",
+            "Temas",
+            "Comentarios",
+            "Fecha",
+        ],
         ...rsvps.map((r) => [
             eventLabels[String(r.event_id)] || "",
-            r.contact_name || "",
+            ...(showContactName ? [r.contact_name || ""] : []),
             r.people_count || "",
             r.status === "declined" ? "No asiste" : "Confirmado",
             r.people_names || "",

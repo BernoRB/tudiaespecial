@@ -481,7 +481,6 @@
         </div>
         <form class="rsvp-form" action="/api/<%= event.slug %>/rsvp" method="post">
           <div class="rsvp-grid">
-            <div class="field full"><label for="contact_name">Nombre de quien confirma</label><input type="text" id="contact_name" name="contact_name" required></div>
             <div class="field"><label for="people_count">&iquest;Cu&aacute;ntas personas van?</label><input type="number" id="people_count" name="people_count" min="1" value="1" required></div>
             <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Asistiremos</option><option value="declined">No podemos asistir</option></select></div>
             <div class="field full"><label for="people_names">Nombre y apellido de quienes asisten</label><textarea id="people_names" name="people_names" placeholder="Ej: Juan P&eacute;rez, Ana G&oacute;mez"></textarea></div>

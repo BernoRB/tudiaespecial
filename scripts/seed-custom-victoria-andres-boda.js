@@ -67,6 +67,7 @@ const event = {
     theme: "champagne",
     end_time: "03:00",
     hide_food_preferences: true,
+    hide_contact_name: true,
   },
   client_original_data: {
     source: "custom_codex",

@@ -3,6 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = require("../db");
 const router = (0, express_1.Router)();
+function shouldHideContactName(event) {
+    return event?.custom_data?.hide_contact_name === true
+        || event?.slug === "boda-victoria-andres"
+        || event?.template_key === "custom_boda_victoria_andres_champagne";
+}
 router.param("slug", async (req, res, next, slug) => {
     let event;
     try {
@@ -47,9 +52,12 @@ router.post("/api/:slug/rsvp", async (req, res) => {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     const { contact_name, people_count, people_names, food_preferences, song_suggestions, comments, status, } = req.body;
+    const resolvedContactName = shouldHideContactName(event)
+        ? (people_names || contact_name || "Sin nombre")
+        : contact_name;
     await db_1.Rsvp.create({
         event_id: event._id,
-        contact_name,
+        contact_name: resolvedContactName,
         people_count: Number(people_count) || 1,
         people_names: people_names || "",
         food_preferences: food_preferences || "",

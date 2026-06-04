@@ -7,6 +7,12 @@ interface EventRequest extends Request {
   event?: any;
 }
 
+function shouldHideContactName(event: any) {
+  return event?.custom_data?.hide_contact_name === true
+    || event?.slug === "boda-victoria-andres"
+    || event?.template_key === "custom_boda_victoria_andres_champagne";
+}
+
 router.param("slug", async (req: EventRequest, res: Response, next: NextFunction, slug: string) => {
   let event;
   try {
@@ -66,10 +72,13 @@ router.post("/api/:slug/rsvp", async (req: Request, res: Response) => {
     comments,
     status,
   } = req.body;
+  const resolvedContactName = shouldHideContactName(event)
+    ? (people_names || contact_name || "Sin nombre")
+    : contact_name;
 
   await Rsvp.create({
     event_id: event._id,
-    contact_name,
+    contact_name: resolvedContactName,
     people_count: Number(people_count) || 1,
     people_names: people_names || "",
     food_preferences: food_preferences || "",

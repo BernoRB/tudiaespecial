@@ -66,6 +66,12 @@
 
       <%
         const isGroupedAdmin = groupEvents && groupEvents.length > 1;
+        const contactColumnVisible = showContactName !== false;
+        const tableColumns = (contactColumnVisible ? 1 : 0)
+          + (isGroupedAdmin ? 1 : 0)
+          + 6
+          + (showFoodPreferences !== false ? 1 : 0)
+          + (showSongSuggestions ? 1 : 0);
         const adminQuery = isGroupedAdmin
           ? new URLSearchParams({ status: selectedStatus || '', event_id: selectedEventId || '' }).toString()
           : new URLSearchParams({ status: selectedStatus || '' }).toString();
@@ -97,7 +103,9 @@
         <table class="admin-table">
           <thead style="background:var(--offwhite);text-align:left;">
             <tr>
-              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
+              <% if (contactColumnVisible) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
+              <% } %>
               <% if (isGroupedAdmin) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Invitación</th>
               <% } %>
@@ -119,7 +127,9 @@
             <% if (rsvps && rsvps.length) { %>
               <% rsvps.forEach(function(r) { %>
                 <tr>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
+                  <% if (contactColumnVisible) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
+                  <% } %>
                   <% if (isGroupedAdmin) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.event_label || '-' %></td>
                   <% } %>
@@ -151,7 +161,7 @@
               <% }); %>
             <% } else { %>
               <tr>
-                <td colspan="<%= (isGroupedAdmin ? 8 : 7) + (showFoodPreferences !== false ? 1 : 0) + (showSongSuggestions ? 1 : 0) %>" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
+                <td colspan="<%= tableColumns %>" style="padding:14px 10px;text-align:center;color:var(--muted);font-size:0.9rem;">
                   Todavía no hay confirmaciones. Compartí tu invitación para empezar a ver respuestas acá.
                 </td>
               </tr>
