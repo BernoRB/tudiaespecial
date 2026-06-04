@@ -6,8 +6,8 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/tudiae
 const EventSchema = new mongoose.Schema({}, { strict: false, collection: "events" });
 const Event = mongoose.models.Event || mongoose.model("Event", EventSchema);
 
-const groupKey = "victoria-andres-boda-2026";
 const adminPin = "3010";
+const discardedSlugs = ["victoria-andres", "victoria-y-andres"];
 
 const sections = {
   countdown: true,
@@ -22,12 +22,13 @@ const sections = {
   music: true,
 };
 
-const shared = {
+const event = {
   category: "bodas",
+  slug: "boda-victoria-andres",
+  template_key: "custom_boda_victoria_andres_champagne",
   title: "Boda Victoria & Andres",
   honorees: "Victoria & Andrés",
   event_type: "Boda",
-  rsvp_group_key: groupKey,
   date: "2026-10-30",
   time: "21:00",
   venue_name: "Sum Eventos",
@@ -62,59 +63,31 @@ const shared = {
   contact_whatsapp: "+54 9 11 5555-5555",
   admin_pin: adminPin,
   status: "ready",
+  custom_data: {
+    theme: "champagne",
+    end_time: "03:00",
+    hide_food_preferences: true,
+  },
   client_original_data: {
     source: "custom_codex",
-    note: "Boda Victoria y Andres, tres variantes visuales con RSVP unificado.",
+    note: "Boda Victoria y Andres, version champagne final.",
   },
 };
 
-const events = [
-  {
-    ...shared,
-    slug: "victoria-andres",
-    template_key: "custom_boda_victoria_andres_classic",
-    custom_data: {
-      variant_label: "Victoria & Andrés",
-      theme: "classic",
-      end_time: "03:00",
-      hide_food_preferences: true,
-    },
-  },
-  {
-    ...shared,
-    slug: "victoria-y-andres",
-    template_key: "custom_boda_victoria_andres_editorial",
-    custom_data: {
-      variant_label: "Floral Editorial",
-      theme: "editorial",
-      end_time: "03:00",
-      hide_food_preferences: true,
-    },
-  },
-  {
-    ...shared,
-    slug: "boda-victoria-andres",
-    template_key: "custom_boda_victoria_andres_champagne",
-    custom_data: {
-      variant_label: "Luz Champagne Moderna",
-      theme: "champagne",
-      end_time: "03:00",
-      hide_food_preferences: true,
-    },
-  },
-];
-
 async function main() {
   await mongoose.connect(MONGODB_URI);
-  for (const event of events) {
-    await Event.findOneAndUpdate(
-      { slug: event.slug },
-      { $set: { ...event, updated_at: new Date() }, $setOnInsert: { created_at: new Date() } },
-      { upsert: true, new: true }
-    );
-    console.log(`ready: http://localhost:3000/${event.slug}`);
-  }
-  console.log(`admin: http://localhost:3000/${events[0].slug}/admin`);
+  await Event.deleteMany({ slug: { $in: discardedSlugs } });
+  await Event.findOneAndUpdate(
+    { slug: event.slug },
+    {
+      $set: { ...event, updated_at: new Date() },
+      $unset: { rsvp_group_key: "" },
+      $setOnInsert: { created_at: new Date() },
+    },
+    { upsert: true, new: true }
+  );
+  console.log(`ready: http://localhost:3000/${event.slug}`);
+  console.log(`admin: http://localhost:3000/${event.slug}/admin`);
   console.log(`pin: ${adminPin}`);
   await mongoose.disconnect();
 }
