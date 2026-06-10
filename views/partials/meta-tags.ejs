@@ -6,6 +6,8 @@
   const image = locals.image || "https://tudiaespecial.com/images/Logo.png";
   const type = locals.type || "website";
   const canonical = locals.canonical || url;
+  const language = locals.language || "es-AR";
+  const ogLocale = locals.ogLocale || "es_AR";
 %>
 
 <!-- Meta Tags Básicos -->
@@ -16,7 +18,7 @@
 <meta name="keywords" content="<%= keywords %>" />
 <meta name="author" content="TuDiaEspecial" />
 <meta name="robots" content="index, follow" />
-<meta name="language" content="es-AR" />
+<meta name="language" content="<%= language %>" />
 <link rel="canonical" href="<%= canonical %>" />
 
 <!-- Preconnect para Google Fonts -->
@@ -39,7 +41,7 @@
 <meta property="og:title" content="<%= title %>" />
 <meta property="og:description" content="<%= description %>" />
 <meta property="og:image" content="<%= image %>" />
-<meta property="og:locale" content="es_AR" />
+<meta property="og:locale" content="<%= ogLocale %>" />
 <meta property="og:site_name" content="TuDiaEspecial" />
 
 <!-- Twitter -->

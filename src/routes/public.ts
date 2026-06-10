@@ -5,6 +5,18 @@ import { Order } from "../db";
 
 const router = Router();
 
+function getHeaderValue(value: string | string[] | undefined): string | null {
+  if (Array.isArray(value)) {
+    return value[0] || null;
+  }
+  return value || null;
+}
+
+function getVisitorCountry(req: any): string | null {
+  const country = getHeaderValue(req.headers["cf-ipcountry"]);
+  return country ? country.toUpperCase() : null;
+}
+
 // Función para enviar notificación a Discord
 async function sendDiscordNotification(order: any) {
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
@@ -46,7 +58,18 @@ async function sendDiscordNotification(order: any) {
 
 // Landing: renderizamos la landing actual como vista EJS
 router.get("/", (req, res) => {
-  res.render("landing");
+  res.render("landing", {
+    country: getVisitorCountry(req),
+  });
+});
+
+router.get("/debug/country", (req, res) => {
+  res.json({
+    country: getVisitorCountry(req),
+    cfIpCountry: getHeaderValue(req.headers["cf-ipcountry"]),
+    cfRay: getHeaderValue(req.headers["cf-ray"]),
+    xForwardedFor: getHeaderValue(req.headers["x-forwarded-for"]),
+  });
 });
 
 // Páginas SEO

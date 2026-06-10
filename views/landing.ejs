@@ -1,11 +1,118 @@
+<%
+const isSpainVisitor = (locals.country || "").toUpperCase() === "ES";
+const market = isSpainVisitor
+  ? {
+      htmlLang: "es-ES",
+      metaDescription: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu celebración en un solo lugar. Servicio para España.",
+      metaKeywords: "invitaciones digitales, invitaciones digitales bodas, invitaciones digitales comuniones, invitaciones digitales cumpleaños, invitaciones online, confirmación de asistencia digital, invitaciones interactivas, España",
+      schemaDescription: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu celebración en un solo lugar.",
+      countryCode: "ES",
+      countryName: "España",
+      guarantee: "GARANTÍA DE ENTREGA EN 24 H",
+      heroKicker: "Bodas · Cumples · Comuniones",
+      heroSub: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu celebración en un solo lugar.",
+      customDesignCta: "Hablemos por WhatsApp",
+      planSub: "Sin sorpresas, sin costes ocultos. Todo lo que necesitas para que tu celebración esté clara desde el primer mensaje.",
+      planCurrency: "",
+      planPrice: "30€",
+      planPeriod: "· pago único",
+      planDelivery: "Entrega en <strong style=\"color:var(--gold)\">24 h laborables</strong> desde el envío de tus datos.",
+      deviceFeature: "Diseño 100% adaptado a móviles y ordenadores",
+      deviceDetails: "Tu invitación se va a ver perfecta tanto en móviles como en ordenadores de escritorio y cualquier otro dispositivo.",
+      receiveDetails: "Una vez que completes tus datos, en menos de 24 h vas a recibir por WhatsApp o email (donde prefieras) tu invitación lista para enviársela a tus invitados.",
+      customIdeaDetails: "No hay nada que no se pueda hacer o agregar. Escríbenos por WhatsApp, cuéntanos tu idea y lo armamos juntos.",
+      editDetails: "Si una vez entregada la invitación quieres modificar textos, imágenes, ubicaciones, etc, no hay problema. Todo se puede ajustar sin cargo.",
+      fastBenefit: "Tendrás tu invitación lista para enviar en tan solo 24 h.",
+      shareBenefit: "Puedes compartir tu invitación fácilmente por WhatsApp con todos tus invitados, sean la cantidad que sean.",
+      saveBenefit: "No pierdes tiempo ni dinero imprimiendo y entregando invitaciones de papel.",
+      uniqueBenefit: "Como tu invitación es completamente personalizada, cada una es única y especial.",
+      stepsTitle: "Sigue estos pasos para tener tu invitación lista para compartir en menos de 24 h",
+      stepsContact: "Pulsa CONSULTAR POR WHATSAPP arriba o escríbenos por WhatsApp",
+      stepsPayment: "Coordinamos los datos y en menos de 24 h recibes el link a tu invitación lista para compartir",
+      shareFaq: "Recibirás un link único que puedes compartir directamente por WhatsApp, grupos, Instagram, email o donde prefieras. Es tan simple como copiar y pegar.",
+      durationFaq: "El link permanece activo hasta tres meses después del evento. Si quieres que quede online más tiempo como recuerdo, avísanos y lo dejamos.",
+      paymentFaq: "Puedes pagar por transferencia bancaria o el método que coordinemos por WhatsApp.",
+      freezeFaq: "Claro. Puedes reservar tu invitación y coordinar el pago para congelar el precio.",
+      finalPriceFaq: "Sí. El importe es único y final y puedes enviar la invitación a cuantas personas quieras.",
+      footerTagline: "Invitaciones digitales premium · España",
+      footerCopy: "2026 TuDiaEspecial · Todos los derechos reservados · Hecho con cuidado para España",
+    }
+  : {
+      htmlLang: "es-AR",
+      metaDescription: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. Servicio en Argentina.",
+      metaKeywords: "invitaciones digitales, invitaciones digitales bodas, invitaciones digitales quinces, invitaciones digitales eventos, invitaciones online, confirmación de asistencia digital, invitaciones interactivas, Argentina",
+      schemaDescription: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar.",
+      countryCode: "AR",
+      countryName: "Argentina",
+      guarantee: "GARANTÍA DE ENTREGA EN 24HS",
+      heroKicker: "Bodas · Quinces · Eventos",
+      heroSub: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar.",
+      customDesignCta: "Hablemos por WhatsApp",
+      planSub: "Sin sorpresas, sin costos ocultos. Todo lo que necesitás para que tu evento brille desde el primer mensaje.",
+      planCurrency: "$",
+      planPrice: "35.000",
+      planPeriod: "· pago único",
+      planDelivery: "Entrega en <strong style=\"color:var(--gold)\">24hs hábiles</strong> desde el envío de tus datos.",
+      deviceFeature: "Diseño 100% adaptado a celulares y computadores",
+      deviceDetails: "Tu invitación se va a ver perfecta tanto en celulares como en computadoras de escritorio y cualquier otro dispositivo.",
+      receiveDetails: "Una vez que completes tus datos, en menos de 24hs vas a recibir por WhatsApp o mail (donde prefieras) tu invitación lista para mandársela a tus invitados.",
+      customIdeaDetails: "No hay nada que no se pueda hacer o agregar. Contactate por WhatsApp, contame tu idea y lo armamos juntos.",
+      editDetails: "Si una vez entregada la invitación querés modificar textos, imágenes, ubicaciones, etc, ¡no hay problema! todo se puede ajustar sin cargo.",
+      fastBenefit: "Tendrás tu invitación lista para enviar en tan solo 24hs.",
+      shareBenefit: "Podés compartir tu invitación fácilmente por WhatsApp a todos tus invitados, sean la cantidad que sean.",
+      saveBenefit: "No perdés tiempo ni dinero imprimiendo y entregando invitaciones de papel.",
+      uniqueBenefit: "Como tu invitación es completamente personalizada, cada una es única y especial.",
+      stepsTitle: "Segui estos pasos para tener tu invitación lista para compartir en menos de 24hs",
+      stepsContact: "Presiona LO QUIERO arriba o comunicate por WhatsApp",
+      stepsPayment: "Señas con un 50% del precio y en menos de 24hs vas a recibir el link a tu invitación lista para compartir",
+      shareFaq: "Recibirás un link único que podés compartir directamente por WhatsApp, grupos, Instagram, mail o donde prefieras. Es tan simple como copiar y pegar.",
+      durationFaq: "El link permanece activo hasta tres meses después del evento. Si querés que quede online más tiempo para recuerdo, comunicánoslo y lo dejamos.",
+      paymentFaq: "Podés pagar a través de MercadoPago, con tarjeta de débito o crédito o a través de transferencia bancaria.",
+      freezeFaq: "Claro! podés abonar sólo la seña y el resto al momento en que tengas la invitación lista, sea cuando sea.",
+      finalPriceFaq: "Si. El monto es único y final y podés enviar la invitación a cuantas personas quieras.",
+      footerTagline: "Invitaciones digitales premium · Argentina",
+      footerCopy: "2026 TuDiaEspecial · Todos los derechos reservados · Hecho con  en Argentina",
+    };
+const reviews = isSpainVisitor
+  ? [
+      ["La invitación quedó preciosa y muy fácil de enviar por WhatsApp.", "Laura M."],
+      ["Me respondieron rápido y quedó justo como la quería.", "Marta R."],
+      ["Todo claro desde el primer mensaje. Muy recomendable.", "Claudia S."],
+      ["La usamos para el cumpleaños y nos simplificó muchísimo.", "Ana P."],
+      ["Quedó bonita, elegante y lista muy rápido.", "Javier L."],
+      ["Muy buena atención y la invitación se veía impecable.", "Sofía G."],
+      ["Mis invitados pudieron confirmar sin problema.", "Elena C."],
+      ["Simple, elegante y práctica. Era justo lo que necesitábamos.", "Lucía B."],
+      ["Muy buena disposición para ajustar detalles.", "Irene F."],
+      ["Nos encantó el resultado y fue muy fácil compartirla.", "Nicolás V."],
+      ["Muy buena experiencia, rápida y con buen gusto.", "Marina D."],
+      ["Quedó clara, bonita y con toda la información ordenada.", "Paula T."],
+    ]
+  : [
+      ["Hermosa la invitación y muy fácil para mandar por WhatsApp.", "Camila R."],
+      ["Me respondieron rápido y quedó tal cual la quería.", "Julieta M."],
+      ["Todo claro desde el primer mensaje. Muy recomendable.", "Agustina P."],
+      ["La usamos para el cumple y nos simplificó un montón.", "Florencia S."],
+      ["Quedó prolija, linda y lista súper rápido.", "Martín A."],
+      ["Muy buena atención y la invitación se veía impecable.", "Sofía L."],
+      ["Mis invitados pudieron confirmar sin problema.", "Valentina C."],
+      ["Simple, elegante y práctica. Era lo que necesitábamos.", "Lucía B."],
+      ["Buenísima predisposición para ajustar detalles.", "Rocío F."],
+      ["Nos encantó el resultado y fue muy fácil compartirla.", "Nicolás G."],
+      ["Muy buena experiencia, rápido y con buen gusto.", "Mariana V."],
+      ["Quedó clara, linda y con toda la info ordenada.", "Paula D."],
+    ];
+%>
 <!DOCTYPE html>
-<html lang="es-AR">
+<html lang="<%= market.htmlLang %>">
 <head>
 <%- include('partials/meta-tags', {
   title: "TuDiaEspecial – Invitaciones Digitales Premium",
-  description: "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. Servicio en Argentina.",
-  keywords: "invitaciones digitales, invitaciones digitales bodas, invitaciones digitales quinces, invitaciones digitales eventos, invitaciones online, confirmación de asistencia digital, invitaciones interactivas, Argentina",
+  description: market.metaDescription,
+  keywords: market.metaKeywords,
   url: "https://tudiaespecial.com",
+  language: market.htmlLang,
+  ogLocale: isSpainVisitor ? "es_ES" : "es_AR",
   type: "website"
 }) %>
 
@@ -15,16 +122,16 @@
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "TuDiaEspecial",
-  "description": "Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar.",
+  "description": "<%= market.schemaDescription %>",
   "url": "https://tudiaespecial.com",
   "telephone": "+5491124726396",
   "address": {
     "@type": "PostalAddress",
-    "addressCountry": "AR"
+    "addressCountry": "<%= market.countryCode %>"
   },
   "areaServed": {
     "@type": "Country",
-    "name": "Argentina"
+    "name": "<%= market.countryName %>"
   },
   "priceRange": "$$",
   "serviceType": ["Invitaciones Digitales", "Diseño Web", "Eventos"]
@@ -38,7 +145,7 @@
 
 <!-- NAV -->
 <nav style="padding:8px 5vw;background:var(--gold);border-bottom:1px solid rgba(212,175,55,0.3);justify-content:center;">
-  <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);">GARANTÍA DE ENTREGA EN 24HS</div>
+  <div style="font-family:'Jost',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);"><%= market.guarantee %></div>
 </nav>
 
 <!-- HERO -->
@@ -49,11 +156,11 @@
     <img src="/images/hero-photo.jpg" alt="Invitación digital elegante">
   </div>
   <div class="hero-inner">
-    <div class="hero-kicker reveal">Bodas · Quinces · Eventos</div>
+    <div class="hero-kicker reveal"><%= market.heroKicker %></div>
     <h1 class="reveal reveal-delay-1">
-      Tu <span class="slot-word" id="slotWord">evento</span> comienza<br/>con <em>un click,</em><br/>no con un sobre
+      <span class="hero-title-event-line">Tu <span class="slot-word" id="slotWord">evento</span></span><br class="hero-title-mobile-break"/><span class="hero-title-verb"> comienza</span><br/><span class="hero-title-line">con <em>un click,</em></span><br/><span class="hero-title-line">no con un sobre</span>
     </h1>
-    <p class="hero-sub reveal reveal-delay-2" style="font-family:'Inter',sans-serif;font-weight:500;">Diseñamos invitaciones digitales personalizadas con confirmación de asistencia, ubicación, agenda y toda la información de tu evento en un solo lugar. </p>
+    <p class="hero-sub reveal reveal-delay-2" style="font-family:'Inter',sans-serif;font-weight:500;"><%= market.heroSub %> </p>
     <style>
       @media (max-width: 768px) {
         .hero-sub {
@@ -74,6 +181,29 @@
       }
       .slot-word.animating {
         animation: slotSpin 0.5s ease-in-out;
+      }
+      .hero-title-mobile-break {
+        display: none;
+      }
+      @media (max-width: 768px) {
+        .hero-title-event-line {
+          white-space: nowrap;
+        }
+        .hero-title-mobile-break {
+          display: block;
+        }
+        .hero-title-verb {
+          margin-left: 0;
+        }
+        .hero-title-line {
+          white-space: nowrap;
+        }
+      }
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: clamp(2.15rem, 10vw, 2.65rem);
+          line-height: 1.1;
+        }
       }
       @keyframes slotSpin {
         0% {
@@ -104,9 +234,18 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
-        Chatear por WhatsApp
+        Hablar por WhatsApp
       </a>
     </div>
+</section>
+
+<!-- CALIFICACIONES -->
+<section class="landing-reviews" aria-label="Calificaciones de clientes">
+  <div class="landing-reviews-track">
+    <% [...reviews, ...reviews].forEach(([text, name]) => { %>
+      <article><span>★★★★★</span><p><%= text %></p><strong><%= name %></strong></article>
+    <% }) %>
+  </div>
 </section>
 
 <!-- GALERÍA -->
@@ -470,9 +609,9 @@
 <section style="padding:40px 5vw;background:var(--gold-pale);text-align:center;">
   <div class="reveal">
     <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:500;color:var(--ink);margin-bottom:12px;">¿Ningún template te convence?</h2>
-    <p style="font-family:'Inter',sans-serif;font-size:1rem;color:var(--ink-soft);margin-bottom:20px;max-width:600px;margin-left:auto;margin-right:auto;">Te lo diseño 100% personalizado, sin costo extra.</p>
+    <p style="font-family:'Inter',sans-serif;font-size:1rem;color:var(--ink-soft);margin-bottom:20px;max-width:600px;margin-left:auto;margin-right:auto;"><%= isSpainVisitor ? "Te lo diseño 100% personalizado, sin coste extra." : "Te lo diseño 100% personalizado, sin costo extra." %></p>
     <a href="https://wa.me/5491124726396?text=Hola Berna!%20Quiero%20un%20diseño%20personalizado" target="_blank" class="btn-primary" style="background:var(--ink);color:var(--warm-white);border-color:var(--ink);padding:12px 28px;border-radius:4px;text-transform:none;font-family:'Inter',sans-serif;font-size:14.4px;font-weight:500;text-decoration:none;display:inline-block;">
-      Hablemos por WhatsApp
+      <%= market.customDesignCta %>
     </a>
   </div>
 </section>
@@ -481,8 +620,8 @@
 <section id="plan">
   <div class="section-header reveal">
     <span class="section-label">La propuesta</span>
-    <h2 class="section-title">Un plan.<br/>Todo incluido.</h2>
-    <p class="section-sub">Sin sorpresas, sin costos ocultos. Todo lo que necesitás para que tu evento brille desde el primer mensaje.</p>
+    <h2 class="section-title">Un pago.<br/>Todo incluido.</h2>
+    <p class="section-sub"><%= market.planSub %></p>
   </div>
 
   <div class="plan-wrapper">
@@ -490,15 +629,12 @@
       <span class="plan-badge">✦ Más elegido</span>
       <div class="plan-name">Full Experience</div>
       <div class="plan-price-row">
-        <span class="plan-currency">$</span>
-        <span class="plan-price">29.000</span>
-        <span class="plan-period">· pago único</span>
+        <% if (market.planCurrency) { %><span class="plan-currency"><%= market.planCurrency %></span><% } %>
+        <span class="plan-price"><%= market.planPrice %></span>
+        <span class="plan-period"><%= market.planPeriod %></span>
       </div>
-      <p style="color:rgba(245,239,199,0.5);font-size:0.85rem;margin-bottom:0;">Entrega en <strong style="color:var(--gold)">24hs hábiles</strong> desde el envío de tus datos.</p>
-      <a href="/solicitud" class="plan-cta" style="background:var(--gold);color:var(--ink);margin-bottom:12px;">
-        LO QUIERO! (seña 50%)
-      </a>
-      <a href="https://wa.me/5491124726396?text=Hola Berna!%20Quiero%20info%20sobre%20invitaciones%20digitales" class="plan-cta" target="_blank" style="background:transparent;color:rgba(245,239,199,0.8);border:2px solid rgba(245,239,199,0.3);">
+      <p style="color:rgba(245,239,199,0.5);font-size:0.85rem;margin-bottom:0;"><%- market.planDelivery %></p>
+      <a href="https://wa.me/5491124726396?text=Hola Berna!%20Quiero%20info%20sobre%20invitaciones%20digitales" class="plan-cta" target="_blank" style="background:var(--gold);color:var(--ink);border:2px solid var(--gold);">
         CONSULTAR POR WHATSAPP
       </a>
     </div>
@@ -512,10 +648,10 @@
             <span class="feature-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            <span class="feature-text">Diseño 100% adaptado a celulares y computadores</span>
+            <span class="feature-text"><%= market.deviceFeature %></span>
           </div>
           <div class="feature-details" style="display:none;">
-            Tu invitación se va a ver perfecta tanto en celulares como en computadoras de escritorio y cualquier otro dispositivo.
+            <%= market.deviceDetails %>
           </div>
         </li>
         <li class="feature-item" onclick="toggleFeature(this)">
@@ -655,10 +791,10 @@
             <span class="feature-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            <span class="feature-text">Entrega en 24hs garantizada</span>
+            <span class="feature-text"><%= isSpainVisitor ? "Entrega en 24 h garantizada" : "Entrega en 24hs garantizada" %></span>
           </div>
           <div class="feature-details" style="display:none;">
-            Una vez que completes tus datos, en menos de 24hs vas a recibir por WhatsApp o mail (donde prefieras) tu invitación lista para mandársela a tus invitados.
+            <%= market.receiveDetails %>
           </div>
         </li>
         <li class="feature-item" onclick="toggleFeature(this)">
@@ -666,10 +802,10 @@
             <span class="feature-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            <span class="feature-text">¿Necesitás alguna otra sección?</span>
+            <span class="feature-text"><%= isSpainVisitor ? "¿Necesitas alguna otra sección?" : "¿Necesitás alguna otra sección?" %></span>
           </div>
           <div class="feature-details" style="display:none;">
-            No hay nada que no se pueda hacer o agregar. Contactate por WhatsApp, contame tu idea y lo armamos juntos.
+            <%= market.customIdeaDetails %>
           </div>
         </li>
         <li class="feature-item" onclick="toggleFeature(this)">
@@ -677,10 +813,10 @@
             <span class="feature-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
             </span>
-            <span class="feature-text">¿Querés hacer cambios luego?</span>
+            <span class="feature-text"><%= isSpainVisitor ? "¿Quieres hacer cambios luego?" : "¿Querés hacer cambios luego?" %></span>
           </div>
           <div class="feature-details" style="display:none;">
-            Si una vez entregada la invitación querés modificar textos, imágenes, ubicaciones, etc, ¡no hay problema! todo se puede ajustar sin cargo.
+            <%= market.editDetails %>
           </div>
         </li>
       </ul>
@@ -716,7 +852,7 @@
         </div>
         <h3>Rápido</h3>
       </div>
-      <p>Tendrás tu invitación lista para enviar en tan solo 24hs.</p>
+      <p><%= market.fastBenefit %></p>
     </div>
     <div class="card reveal reveal-delay-2">
       <div class="card-header">
@@ -727,7 +863,7 @@
         </div>
         <h3>Sencillo</h3>
       </div>
-      <p>Podés compartir tu invitación fácilmente por WhatsApp a todos tus invitados, sean la cantidad que sean.</p>
+      <p><%= market.shareBenefit %></p>
     </div>
     <div class="card reveal reveal-delay-3">
       <div class="card-header">
@@ -739,7 +875,7 @@
         </div>
         <h3>Práctico</h3>
       </div>
-      <p>No perdés tiempo ni dinero imprimiendo y entregando invitaciones de papel.</p>
+      <p><%= market.saveBenefit %></p>
     </div>
     <div class="card reveal reveal-delay-4">
       <div class="card-header">
@@ -763,7 +899,7 @@
         </div>
         <h3>Única</h3>
       </div>
-      <p>Como tu invitación es completamente personalizada, cada una es única y especial.</p>
+      <p><%= market.uniqueBenefit %></p>
     </div>
   </div>
 </section>
@@ -772,7 +908,7 @@
 <section id="pasos" style="background:var(--ink);">
   <div class="section-header reveal">
     <span class="section-label">El proceso</span>
-    <h2 class="section-title">Segui estos pasos para tener tu invitación lista para compartir en menos de 24hs</h2>
+    <h2 class="section-title"><%= market.stepsTitle %></h2>
     <p class="section-sub">Simple, rápido y sin complicaciones.</p>
   </div>
 
@@ -780,23 +916,23 @@
     <div class="step reveal reveal-delay-1">
       <div class="step-header">
         <div class="step-number">01</div>
-        <h3>Presionar LO QUIERO!</h3>
+        <h3><%= isSpainVisitor ? "Escríbenos" : "Presionar LO QUIERO!" %></h3>
       </div>
-      <p>Presiona LO QUIERO arriba o comunicate por WhatsApp</p>
+      <p><%= market.stepsContact %></p>
     </div>
     <div class="step reveal reveal-delay-2">
       <div class="step-header">
         <div class="step-number">02</div>
-        <h3>Completá tus datos</h3>
+        <h3><%= isSpainVisitor ? "Completa tus datos" : "Completá tus datos" %></h3>
       </div>
-      <p>Completá el formulario que te aparecerá con la información de tu evento (no te preocupes que luego todo se puede modificar)</p>
+      <p><%= isSpainVisitor ? "Completa el formulario con la información de tu celebración. No te preocupes, luego todo se puede modificar." : "Completá el formulario que te aparecerá con la información de tu evento (no te preocupes que luego todo se puede modificar)" %></p>
     </div>
     <div class="step reveal reveal-delay-3">
       <div class="step-header">
         <div class="step-number">03</div>
-        <h3>Señás y recibís</h3>
+        <h3><%= isSpainVisitor ? "Recibe tu link" : "Señás y recibís" %></h3>
       </div>
-      <p>Señas con un 50% del precio y en menos de 24hs vas a recibir el link a tu invitación lista para compartir</p>
+      <p><%= market.stepsPayment %></p>
     </div>
   </div>
 </section>
@@ -816,7 +952,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Recibirás un link único que podés compartir directamente por WhatsApp, grupos, Instagram, mail o donde prefieras. Es tan simple como copiar y pegar.</div>
+      <div class="faq-a"><%= market.shareFaq %></div>
     </div>
     <div class="faq-item reveal reveal-delay-1">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -825,7 +961,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">El link permanece activo hasta tres meses después del evento. Si querés que quede online más tiempo para recuerdo, comunicánoslo y lo dejamos.</div>
+      <div class="faq-a"><%= market.durationFaq %></div>
     </div>
     <div class="faq-item reveal reveal-delay-2">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -834,7 +970,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Te entregamos un link privado de administrador donde podés ver en tiempo real quiénes confirmaron, cuántos son y sus nombres. Sin necesidad de llamar a nadie.</div>
+      <div class="faq-a"><%= isSpainVisitor ? "Te entregamos un link privado de administrador donde puedes ver en tiempo real quiénes confirmaron, cuántos son y sus nombres. Sin necesidad de llamar a nadie." : "Te entregamos un link privado de administrador donde podés ver en tiempo real quiénes confirmaron, cuántos son y sus nombres. Sin necesidad de llamar a nadie." %></div>
     </div>
     <div class="faq-item reveal reveal-delay-3">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -843,7 +979,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Sí, no te preocupes. Luego de la entrega podés hacer los ajustes que creas necesarios de manera gratuita.</div>
+      <div class="faq-a"><%= isSpainVisitor ? "Sí, no te preocupes. Luego de la entrega puedes hacer los ajustes que creas necesarios de manera gratuita." : "Sí, no te preocupes. Luego de la entrega podés hacer los ajustes que creas necesarios de manera gratuita." %></div>
     </div>
     <div class="faq-item reveal reveal-delay-4">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -861,7 +997,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Sí, podés elegir no incluir ninguna galería de fotos.</div>
+      <div class="faq-a"><%= isSpainVisitor ? "Sí, puedes elegir no incluir ninguna galería de fotos." : "Sí, podés elegir no incluir ninguna galería de fotos." %></div>
     </div>
     <div class="faq-item reveal reveal-delay-6">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -870,7 +1006,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Podés pagar a través de MercadoPago, con tarjeta de débito o crédito o a través de transferencia bancaria. Se comienza a trabajar con una seña del 50% y abonás el resto cuando tu invitación quede exactamente como la querés.</div>
+      <div class="faq-a"><%= market.paymentFaq %></div>
     </div>
     <div class="faq-item reveal reveal-delay-7">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -879,7 +1015,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Claro! podés abonar sólo la seña y el resto al momento en que tengas la invitación lista, sea cuando sea.</div>
+      <div class="faq-a"><%= market.freezeFaq %></div>
     </div>
     <div class="faq-item reveal reveal-delay-8">
       <div class="faq-q" onclick="toggleFaq(this)">
@@ -888,7 +1024,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </span>
       </div>
-      <div class="faq-a">Si. El monto es único y final y podés enviar la invitación a cuantas personas quieras.</div>
+      <div class="faq-a"><%= market.finalPriceFaq %></div>
     </div>
   </div>
 </section>
@@ -898,7 +1034,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-logo">TuDia<span>Especial</span></div>
-      <div class="footer-tagline">Invitaciones digitales premium · Argentina</div>
+      <div class="footer-tagline"><%= market.footerTagline %></div>
     </div>
     <div class="footer-links">
       <a href="#hero">Inicio</a>
@@ -921,7 +1057,7 @@
       </a>
     </div>
   </div>
-  <div class="footer-copy"> 2026 TuDiaEspecial · Todos los derechos reservados · Hecho con  en Argentina</div>
+  <div class="footer-copy"><%= market.footerCopy %></div>
 </footer>
 
 <!-- WhatsApp Float -->
@@ -930,7 +1066,7 @@
 </a>
 
 <script>
-  const words = ["evento", "boda", "cumple", "asado", "festejo"];
+  const words = <%- JSON.stringify(isSpainVisitor ? ["evento", "boda", "cumple", "comunión", "fiesta"] : ["evento", "boda", "cumple", "asado", "festejo"]) %>;
   let currentIndex = 0;
   const slotWord = document.getElementById("slotWord");
 

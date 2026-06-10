@@ -8,6 +8,16 @@ const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const db_1 = require("../db");
 const router = (0, express_1.Router)();
+function getHeaderValue(value) {
+    if (Array.isArray(value)) {
+        return value[0] || null;
+    }
+    return value || null;
+}
+function getVisitorCountry(req) {
+    const country = getHeaderValue(req.headers["cf-ipcountry"]);
+    return country ? country.toUpperCase() : null;
+}
 // Función para enviar notificación a Discord
 async function sendDiscordNotification(order) {
     const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
@@ -47,7 +57,17 @@ async function sendDiscordNotification(order) {
 }
 // Landing: renderizamos la landing actual como vista EJS
 router.get("/", (req, res) => {
-    res.render("landing");
+    res.render("landing", {
+        country: getVisitorCountry(req),
+    });
+});
+router.get("/debug/country", (req, res) => {
+    res.json({
+        country: getVisitorCountry(req),
+        cfIpCountry: getHeaderValue(req.headers["cf-ipcountry"]),
+        cfRay: getHeaderValue(req.headers["cf-ray"]),
+        xForwardedFor: getHeaderValue(req.headers["x-forwarded-for"]),
+    });
 });
 // Páginas SEO
 router.get("/invitacion-boda-whatsapp", (req, res) => {
