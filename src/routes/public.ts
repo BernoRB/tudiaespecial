@@ -2,6 +2,7 @@ import { Router } from "express";
 import path from "path";
 import fs from "fs";
 import { Order } from "../db";
+import { getRelatedSeoPages, getSeoPage, seoPages } from "../seoPages";
 
 const router = Router();
 
@@ -73,28 +74,24 @@ router.get("/debug/country", (req, res) => {
 });
 
 // Páginas SEO
-router.get("/invitacion-boda-whatsapp", (req, res) => {
-  res.render("seo/invitacion-boda-whatsapp");
+router.get("/blog", (req, res) => {
+  res.render("seo/index", {
+    pages: seoPages,
+  });
 });
 
-router.get("/invitacion-digital-boda", (req, res) => {
-  res.render("seo/invitacion-digital-boda");
-});
+seoPages.forEach((page) => {
+  router.get(`/${page.slug}`, (req, res) => {
+    const seoPage = getSeoPage(page.slug);
+    if (!seoPage) {
+      return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
 
-router.get("/invitacion-quinceanera", (req, res) => {
-  res.render("seo/invitacion-quinceanera");
-});
-
-router.get("/invitacion-rsvp", (req, res) => {
-  res.render("seo/invitacion-rsvp");
-});
-
-router.get("/organizar-invitados-boda", (req, res) => {
-  res.render("seo/organizar-invitados-boda");
-});
-
-router.get("/invitacion-digital-vs-papel", (req, res) => {
-  res.render("seo/invitacion-digital-vs-papel");
+    res.render("seo/article", {
+      page: seoPage,
+      relatedPages: getRelatedSeoPages(seoPage),
+    });
+  });
 });
 
 // Sitemap XML dinámico
@@ -104,12 +101,13 @@ router.get("/sitemap.xml", (req, res) => {
 
   const urls = [
     { loc: `${baseUrl}/`, lastmod: currentDate, changefreq: "weekly", priority: "1.0" },
-    { loc: `${baseUrl}/invitacion-boda-whatsapp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-    { loc: `${baseUrl}/invitacion-digital-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-    { loc: `${baseUrl}/invitacion-quinceanera`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-    { loc: `${baseUrl}/invitacion-rsvp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-    { loc: `${baseUrl}/organizar-invitados-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-    { loc: `${baseUrl}/invitacion-digital-vs-papel`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+    { loc: `${baseUrl}/blog`, lastmod: currentDate, changefreq: "weekly", priority: "0.7" },
+    ...seoPages.map((page) => ({
+      loc: `${baseUrl}/${page.slug}`,
+      lastmod: page.updatedAt,
+      changefreq: "monthly",
+      priority: "0.8",
+    })),
     { loc: `${baseUrl}/solicitud`, lastmod: currentDate, changefreq: "monthly", priority: "0.5" },
   ];
 

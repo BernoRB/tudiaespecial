@@ -1,0 +1,230 @@
+<%
+const baseUrl = "https://tudiaespecial.com";
+const canonicalUrl = `${baseUrl}/${page.slug}`;
+const articleTitle = `${page.title} | TuDiaEspecial`;
+const articleLanguage = page.language || "es-AR";
+const articleLocale = page.ogLocale || "es_AR";
+const encodedWhatsAppText = encodeURIComponent(`Hola! Quiero consultar por una invitación digital. Vi esta guía: ${page.title}`);
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": page.h1,
+  "description": page.description,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalUrl
+  },
+  "url": canonicalUrl,
+  "datePublished": page.publishedAt,
+  "dateModified": page.updatedAt,
+  "inLanguage": articleLanguage,
+  "author": {
+    "@type": "Organization",
+    "name": "TuDiaEspecial",
+    "url": baseUrl
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TuDiaEspecial",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${baseUrl}/images/Logo.png`
+    }
+  },
+  "about": page.keywords,
+  "articleSection": page.category
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": baseUrl
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": `${baseUrl}/blog`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": page.title,
+      "item": canonicalUrl
+    }
+  ]
+};
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": page.faq.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+%>
+<!DOCTYPE html>
+<html lang="<%= articleLanguage %>">
+<head>
+<%- include('../partials/meta-tags', {
+  title: articleTitle,
+  description: page.description,
+  keywords: page.keywords.join(', '),
+  url: canonicalUrl,
+  canonical: canonicalUrl,
+  type: 'article',
+  language: articleLanguage,
+  ogLocale: articleLocale
+}) %>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css?v=20260612-blog-seo" />
+<script type="application/ld+json"><%- JSON.stringify(articleSchema) %></script>
+<script type="application/ld+json"><%- JSON.stringify(breadcrumbSchema) %></script>
+<script type="application/ld+json"><%- JSON.stringify(faqSchema) %></script>
+</head>
+<body class="blog-body">
+  <header class="blog-topbar">
+    <a class="blog-brand" href="/">Tu<span>Dia</span>Especial</a>
+    <nav class="blog-nav" aria-label="Navegación principal">
+      <a href="/blog">Blog</a>
+      <a href="/#galeria">Diseños</a>
+      <a href="/#plan">Precio</a>
+      <a class="blog-nav-cta" href="https://wa.me/5491124726396?text=<%= encodedWhatsAppText %>">WhatsApp</a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="blog-article">
+      <section class="blog-hero">
+        <div class="blog-breadcrumb">
+          <a href="/">Inicio</a>
+          <span>/</span>
+          <a href="/blog">Blog</a>
+          <span>/</span>
+          <span><%= page.category %></span>
+        </div>
+        <p class="blog-kicker"><%= page.category %></p>
+        <h1><%= page.h1 %></h1>
+        <p class="blog-dek"><%= page.dek %></p>
+        <div class="blog-meta">
+          <span>TuDiaEspecial</span>
+          <span>Actualizado <time datetime="<%= page.updatedAt %>"><%= page.updatedAt %></time></span>
+          <span>Lectura clara</span>
+        </div>
+      </section>
+
+      <div class="blog-layout">
+        <aside class="blog-sidebar" aria-label="Resumen">
+          <div class="blog-side-panel">
+            <p class="blog-side-label">Respuesta corta</p>
+            <p><%= page.shortAnswer %></p>
+          </div>
+          <div class="blog-side-panel">
+            <p class="blog-side-label">Temas</p>
+            <div class="blog-tags">
+              <% page.keywords.slice(0, 5).forEach((keyword) => { %>
+                <span><%= keyword %></span>
+              <% }) %>
+            </div>
+          </div>
+        </aside>
+
+        <div class="blog-content">
+          <section class="blog-answer-box">
+            <span>En pocas palabras</span>
+            <p><%= page.shortAnswer %></p>
+          </section>
+
+          <section class="blog-section">
+            <h2>Preguntas rápidas</h2>
+            <div class="blog-qa-table" role="table" aria-label="Preguntas rápidas sobre <%= page.title %>">
+              <% page.quickAnswers.forEach((item) => { %>
+                <div class="blog-qa-row" role="row">
+                  <div role="cell"><%= item.question %></div>
+                  <div role="cell"><%= item.answer %></div>
+                </div>
+              <% }) %>
+            </div>
+          </section>
+
+          <% page.sections.forEach((section) => { %>
+            <section class="blog-section">
+              <h2><%= section.heading %></h2>
+              <% section.paragraphs.forEach((paragraph) => { %>
+                <p><%= paragraph %></p>
+              <% }) %>
+              <% if (section.bullets && section.bullets.length) { %>
+                <ul class="blog-list">
+                  <% section.bullets.forEach((bullet) => { %>
+                    <li><%= bullet %></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+            </section>
+          <% }) %>
+
+          <section class="blog-section blog-checklist">
+            <h2>Checklist práctico</h2>
+            <ul>
+              <% page.checklist.forEach((item) => { %>
+                <li><%= item %></li>
+              <% }) %>
+            </ul>
+          </section>
+
+          <section class="blog-section">
+            <h2>Preguntas frecuentes</h2>
+            <div class="blog-faq-list">
+              <% page.faq.forEach((item) => { %>
+                <details>
+                  <summary><%= item.question %></summary>
+                  <p><%= item.answer %></p>
+                </details>
+              <% }) %>
+            </div>
+          </section>
+
+          <section class="blog-cta">
+            <div>
+              <span>Invitación lista para compartir</span>
+              <h2>Armemos la tuya con diseño, mapa y RSVP.</h2>
+            </div>
+            <a href="https://wa.me/5491124726396?text=<%= encodedWhatsAppText %>">Hablar por WhatsApp</a>
+          </section>
+        </div>
+      </div>
+    </article>
+
+    <section class="blog-related">
+      <div class="blog-related-inner">
+        <p class="blog-kicker">También puede servirte</p>
+        <div class="blog-related-grid">
+          <% relatedPages.forEach((relatedPage) => { %>
+            <a class="blog-related-card" href="/<%= relatedPage.slug %>">
+              <span><%= relatedPage.category %></span>
+              <strong><%= relatedPage.title %></strong>
+              <p><%= relatedPage.description %></p>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="blog-footer">
+    <div>
+      <a class="blog-brand" href="/">Tu<span>Dia</span>Especial</a>
+      <p>Invitaciones digitales para eventos claros, lindos y fáciles de compartir.</p>
+    </div>
+    <a href="/#plan">Ver plan</a>
+  </footer>
+</body>
+</html>

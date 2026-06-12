@@ -1,0 +1,82 @@
+<%
+const baseUrl = "https://tudiaespecial.com";
+const groups = pages.reduce((acc, page) => {
+  if (!acc[page.category]) {
+    acc[page.category] = [];
+  }
+  acc[page.category].push(page);
+  return acc;
+}, {});
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Blog de invitaciones digitales TuDiaEspecial",
+  "itemListElement": pages.map((page, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "url": `${baseUrl}/${page.slug}`,
+    "name": page.title
+  }))
+};
+%>
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%- include('../partials/meta-tags', {
+  title: 'Blog de invitaciones digitales | TuDiaEspecial',
+  description: 'Guías claras sobre invitaciones digitales, RSVP, textos, mapas, precios y organización de invitados para bodas, quinces, cumpleaños y eventos.',
+  keywords: 'blog invitaciones digitales, guías invitaciones digitales, RSVP online, invitaciones WhatsApp',
+  url: `${baseUrl}/blog`,
+  canonical: `${baseUrl}/blog`,
+  type: 'website'
+}) %>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css?v=20260612-blog-seo" />
+<script type="application/ld+json"><%- JSON.stringify(itemListSchema) %></script>
+</head>
+<body class="blog-body">
+  <header class="blog-topbar">
+    <a class="blog-brand" href="/">Tu<span>Dia</span>Especial</a>
+    <nav class="blog-nav" aria-label="Navegación principal">
+      <a href="/">Inicio</a>
+      <a href="/#galeria">Diseños</a>
+      <a href="/#plan">Precio</a>
+      <a class="blog-nav-cta" href="https://wa.me/5491124726396?text=Hola! Quiero consultar por una invitación digital.">WhatsApp</a>
+    </nav>
+  </header>
+
+  <main class="blog-index">
+    <section class="blog-index-hero">
+      <p class="blog-kicker">Blog SEO</p>
+      <h1>Guías de invitaciones digitales para decidir y organizar mejor</h1>
+      <p>Respuestas cortas, ejemplos y checklists para bodas, quinces, cumpleaños, comuniones, bautismos y eventos.</p>
+    </section>
+
+    <% Object.keys(groups).forEach((category) => { %>
+      <section class="blog-index-group">
+        <div class="blog-index-group-head">
+          <span><%= category %></span>
+          <h2><%= category %></h2>
+        </div>
+        <div class="blog-card-grid">
+          <% groups[category].forEach((page) => { %>
+            <a class="blog-card" href="/<%= page.slug %>">
+              <span><%= page.category %></span>
+              <h3><%= page.title %></h3>
+              <p><%= page.description %></p>
+            </a>
+          <% }) %>
+        </div>
+      </section>
+    <% }) %>
+  </main>
+
+  <footer class="blog-footer">
+    <div>
+      <a class="blog-brand" href="/">Tu<span>Dia</span>Especial</a>
+      <p>Invitaciones digitales listas para compartir por WhatsApp.</p>
+    </div>
+    <a href="/#plan">Ver plan</a>
+  </footer>
+</body>
+</html>

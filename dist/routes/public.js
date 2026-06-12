@@ -7,6 +7,7 @@ const express_1 = require("express");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const db_1 = require("../db");
+const seoPages_1 = require("../seoPages");
 const router = (0, express_1.Router)();
 function getHeaderValue(value) {
     if (Array.isArray(value)) {
@@ -70,23 +71,22 @@ router.get("/debug/country", (req, res) => {
     });
 });
 // Páginas SEO
-router.get("/invitacion-boda-whatsapp", (req, res) => {
-    res.render("seo/invitacion-boda-whatsapp");
+router.get("/blog", (req, res) => {
+    res.render("seo/index", {
+        pages: seoPages_1.seoPages,
+    });
 });
-router.get("/invitacion-digital-boda", (req, res) => {
-    res.render("seo/invitacion-digital-boda");
-});
-router.get("/invitacion-quinceanera", (req, res) => {
-    res.render("seo/invitacion-quinceanera");
-});
-router.get("/invitacion-rsvp", (req, res) => {
-    res.render("seo/invitacion-rsvp");
-});
-router.get("/organizar-invitados-boda", (req, res) => {
-    res.render("seo/organizar-invitados-boda");
-});
-router.get("/invitacion-digital-vs-papel", (req, res) => {
-    res.render("seo/invitacion-digital-vs-papel");
+seoPages_1.seoPages.forEach((page) => {
+    router.get(`/${page.slug}`, (req, res) => {
+        const seoPage = (0, seoPages_1.getSeoPage)(page.slug);
+        if (!seoPage) {
+            return res.status(404).render("errors/404", { url: req.originalUrl });
+        }
+        res.render("seo/article", {
+            page: seoPage,
+            relatedPages: (0, seoPages_1.getRelatedSeoPages)(seoPage),
+        });
+    });
 });
 // Sitemap XML dinámico
 router.get("/sitemap.xml", (req, res) => {
@@ -94,12 +94,13 @@ router.get("/sitemap.xml", (req, res) => {
     const currentDate = new Date().toISOString();
     const urls = [
         { loc: `${baseUrl}/`, lastmod: currentDate, changefreq: "weekly", priority: "1.0" },
-        { loc: `${baseUrl}/invitacion-boda-whatsapp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-        { loc: `${baseUrl}/invitacion-digital-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-        { loc: `${baseUrl}/invitacion-quinceanera`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-        { loc: `${baseUrl}/invitacion-rsvp`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-        { loc: `${baseUrl}/organizar-invitados-boda`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
-        { loc: `${baseUrl}/invitacion-digital-vs-papel`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
+        { loc: `${baseUrl}/blog`, lastmod: currentDate, changefreq: "weekly", priority: "0.7" },
+        ...seoPages_1.seoPages.map((page) => ({
+            loc: `${baseUrl}/${page.slug}`,
+            lastmod: page.updatedAt,
+            changefreq: "monthly",
+            priority: "0.8",
+        })),
         { loc: `${baseUrl}/solicitud`, lastmod: currentDate, changefreq: "monthly", priority: "0.5" },
     ];
     // Agregar demos dinámicamente
