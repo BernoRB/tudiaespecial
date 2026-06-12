@@ -978,19 +978,19 @@
     font-size: 0.78rem;
   }
   .blog-layout {
-    max-width: 1120px;
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 8px clamp(20px, 5vw, 48px) 86px;
+    padding: 28px clamp(28px, 6vw, 72px) 104px;
     display: grid;
-    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-    gap: 34px;
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: 42px;
     align-items: start;
   }
   .blog-sidebar {
     position: sticky;
     top: 94px;
     display: grid;
-    gap: 14px;
+    gap: 18px;
   }
   .blog-side-panel,
   .blog-answer-box,
@@ -1004,7 +1004,7 @@
     box-shadow: 0 14px 44px rgba(26, 23, 20, 0.06);
   }
   .blog-side-panel {
-    padding: 18px;
+    padding: 24px 22px;
   }
   .blog-side-panel p {
     color: var(--ink-soft);
@@ -1034,10 +1034,10 @@
   }
   .blog-content {
     display: grid;
-    gap: 18px;
+    gap: 24px;
   }
-  .blog-answer-box {
-    padding: 24px 26px;
+  .blog-body .blog-answer-box {
+    padding: 30px 34px;
     border-color: rgba(212, 175, 55, 0.32);
     background: linear-gradient(135deg, rgba(245, 239, 199, 0.92), rgba(255, 253, 248, 0.96));
   }
@@ -1055,8 +1055,8 @@
     font-size: 1.08rem;
     line-height: 1.6;
   }
-  .blog-section {
-    padding: 28px 30px;
+  .blog-body .blog-section {
+    padding: 34px 38px;
   }
   .blog-section h2 {
     margin-bottom: 14px;
@@ -1076,14 +1076,14 @@
   .blog-list,
   .blog-checklist ul {
     display: grid;
-    gap: 10px;
-    margin-top: 16px;
+    gap: 14px;
+    margin-top: 20px;
     list-style: none;
   }
   .blog-list li,
   .blog-checklist li {
     position: relative;
-    padding-left: 24px;
+    padding-left: 30px;
     color: var(--ink-soft);
     line-height: 1.55;
   }
@@ -1091,7 +1091,7 @@
   .blog-checklist li::before {
     content: "";
     position: absolute;
-    left: 0;
+    left: 2px;
     top: 0.65em;
     width: 9px;
     height: 9px;
@@ -1142,12 +1142,12 @@
   .blog-faq-list details p {
     padding: 0 18px 18px;
   }
-  .blog-cta {
-    padding: 28px;
+  .blog-body .blog-cta {
+    padding: 36px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 22px;
+    gap: 28px;
     background: var(--ink);
   }
   .blog-cta span {
@@ -1162,8 +1162,8 @@
     margin-top: 8px;
     color: var(--gold-pale);
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    line-height: 1.12;
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+    line-height: 1.15;
   }
   .blog-cta a,
   .blog-footer > a {
@@ -1296,6 +1296,9 @@
     }
     .blog-layout {
       grid-template-columns: 1fr;
+      gap: 26px;
+      padding-left: clamp(22px, 6vw, 44px);
+      padding-right: clamp(22px, 6vw, 44px);
     }
     .blog-sidebar {
       position: static;
@@ -1313,7 +1316,7 @@
       border-bottom: 1px solid rgba(26, 23, 20, 0.08);
       padding-bottom: 8px;
     }
-    .blog-cta,
+    .blog-body .blog-cta,
     .blog-footer {
       align-items: flex-start;
       flex-direction: column;
@@ -1324,10 +1327,10 @@
     .blog-index-hero {
       padding-top: 42px;
     }
-    .blog-section,
-    .blog-answer-box,
-    .blog-cta {
-      padding: 22px;
+    .blog-body .blog-section,
+    .blog-body .blog-answer-box,
+    .blog-body .blog-cta {
+      padding: 24px;
     }
     .blog-nav {
       gap: 14px;
