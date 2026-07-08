@@ -487,10 +487,19 @@
       padding: 52px 48px;
     }
     .grid { gap: 48px; }
-    .gallery-track { justify-content: center; flex-wrap: wrap; overflow: visible; }
-    .gallery-item { flex: 0 0 calc(25% - 10px); }
+    .gallery-track {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .gallery-item { flex: 0 0 32%; }
     .map-wrap iframe { height: 380px; }
-    .price-groups { grid-template-columns: 1fr 1fr; align-items: start; }
+    .price-groups {
+      grid-template-columns: 1fr;
+      align-items: center;
+      max-width: 560px;
+    }
+    .price-group { width: 100%; }
     .rsvp-grid { gap: 22px; }
     .rsvp-field input,
     .rsvp-field select,
