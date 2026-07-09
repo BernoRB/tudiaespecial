@@ -617,7 +617,7 @@
           <div class="section-divider"></div>
           <div class="info-list">
             <div><strong>Lugar:</strong> <%= event.venue_name || "Salon Centro Comercial" %></div>
-            <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "Hipolito Yrigoyen 972, Villa del Rosario, Cordoba" %></div>
+            <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "25 de Mayo 972, Villa el Rosario, Cordoba" %></div>
           </div>
         </div>
       </article>
@@ -657,6 +657,7 @@
             <div><strong>CBU:</strong> <%= transfer.cbu || "0110556830055606038251" %></div>
             <div><strong>Titular:</strong> <%= transfer.holder || "Ferreyra Laura Nadir" %></div>
             <div><strong>Banco:</strong> <%= transfer.bank || "Banco Nacion" %></div>
+            <div style="margin-top:10px;font-style:italic;"><%= transfer.receipt_note || "Enviar comprobante a 3573457710" %></div>
           </div>
         </div>
       </article>
@@ -668,7 +669,7 @@
           <h2 class="section-title">Dress Code</h2>
           <div class="section-divider"></div>
           <div class="info-list">
-            <div><strong><%= event.dress_code || "Night Glam" %></strong></div>
+            <div><strong><%= event.dress_code || "Glam Nocturno" %></strong></div>
           </div>
         </div>
       </article>
@@ -695,7 +696,7 @@
         <div class="section-inner">
           <img src="/images/GifStar.webp" alt="Estrella" class="section-icon">
           <div class="section-divider"></div>
-          <p class="quote-text"><%= event.quote_message || "Fuerte y valiente para sonar y libre para vivir" %></p>
+          <p class="quote-text"><%= event.quote_message || "Fuerte y valiente para soñar, libre para vivir" %></p>
         </div>
       </article>
 
