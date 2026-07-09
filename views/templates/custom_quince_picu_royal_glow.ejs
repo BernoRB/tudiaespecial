@@ -541,7 +541,10 @@
   const galleryImages = event.gallery && Array.isArray(event.gallery) && event.gallery.length
     ? event.gallery
     : ["/images/events/picu-xv/gallery-01.webp"];
-  const mapQuery = encodeURIComponent(event.venue_address || event.venue_name || "Villa del Rosario Cordoba");
+  const mapQuery = encodeURIComponent(
+    event.custom_data?.map_embed_query ||
+    `${event.venue_name || "Salon Centro Comercial"}, ${event.venue_address || "25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina"}`
+  );
   const mapLink = event.maps_url || ("https://www.google.com/maps/search/?api=1&query=" + mapQuery);
   const eventDateForCalendar = event.date || "2026-07-31";
   const eventTimeForCalendar = event.time || "21:30";
@@ -617,7 +620,7 @@
           <div class="section-divider"></div>
           <div class="info-list">
             <div><strong>Lugar:</strong> <%= event.venue_name || "Salon Centro Comercial" %></div>
-            <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "25 de Mayo 972, Villa el Rosario, Cordoba" %></div>
+            <div><strong>Direcci&oacute;n:</strong> <%= event.venue_address || "25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina" %></div>
           </div>
         </div>
       </article>

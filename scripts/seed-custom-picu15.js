@@ -35,7 +35,7 @@ const event = {
   date: "2026-07-31",
   time: "21:30",
   venue_name: "Salon Centro Comercial",
-  venue_address: "25 de Mayo 972, Villa el Rosario, Cordoba",
+  venue_address: "25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina",
   maps_url: "https://www.google.com/maps/place//data=!4m2!3m1!1s0x94332b000b2ddf7d:0x209800adc97e24f0?sa=X&ved=1t:8290&ictx=111",
   dress_code: "Glam Nocturno",
   reserved_color: "",
@@ -62,6 +62,7 @@ const event = {
     theme: "royal_black_gold_glow",
     hero_logo: "/images/events/picu-xv/logo-black-mark-transparent.webp",
     confirm_logo: "/images/events/picu-xv/logo-black-glow.webp",
+    map_embed_query: "Salon Centro Comercial, 25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina",
     price_groups: [
       {
         title: "Cena",
