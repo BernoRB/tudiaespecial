@@ -8,6 +8,10 @@ function shouldHideContactName(event) {
         || event?.slug === "boda-victoria-andres"
         || event?.template_key === "custom_boda_victoria_andres_champagne";
 }
+function shouldDisableEventCache(event) {
+    return event?.slug === "picu-xv"
+        || event?.template_key === "custom_quince_picu_royal_glow";
+}
 router.param("slug", async (req, res, next, slug) => {
     let event;
     try {
@@ -29,6 +33,12 @@ router.get("/:slug", (req, res) => {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     const viewName = `templates/${event.template_key}`;
+    if (shouldDisableEventCache(event)) {
+        res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        res.set("Pragma", "no-cache");
+        res.set("Expires", "0");
+        res.set("Surrogate-Control", "no-store");
+    }
     res.render(viewName, {
         event,
         sections: event.sections || {},

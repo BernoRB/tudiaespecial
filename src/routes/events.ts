@@ -13,6 +13,11 @@ function shouldHideContactName(event: any) {
     || event?.template_key === "custom_boda_victoria_andres_champagne";
 }
 
+function shouldDisableEventCache(event: any) {
+  return event?.slug === "picu-xv"
+    || event?.template_key === "custom_quince_picu_royal_glow";
+}
+
 router.param("slug", async (req: EventRequest, res: Response, next: NextFunction, slug: string) => {
   let event;
   try {
@@ -37,6 +42,12 @@ router.get("/:slug", (req: EventRequest, res: Response) => {
   }
 
   const viewName = `templates/${event.template_key}`;
+  if (shouldDisableEventCache(event)) {
+    res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
+    res.set("Surrogate-Control", "no-store");
+  }
 
   res.render(viewName, {
     event,

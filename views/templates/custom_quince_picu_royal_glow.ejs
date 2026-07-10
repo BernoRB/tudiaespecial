@@ -763,7 +763,7 @@
           <textarea id="people_names" name="people_names" hidden></textarea>
           <div class="rsvp-field">
             <label for="people_count">&iquest;Cu&aacute;ntos vienen?</label>
-            <input type="number" id="people_count" name="people_count" min="1" value="1" required>
+            <input type="text" id="people_count" name="people_count" inputmode="numeric" pattern="[0-9]*" value="1" required>
           </div>
           <div class="rsvp-field">
             <label for="status">Asistencia</label>
@@ -912,6 +912,25 @@
         }
       }
       if (peopleCount) {
+        peopleCount.addEventListener("focus", function() {
+          if (peopleCount.value === "1") {
+            peopleCount.dataset.replaceDefault = "true";
+            peopleCount.select();
+          }
+        });
+        peopleCount.addEventListener("beforeinput", function(event) {
+          if (
+            peopleCount.dataset.replaceDefault === "true" &&
+            event.inputType === "insertText" &&
+            event.data &&
+            /^\d$/.test(event.data)
+          ) {
+            event.preventDefault();
+            peopleCount.value = event.data;
+            delete peopleCount.dataset.replaceDefault;
+            renderGuestRows();
+          }
+        });
         peopleCount.addEventListener("input", renderGuestRows);
         peopleCount.addEventListener("change", renderGuestRows);
       }
