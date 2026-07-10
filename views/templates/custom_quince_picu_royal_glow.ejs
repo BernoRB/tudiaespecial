@@ -406,6 +406,27 @@
     min-height: 78px;
     resize: vertical;
   }
+  .guest-list {
+    display: grid;
+    gap: 12px;
+  }
+  .guest-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    border: 1px solid rgba(255, 220, 145, .22);
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(255,255,255,.035);
+  }
+  .guest-row-title {
+    font-family: "Cinzel", serif;
+    color: var(--gold-bright);
+    font-size: .78rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-align: left;
+  }
   .full { grid-column: 1 / -1; }
   .send-btn {
     width: 100%;
@@ -503,6 +524,12 @@
     .price-group { width: 100%; }
     #transfer-toggle { margin-top: 28px; }
     .rsvp-grid { gap: 22px; }
+    .guest-row {
+      grid-template-columns: 1fr 220px;
+      align-items: end;
+      gap: 14px;
+    }
+    .guest-row-title { grid-column: 1 / -1; text-align: center; }
     .rsvp-field input,
     .rsvp-field select,
     .rsvp-field textarea {
@@ -732,10 +759,8 @@
       <p class="section-sub">&iexcl;Quiero saber si vas a estar! Complet&aacute; tus datos ac&aacute; abajo.</p>
       <form action="/api/<%= event.slug %>/rsvp" method="post" id="rsvp-form">
         <div class="rsvp-grid">
-          <div class="rsvp-field full">
-            <label for="contact_name">Nombre de quien confirma</label>
-            <input type="text" id="contact_name" name="contact_name" required>
-          </div>
+          <input type="hidden" id="contact_name" name="contact_name" value="Confirmacion Picu">
+          <textarea id="people_names" name="people_names" hidden></textarea>
           <div class="rsvp-field">
             <label for="people_count">&iquest;Cu&aacute;ntos vienen?</label>
             <input type="number" id="people_count" name="people_count" min="1" value="1" required>
@@ -748,8 +773,8 @@
             </select>
           </div>
           <div class="rsvp-field full">
-            <label for="people_names">Nombre y apellido de todos los que te acompa&ntilde;an</label>
-            <textarea id="people_names" name="people_names" placeholder="Ej: Juan Perez, Ana Gomez, Sofia Lopez"></textarea>
+            <label>Nombre y apellido / Tipo de invitaci&oacute;n</label>
+            <div class="guest-list" id="guest-list"></div>
           </div>
           <div class="rsvp-field full">
             <label for="food_preferences">Preferencias de comida</label>
@@ -828,8 +853,69 @@
       bindToggle("transfer-toggle", "transfer-box", "Ver datos para la transferencia", "Ocultar datos para la transferencia");
 
       const rsvpForm = document.getElementById("rsvp-form");
+      const peopleCount = document.getElementById("people_count");
+      const guestList = document.getElementById("guest-list");
+      const hiddenPeopleNames = document.getElementById("people_names");
+      const hiddenContactName = document.getElementById("contact_name");
       const rsvpResult = document.getElementById("rsvp-result");
       const sendBtn = rsvpForm ? rsvpForm.querySelector(".send-btn") : null;
+      function getGuestValues() {
+        if (!guestList) return [];
+        return Array.from(guestList.querySelectorAll(".guest-row")).map(function(row) {
+          const name = row.querySelector(".guest-name");
+          const type = row.querySelector(".guest-type");
+          return {
+            name: name ? name.value.trim() : "",
+            type: type ? type.value : "Mayor"
+          };
+        });
+      }
+      function renderGuestRows() {
+        if (!peopleCount || !guestList) return;
+        const current = getGuestValues();
+        const total = Math.max(1, Math.min(30, Number(peopleCount.value) || 1));
+        peopleCount.value = String(total);
+        guestList.innerHTML = "";
+        for (let index = 0; index < total; index++) {
+          const previous = current[index] || {};
+          const row = document.createElement("div");
+          row.className = "guest-row";
+          row.innerHTML =
+            '<div class="guest-row-title">Invitado ' + (index + 1) + '</div>' +
+            '<div class="rsvp-field">' +
+              '<label>Nombre y apellido</label>' +
+              '<input class="guest-name" type="text" required autocomplete="name" value="' + (previous.name || "").replace(/"/g, "&quot;") + '">' +
+            '</div>' +
+            '<div class="rsvp-field">' +
+              '<label>Tipo de invitaci&oacute;n</label>' +
+              '<select class="guest-type" required>' +
+                '<option value="Mayor">Mayor</option>' +
+                '<option value="Menor">Menor</option>' +
+                '<option value="Brindis">Brindis</option>' +
+              '</select>' +
+            '</div>';
+          const type = row.querySelector(".guest-type");
+          if (type && previous.type) type.value = previous.type;
+          guestList.appendChild(row);
+        }
+      }
+      function syncGuestFields() {
+        const guests = getGuestValues();
+        if (hiddenPeopleNames) {
+          hiddenPeopleNames.value = guests
+            .filter(function(guest) { return guest.name; })
+            .map(function(guest) { return guest.name + " [ " + guest.type.toUpperCase() + " ]"; })
+            .join("\n");
+        }
+        if (hiddenContactName) {
+          hiddenContactName.value = guests.find(function(guest) { return guest.name; })?.name || "Confirmacion Picu";
+        }
+      }
+      if (peopleCount) {
+        peopleCount.addEventListener("input", renderGuestRows);
+        peopleCount.addEventListener("change", renderGuestRows);
+      }
+      renderGuestRows();
       function showRsvpResult(loading) {
         if (!rsvpForm || !rsvpResult) return;
         rsvpForm.style.display = "none";
@@ -841,6 +927,7 @@
       if (rsvpForm) {
         rsvpForm.addEventListener("submit", async function(e) {
           e.preventDefault();
+          syncGuestFields();
           if (sendBtn) sendBtn.classList.add("is-loading");
           showRsvpResult(true);
           try {

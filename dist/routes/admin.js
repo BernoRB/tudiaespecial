@@ -17,6 +17,29 @@ function shouldHideContactName(event) {
         || event?.slug === "boda-victoria-andres"
         || event?.template_key === "custom_boda_victoria_andres_champagne";
 }
+function shouldShowEntryTypeSummary(event) {
+    return event?.custom_data?.entry_type_summary === true
+        || event?.slug === "picu-xv"
+        || event?.template_key === "custom_quince_picu_royal_glow";
+}
+function buildEntryTypeTotals(rsvps) {
+    const totals = { mayor: 0, menor: 0, brindis: 0 };
+    for (const rsvp of rsvps) {
+        if (rsvp.status === "declined")
+            continue;
+        const lines = String(rsvp.people_names || "").split(/\r?\n/);
+        for (const line of lines) {
+            const match = line.match(/\[\s*(MAYOR|MENOR|BRINDIS)\s*\]/i) || line.match(/-\s*(Mayor|Menor|Brindis)\s*$/i);
+            if (!match)
+                continue;
+            const type = String(match[1] || "").toLowerCase();
+            if (type === "mayor" || type === "menor" || type === "brindis") {
+                totals[type] += 1;
+            }
+        }
+    }
+    return totals;
+}
 function xmlEscape(value) {
     return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -215,6 +238,7 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
     const showContactName = !groupEvents.some((item) => shouldHideContactName(item));
     const showFoodPreferences = !groupEvents.some((item) => item.custom_data?.hide_food_preferences === true);
     const showSongSuggestions = groupEvents.some((item) => item.sections?.music === true);
+    const showEntryTypeSummary = groupEvents.some((item) => shouldShowEntryTypeSummary(item));
     const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
     const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
     const filteredEventIds = selectedEventId && groupEventIds.some((id) => String(id) === selectedEventId)
@@ -239,6 +263,7 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         }
         return acc;
     }, { confirmedCount: 0, declinedCount: 0 });
+    const entryTypeTotals = showEntryTypeSummary ? buildEntryTypeTotals(rsvps) : null;
     const totalsByEvent = groupEvents.map((item) => {
         const eventRsvps = rsvps.filter((r) => String(r.event_id) === String(item._id));
         return {
@@ -251,6 +276,7 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         event,
         rsvps: rsvpsWithEvent,
         totals,
+        entryTypeTotals,
         groupEvents,
         totalsByEvent,
         showContactName,

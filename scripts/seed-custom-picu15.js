@@ -62,6 +62,7 @@ const event = {
     theme: "royal_black_gold_glow",
     hero_logo: "/images/events/picu-xv/logo-black-mark-transparent.webp?v=20260710xv",
     confirm_logo: "/images/events/picu-xv/logo-black-glow.webp?v=20260710xv",
+    entry_type_summary: true,
     map_embed_query: "Salon Centro Comercial, 25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina",
     price_groups: [
       {
