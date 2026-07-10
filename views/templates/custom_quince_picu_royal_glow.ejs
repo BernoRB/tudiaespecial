@@ -873,8 +873,10 @@
       function renderGuestRows() {
         if (!peopleCount || !guestList) return;
         const current = getGuestValues();
-        const total = Math.max(1, Math.min(30, Number(peopleCount.value) || 1));
-        peopleCount.value = String(total);
+        const digits = peopleCount.value.replace(/\D/g, "");
+        if (peopleCount.value !== digits) peopleCount.value = digits;
+        const total = Math.max(1, Math.min(30, Number(digits) || 1));
+        if (Number(digits) > 30) peopleCount.value = "30";
         guestList.innerHTML = "";
         for (let index = 0; index < total; index++) {
           const previous = current[index] || {};
@@ -899,6 +901,12 @@
           guestList.appendChild(row);
         }
       }
+      function normalizePeopleCount() {
+        if (!peopleCount) return;
+        const total = Math.max(1, Math.min(30, Number(peopleCount.value) || 1));
+        peopleCount.value = String(total);
+        renderGuestRows();
+      }
       function syncGuestFields() {
         const guests = getGuestValues();
         if (hiddenPeopleNames) {
@@ -912,27 +920,9 @@
         }
       }
       if (peopleCount) {
-        peopleCount.addEventListener("focus", function() {
-          if (peopleCount.value === "1") {
-            peopleCount.dataset.replaceDefault = "true";
-            peopleCount.select();
-          }
-        });
-        peopleCount.addEventListener("beforeinput", function(event) {
-          if (
-            peopleCount.dataset.replaceDefault === "true" &&
-            event.inputType === "insertText" &&
-            event.data &&
-            /^\d$/.test(event.data)
-          ) {
-            event.preventDefault();
-            peopleCount.value = event.data;
-            delete peopleCount.dataset.replaceDefault;
-            renderGuestRows();
-          }
-        });
         peopleCount.addEventListener("input", renderGuestRows);
-        peopleCount.addEventListener("change", renderGuestRows);
+        peopleCount.addEventListener("change", normalizePeopleCount);
+        peopleCount.addEventListener("blur", normalizePeopleCount);
       }
       renderGuestRows();
       function showRsvpResult(loading) {
@@ -946,6 +936,7 @@
       if (rsvpForm) {
         rsvpForm.addEventListener("submit", async function(e) {
           e.preventDefault();
+          normalizePeopleCount();
           syncGuestFields();
           if (sendBtn) sendBtn.classList.add("is-loading");
           showRsvpResult(true);
