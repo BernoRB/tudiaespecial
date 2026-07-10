@@ -23,17 +23,17 @@ function shouldShowEntryTypeSummary(event) {
         || event?.template_key === "custom_quince_picu_royal_glow";
 }
 function buildEntryTypeTotals(rsvps) {
-    const totals = { mayor: 0, menor: 0, brindis: 0 };
+    const totals = { mayor: 0, adolescente: 0, menor: 0, brindis: 0 };
     for (const rsvp of rsvps) {
         if (rsvp.status === "declined")
             continue;
         const lines = String(rsvp.people_names || "").split(/\r?\n/);
         for (const line of lines) {
-            const match = line.match(/\[\s*(MAYOR|MENOR|BRINDIS)\s*\]/i) || line.match(/-\s*(Mayor|Menor|Brindis)\s*$/i);
+            const match = line.match(/\[\s*(MAYOR|ADOLESCENTE|MENOR|BRINDIS)\s*\]/i) || line.match(/-\s*(Mayor|Adolescente|Menor|Brindis)\s*$/i);
             if (!match)
                 continue;
             const type = String(match[1] || "").toLowerCase();
-            if (type === "mayor" || type === "menor" || type === "brindis") {
+            if (type === "mayor" || type === "adolescente" || type === "menor" || type === "brindis") {
                 totals[type] += 1;
             }
         }
