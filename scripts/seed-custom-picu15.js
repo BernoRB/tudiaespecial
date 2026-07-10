@@ -42,7 +42,7 @@ const event = {
   reserved_message: "",
   hero_message: "",
   quote_message: "Fuerte y valiente para soñar, libre para vivir",
-  hero_image: "/images/events/picu-xv/logo-black-mark-transparent.webp",
+  hero_image: "/images/events/picu-xv/logo-black-mark-transparent.webp?v=20260710xv",
   sections,
   sections_json: JSON.stringify(sections),
   gallery,
@@ -60,8 +60,8 @@ const event = {
   age_years: 15,
   custom_data: {
     theme: "royal_black_gold_glow",
-    hero_logo: "/images/events/picu-xv/logo-black-mark-transparent.webp",
-    confirm_logo: "/images/events/picu-xv/logo-black-glow.webp",
+    hero_logo: "/images/events/picu-xv/logo-black-mark-transparent.webp?v=20260710xv",
+    confirm_logo: "/images/events/picu-xv/logo-black-glow.webp?v=20260710xv",
     map_embed_query: "Salon Centro Comercial, 25 de Mayo 966, X5963 Villa del Rosario, Córdoba, Argentina",
     price_groups: [
       {

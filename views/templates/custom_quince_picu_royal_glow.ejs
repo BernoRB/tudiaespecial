@@ -6,7 +6,7 @@
   description: "Picu - Te invito a celebrar mis quince años",
   keywords: "invitacion digital quinces, PICU, Villa del Rosario, Cordoba, Argentina",
   url: "https://tudiaespecial.com" + req.originalUrl,
-  image: "https://tudiaespecial.com/images/events/picu-xv/logo-gold.webp",
+  image: "https://tudiaespecial.com/images/events/picu-xv/logo-gold.webp?v=20260710xv",
   type: "article"
 }) %>
 
@@ -536,8 +536,8 @@
 </head>
 <body>
 <%
-  const heroLogo = event.custom_data?.hero_logo || event.hero_image || "/images/events/picu-xv/logo-black-mark-transparent.webp";
-  const confirmLogo = event.custom_data?.confirm_logo || "/images/events/picu-xv/logo-black-glow.webp";
+  const heroLogo = event.custom_data?.hero_logo || event.hero_image || "/images/events/picu-xv/logo-black-mark-transparent.webp?v=20260710xv";
+  const confirmLogo = event.custom_data?.confirm_logo || "/images/events/picu-xv/logo-black-glow.webp?v=20260710xv";
   const galleryImages = event.gallery && Array.isArray(event.gallery) && event.gallery.length
     ? event.gallery
     : ["/images/events/picu-xv/gallery-01.webp"];
