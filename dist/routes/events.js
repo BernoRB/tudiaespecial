@@ -3,19 +3,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const db_1 = require("../db");
 const router = (0, express_1.Router)();
+const PICU_DB_SLUG = "picu-xv";
+const PICU_PRIVATE_SLUG = "picu-xv-priv";
 function shouldHideContactName(event) {
     return event?.custom_data?.hide_contact_name === true
         || event?.slug === "boda-victoria-andres"
         || event?.template_key === "custom_boda_victoria_andres_champagne";
 }
 function shouldDisableEventCache(event) {
-    return event?.slug === "picu-xv"
+    return event?.slug === PICU_DB_SLUG
         || event?.template_key === "custom_quince_picu_royal_glow";
+}
+function resolveEventSlug(slug) {
+    return slug === PICU_PRIVATE_SLUG ? PICU_DB_SLUG : slug;
+}
+function isPicuPublicSlugDisabled(slug, event) {
+    return slug === PICU_DB_SLUG && event?.template_key === "custom_quince_picu_royal_glow";
 }
 router.param("slug", async (req, res, next, slug) => {
     let event;
     try {
-        event = await db_1.Event.findOne({ slug });
+        event = await db_1.Event.findOne({ slug: resolveEventSlug(slug) });
     }
     catch (error) {
         console.error("Error finding event by slug:", slug, error);
@@ -25,11 +33,16 @@ router.param("slug", async (req, res, next, slug) => {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     req.event = event;
+    req.publicSlug = slug;
     next();
 });
 router.get("/:slug", (req, res) => {
     const event = req.event;
+    const publicSlug = req.publicSlug || event?.slug;
     if (!event || event.status !== "ready") {
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    if (isPicuPublicSlugDisabled(publicSlug, event)) {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     const viewName = `templates/${event.template_key}`;
@@ -39,8 +52,10 @@ router.get("/:slug", (req, res) => {
         res.set("Expires", "0");
         res.set("Surrogate-Control", "no-store");
     }
+    const eventForView = typeof event.toObject === "function" ? event.toObject() : { ...event };
+    eventForView.slug = publicSlug;
     res.render(viewName, {
-        event,
+        event: eventForView,
         sections: event.sections || {},
         gallery: event.gallery || [],
         itinerary: event.itinerary || {},
@@ -52,13 +67,16 @@ router.post("/api/:slug/rsvp", async (req, res) => {
     const slug = Array.isArray(req.params.slug) ? req.params.slug[0] : req.params.slug;
     let event;
     try {
-        event = await db_1.Event.findOne({ slug });
+        event = await db_1.Event.findOne({ slug: resolveEventSlug(slug) });
     }
     catch (error) {
         console.error("Error finding event by slug:", slug, error);
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     if (!event) {
+        return res.status(404).render("errors/404", { url: req.originalUrl });
+    }
+    if (isPicuPublicSlugDisabled(slug, event)) {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     }
     const { contact_name, people_count, people_names, food_preferences, song_suggestions, comments, status, } = req.body;

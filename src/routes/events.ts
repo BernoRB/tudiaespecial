@@ -2,9 +2,12 @@ import { Router, Request, Response, NextFunction } from "express";
 import { Event, Rsvp } from "../db";
 
 const router = Router();
+const PICU_DB_SLUG = "picu-xv";
+const PICU_PRIVATE_SLUG = "picu-xv-priv";
 
 interface EventRequest extends Request {
   event?: any;
+  publicSlug?: string;
 }
 
 function shouldHideContactName(event: any) {
@@ -14,14 +17,22 @@ function shouldHideContactName(event: any) {
 }
 
 function shouldDisableEventCache(event: any) {
-  return event?.slug === "picu-xv"
+  return event?.slug === PICU_DB_SLUG
     || event?.template_key === "custom_quince_picu_royal_glow";
+}
+
+function resolveEventSlug(slug: string) {
+  return slug === PICU_PRIVATE_SLUG ? PICU_DB_SLUG : slug;
+}
+
+function isPicuPublicSlugDisabled(slug: string, event: any) {
+  return slug === PICU_DB_SLUG && event?.template_key === "custom_quince_picu_royal_glow";
 }
 
 router.param("slug", async (req: EventRequest, res: Response, next: NextFunction, slug: string) => {
   let event;
   try {
-    event = await Event.findOne({ slug });
+    event = await Event.findOne({ slug: resolveEventSlug(slug) });
   } catch (error) {
     console.error("Error finding event by slug:", slug, error);
     return res.status(404).render("errors/404", { url: req.originalUrl });
@@ -31,13 +42,18 @@ router.param("slug", async (req: EventRequest, res: Response, next: NextFunction
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
   req.event = event;
+  req.publicSlug = slug;
   next();
 });
 
 router.get("/:slug", (req: EventRequest, res: Response) => {
   const event = req.event;
+  const publicSlug = req.publicSlug || event?.slug;
 
   if (!event || event.status !== "ready") {
+    return res.status(404).render("errors/404", { url: req.originalUrl });
+  }
+  if (isPicuPublicSlugDisabled(publicSlug, event)) {
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
@@ -49,8 +65,11 @@ router.get("/:slug", (req: EventRequest, res: Response) => {
     res.set("Surrogate-Control", "no-store");
   }
 
+  const eventForView = typeof event.toObject === "function" ? event.toObject() : { ...event };
+  eventForView.slug = publicSlug;
+
   res.render(viewName, {
-    event,
+    event: eventForView,
     sections: event.sections || {},
     gallery: event.gallery || [],
     itinerary: event.itinerary || {},
@@ -64,13 +83,16 @@ router.post("/api/:slug/rsvp", async (req: Request, res: Response) => {
 
   let event;
   try {
-    event = await Event.findOne({ slug });
+    event = await Event.findOne({ slug: resolveEventSlug(slug) });
   } catch (error) {
     console.error("Error finding event by slug:", slug, error);
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
   if (!event) {
+    return res.status(404).render("errors/404", { url: req.originalUrl });
+  }
+  if (isPicuPublicSlugDisabled(slug, event)) {
     return res.status(404).render("errors/404", { url: req.originalUrl });
   }
 
