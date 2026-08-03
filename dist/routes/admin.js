@@ -22,6 +22,41 @@ function shouldShowEntryTypeSummary(event) {
         || event?.slug === "picu-xv"
         || event?.template_key === "custom_quince_picu_royal_glow";
 }
+function shouldExpandRsvpsByGuest(event) {
+    return event?.custom_data?.rsvp_admin_mode === "per_guest";
+}
+function shouldHideAdminComments(event) {
+    return event?.custom_data?.hide_admin_comments === true;
+}
+function expandRsvpsByGuest(rsvps, eventLabels) {
+    return rsvps.flatMap((rsvp) => {
+        const eventLabel = eventLabels[String(rsvp.event_id)] || "";
+        const guestLines = String(rsvp.people_names || "")
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean);
+        const foodLines = String(rsvp.food_preferences || "")
+            .split(/\r?\n/)
+            .map((line) => line.trim());
+        const guests = guestLines.length ? guestLines : [rsvp.contact_name || "Sin nombre"];
+        return guests.map((line, index) => {
+            const typeMatch = line.match(/\[\s*(MAYOR|MENOR)\s*\]/i);
+            const isDeclined = rsvp.status === "declined";
+            return {
+                ...rsvp,
+                event_label: eventLabel,
+                people_count: 1,
+                people_names: line.replace(/\s*\[\s*(MAYOR|MENOR)\s*\]\s*/i, "").trim() || "Sin nombre",
+                entry_type: isDeclined ? "" : (typeMatch ? typeMatch[1].toUpperCase() : ""),
+                food_preferences: isDeclined ? "" : (foodLines[index] || ""),
+                rsvp_delete_id: index === 0 ? rsvp._id : null,
+                rsvp_group_size: guests.length,
+                rsvp_group_index: index,
+                rsvp_people_total: rsvp.people_count || guests.length,
+            };
+        });
+    });
+}
 function buildEntryTypeTotals(rsvps) {
     const totals = { mayor: 0, adolescente: 0, menor: 0, brindis: 0 };
     for (const rsvp of rsvps) {
@@ -239,6 +274,8 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
     const showFoodPreferences = !groupEvents.some((item) => item.custom_data?.hide_food_preferences === true);
     const showSongSuggestions = groupEvents.some((item) => item.sections?.music === true);
     const showEntryTypeSummary = groupEvents.some((item) => shouldShowEntryTypeSummary(item));
+    const showGuestEntryType = groupEvents.some((item) => shouldExpandRsvpsByGuest(item));
+    const showAdminComments = !groupEvents.some((item) => shouldHideAdminComments(item));
     const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
     const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
     const filteredEventIds = selectedEventId && groupEventIds.some((id) => String(id) === selectedEventId)
@@ -249,7 +286,8 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         rsvpQuery.status = selectedStatus;
     }
     const rsvps = await db_1.Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
-    const rsvpsWithEvent = rsvps.map((r) => ({
+    const displayRsvps = showGuestEntryType ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
+    const rsvpsWithEvent = displayRsvps.map((r) => ({
         ...r,
         event_label: eventLabels[String(r.event_id)] || "",
         created_at_display: formatArgentinaDateTime(r.created_at),
@@ -282,6 +320,8 @@ router.get("/:slug/admin", requireAdmin, async (req, res) => {
         showContactName,
         showFoodPreferences,
         showSongSuggestions,
+        showGuestEntryType,
+        showAdminComments,
         selectedStatus,
         selectedEventId,
     });
@@ -293,6 +333,10 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
         return res.status(404).render("errors/404", { url: req.originalUrl });
     const { groupEvents, groupEventIds, eventLabels } = await getAdminGroup(event);
     const showContactName = !groupEvents.some((item) => shouldHideContactName(item));
+    const showGuestEntryType = groupEvents.some((item) => shouldExpandRsvpsByGuest(item));
+    const showFoodPreferences = !groupEvents.some((item) => item.custom_data?.hide_food_preferences === true);
+    const showSongSuggestions = groupEvents.some((item) => item.sections?.music === true);
+    const showAdminComments = !groupEvents.some((item) => shouldHideAdminComments(item));
     const selectedStatus = typeof req.query.status === "string" ? req.query.status : "";
     const selectedEventId = typeof req.query.event_id === "string" ? req.query.event_id : "";
     const filteredEventIds = selectedEventId && groupEventIds.some((id) => String(id) === selectedEventId)
@@ -302,6 +346,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
     if (selectedStatus === "confirmed" || selectedStatus === "declined")
         rsvpQuery.status = selectedStatus;
     const rsvps = await db_1.Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
+    const exportRsvps = showGuestEntryType ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
     const rows = [
         [
             "Invitacion",
@@ -309,20 +354,22 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
             "Personas",
             "Estado",
             "Nombres",
-            "Comida",
-            "Temas",
-            "Comentarios",
+            ...(showGuestEntryType ? ["Tipo de entrada"] : []),
+            ...(showFoodPreferences ? ["Comida"] : []),
+            ...(showSongSuggestions ? ["Temas"] : []),
+            ...(showAdminComments ? ["Comentarios"] : []),
             "Fecha",
         ],
-        ...rsvps.map((r) => [
+        ...exportRsvps.map((r) => [
             eventLabels[String(r.event_id)] || "",
             ...(showContactName ? [r.contact_name || ""] : []),
             r.people_count || "",
             r.status === "declined" ? "No asiste" : "Confirmado",
             r.people_names || "",
-            r.food_preferences || "",
-            r.song_suggestions || "",
-            r.comments || "",
+            ...(showGuestEntryType ? [r.entry_type || ""] : []),
+            ...(showFoodPreferences ? [r.food_preferences || ""] : []),
+            ...(showSongSuggestions ? [r.song_suggestions || ""] : []),
+            ...(showAdminComments ? [r.comments || ""] : []),
             formatArgentinaDateTime(r.created_at),
         ]),
     ];

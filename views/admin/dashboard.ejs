@@ -18,6 +18,16 @@
     .admin-table{width:100%;min-width:1280px;border-collapse:collapse;font-size:.86rem;}
     .names-col{min-width:320px;}
     .comments-col{min-width:260px;}
+    .rsvp-group-start td:not(.rsvp-group-meta){border-top:2px solid #c8b88d!important;}
+    .rsvp-group-end td:not(.rsvp-group-meta){border-bottom:2px solid #c8b88d!important;}
+    .rsvp-group-meta{background:#fff;vertical-align:middle;text-align:center;border-top:2px solid #c8b88d!important;border-bottom:2px solid #c8b88d!important;}
+    .rsvp-group-date{white-space:nowrap;}
+    .rsvp-group-comments{min-width:220px;white-space:pre-wrap;}
+    .per-guest-admin-table .names-col{min-width:200px;width:220px;}
+    .per-guest-admin-table .rsvp-group-comments{min-width:420px;}
+    .rsvp-group-actions{width:78px;min-width:78px;}
+    .admin-btn.icon-danger{width:34px;height:34px;padding:0;display:inline-flex;align-items:center;justify-content:center;color:#a61d1d;border-color:#d79d9d;}
+    .admin-btn.icon-danger svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;}
     @media (max-width: 760px){.admin-wrap{padding:0 10px}.admin-tools>*{width:100%}.admin-tools select,.admin-btn{width:100%;}.section-title{font-size:2rem;}}
   </style>
 </head>
@@ -89,9 +99,11 @@
         const contactColumnVisible = showContactName !== false;
         const tableColumns = (contactColumnVisible ? 1 : 0)
           + (isGroupedAdmin ? 1 : 0)
-          + 6
+          + 5
+          + (showGuestEntryType ? 1 : 0)
           + (showFoodPreferences !== false ? 1 : 0)
-          + (showSongSuggestions ? 1 : 0);
+          + (showSongSuggestions ? 1 : 0)
+          + (showAdminComments !== false ? 1 : 0);
         const adminQuery = isGroupedAdmin
           ? new URLSearchParams({ status: selectedStatus || '', event_id: selectedEventId || '' }).toString()
           : new URLSearchParams({ status: selectedStatus || '' }).toString();
@@ -120,9 +132,12 @@
       </form>
 
       <div class="table-scroll">
-        <table class="admin-table">
+        <table class="admin-table <%= showGuestEntryType ? 'per-guest-admin-table' : '' %>">
           <thead style="background:var(--offwhite);text-align:left;">
             <tr>
+              <% if (showGuestEntryType) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
+              <% } %>
               <% if (contactColumnVisible) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Quién confirma</th>
               <% } %>
@@ -132,51 +147,88 @@
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Personas</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Estado</th>
               <th class="names-col" style="padding:10px 10px;border-bottom:1px solid var(--border);">Nombres</th>
+              <% if (showGuestEntryType) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Tipo de entrada</th>
+              <% } %>
               <% if (showFoodPreferences !== false) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Comida</th>
               <% } %>
               <% if (showSongSuggestions) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Temas</th>
               <% } %>
-              <th class="comments-col" style="padding:10px 10px;border-bottom:1px solid var(--border);">Comentarios</th>
-              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
-              <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Acciones</th>
+              <% if (showAdminComments !== false) { %>
+                <th class="comments-col" style="padding:10px 10px;border-bottom:1px solid var(--border);">Comentarios</th>
+              <% } %>
+              <% if (!showGuestEntryType) { %>
+                <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Fecha</th>
+              <% } %>
+              <th style="padding:10px 10px;border-bottom:1px solid var(--border);text-align:center;">Eliminar</th>
             </tr>
           </thead>
           <tbody>
             <% if (rsvps && rsvps.length) { %>
               <% rsvps.forEach(function(r) { %>
-                <tr>
+                <% const isGuestGroup = showGuestEntryType && r.rsvp_group_size >= 1; %>
+                <% const isGroupStart = isGuestGroup && r.rsvp_group_index === 0; %>
+                <% const isGroupEnd = isGuestGroup && r.rsvp_group_index === r.rsvp_group_size - 1; %>
+                <tr class="<%= isGroupStart ? 'rsvp-group-start' : '' %> <%= isGroupEnd ? 'rsvp-group-end' : '' %>">
+                  <% if (showGuestEntryType && r.rsvp_group_index === 0) { %>
+                    <td class="rsvp-group-meta rsvp-group-date" rowspan="<%= r.rsvp_group_size %>"><%= r.created_at_display || '-' %></td>
+                  <% } %>
                   <% if (contactColumnVisible) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.contact_name %></td>
                   <% } %>
                   <% if (isGroupedAdmin) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.event_label || '-' %></td>
                   <% } %>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.people_count %></td>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);">
-                    <% if (r.status === 'confirmed') { %>
-                      Confirmado
-                    <% } else if (r.status === 'declined') { %>
-                      No asiste
-                    <% } else { %>
-                      <%= r.status %>
-                    <% } %>
-                  </td>
+                  <% if (!showGuestEntryType || r.rsvp_group_index === 0) { %>
+                    <td class="<%= showGuestEntryType ? 'rsvp-group-meta' : '' %>"<% if (showGuestEntryType) { %> rowspan="<%= r.rsvp_group_size %>"<% } %> style="padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:center;"><%= showGuestEntryType ? r.rsvp_people_total : r.people_count %></td>
+                    <td class="<%= showGuestEntryType ? 'rsvp-group-meta' : '' %>"<% if (showGuestEntryType) { %> rowspan="<%= r.rsvp_group_size %>"<% } %> style="padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:center;">
+                      <% if (r.status === 'confirmed') { %>
+                        Confirmado
+                      <% } else if (r.status === 'declined') { %>
+                        No asiste
+                      <% } else { %>
+                        <%= r.status %>
+                      <% } %>
+                    </td>
+                  <% } %>
                   <td class="names-col" style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.people_names || '-' %></td>
+                  <% if (showGuestEntryType) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);"><%= r.entry_type || '-' %></td>
+                  <% } %>
                   <% if (showFoodPreferences !== false) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.food_preferences || '-' %></td>
                   <% } %>
                   <% if (showSongSuggestions) { %>
                     <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.song_suggestions || '-' %></td>
                   <% } %>
-                  <td class="comments-col" style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.comments || '-' %></td>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;"><%= r.created_at_display || '-' %></td>
-                  <td style="padding:8px 10px;border-bottom:1px solid var(--border);">
-                    <form method="post" action="/<%= event.slug %>/admin/rsvps/<%= r._id %>/delete?<%= adminQuery %>" onsubmit="return confirm('Eliminar esta confirmacion?');">
-                      <button class="admin-btn danger" type="submit">Eliminar</button>
-                    </form>
-                  </td>
+                  <% if (showAdminComments !== false) { %>
+                    <% if (!showGuestEntryType) { %>
+                      <td class="comments-col" style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:pre-wrap;"><%= r.comments || '-' %></td>
+                    <% } else if (r.rsvp_group_index === 0) { %>
+                      <td class="rsvp-group-meta rsvp-group-comments" rowspan="<%= r.rsvp_group_size %>"><%= r.comments || '-' %></td>
+                    <% } %>
+                  <% } %>
+                  <% if (!showGuestEntryType) { %>
+                    <td style="padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;"><%= r.created_at_display || '-' %></td>
+                  <% } %>
+                  <% if (!showGuestEntryType || r.rsvp_group_index === 0) { %>
+                    <% const deleteId = r.rsvp_delete_id === undefined ? r._id : r.rsvp_delete_id; %>
+                    <td class="<%= showGuestEntryType ? 'rsvp-group-meta rsvp-group-actions' : '' %>"<% if (showGuestEntryType) { %> rowspan="<%= r.rsvp_group_size %>"<% } %> style="padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;text-align:center;">
+                      <% if (deleteId) { %>
+                      <form method="post" action="/<%= event.slug %>/admin/rsvps/<%= deleteId %>/delete?<%= adminQuery %>" onsubmit="return confirm('<%= showGuestEntryType ? 'Eliminar toda esta confirmacion?' : 'Eliminar esta confirmacion?' %>');">
+                        <% if (showGuestEntryType) { %>
+                          <button class="admin-btn danger icon-danger" type="submit" aria-label="Eliminar confirmaci&#243;n" title="Eliminar confirmaci&#243;n">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M9 6V4h6v2M7 6l1 14h8l1-14M10 10v6M14 10v6"/></svg>
+                          </button>
+                        <% } else { %>
+                          <button class="admin-btn danger" type="submit">Eliminar</button>
+                        <% } %>
+                      </form>
+                      <% } else { %>-<% } %>
+                    </td>
+                  <% } %>
                 </tr>
               <% }); %>
             <% } else { %>
