@@ -264,11 +264,11 @@
     text-transform: uppercase;
   }
   .schedule-time {
-    margin-top: 8px;
-    color: var(--paper);
-    font-size: .94rem;
+    margin-top: 12px;
+    color: var(--red-bright);
+    font: 600 2rem/1 "Barlow Condensed", sans-serif;
+    letter-spacing: .05em;
   }
-  .schedule-time strong { color: var(--red-bright); font-weight: 600; }
   .venue-list { display: grid; gap: 18px; }
   .venue {
     border: 1px solid var(--line-soft);
@@ -325,6 +325,42 @@
   }
   .price-label { color: var(--muted); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
   .price-value { color: var(--gold-light); font: 700 2.45rem/1 "Barlow Condensed", sans-serif; }
+  .booking-deadline {
+    margin: 18px 0 0;
+    color: var(--paper);
+    font-size: .88rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .booking-deadline strong { color: var(--gold-light); font-weight: 600; }
+  .transfer-toggle {
+    width: 100%;
+    min-height: 46px;
+    margin-top: 18px;
+    padding: 0 16px;
+    color: #fff;
+    font-size: .73rem;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,69,61,.66);
+    background: linear-gradient(110deg, #7d110e, #d22620 52%, #7d110e);
+    box-shadow: 0 8px 24px rgba(210,38,32,.17);
+    cursor: pointer;
+  }
+  .transfer-box {
+    display: none;
+    margin-top: 12px;
+    padding: 18px 14px;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.75;
+    text-align: center;
+    border: 1px solid var(--line-soft);
+    background: #050505;
+  }
+  .transfer-box.visible { display: block; }
+  .transfer-box strong { color: var(--gold-light); font-weight: 600; }
   .rsvp-grid { display: grid; gap: 14px; }
   .field { display: grid; gap: 7px; text-align: left; }
   .field label {
@@ -454,7 +490,7 @@
       <% schedule.forEach(function(item, index) { %>
         <article class="schedule-item <%= index === 1 ? 'dinner' : '' %>">
           <div class="schedule-kind"><%= item.title %></div>
-          <div class="schedule-time"><strong><%= item.time %></strong> · Para comenzar <%= item.start_time %></div>
+          <div class="schedule-time"><%= item.time %></div>
         </article>
       <% }) %>
     </div>
@@ -497,6 +533,12 @@
       <span class="price-label">Por persona</span>
       <strong class="price-value">$50.000</strong>
     </div>
+    <p class="booking-deadline">Fecha límite de reserva: <strong>21/10</strong></p>
+    <button class="transfer-toggle" id="transfer-toggle" type="button" aria-expanded="false" aria-controls="transfer-box">Mostrar datos para la transferencia</button>
+    <div class="transfer-box" id="transfer-box">
+      <div><strong>Alias:</strong> dseventos</div>
+      <div>Enviar comprobante al 3573-499820</div>
+    </div>
   </section>
 
   <section class="section" id="rsvp">
@@ -504,7 +546,7 @@
       <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17v-5M8 19V9M12 21V6M16 19V9M20 17v-5"/><path d="M3 21h18"/></svg></span>
       <span class="section-kicker">Cena Aniversario</span>
       <h2 class="section-title">¿Nos acompañás?</h2>
-      <p class="section-sub">Completá los datos de quienes asistirán.</p>
+      <p class="section-sub">Fecha límite de reserva 21/10</p>
     </div>
     <form action="/api/<%= event.slug %>/rsvp" method="post" id="rsvp-form">
       <input type="hidden" name="contact_name" id="contact_name" value="Confirmación Cena Aniversario">
@@ -558,6 +600,16 @@
     const foodPreferences = document.getElementById("food_preferences");
     const contactName = document.getElementById("contact_name");
     const result = document.getElementById("rsvp-result");
+    const transferToggle = document.getElementById("transfer-toggle");
+    const transferBox = document.getElementById("transfer-box");
+
+    if (transferToggle && transferBox) {
+      transferToggle.addEventListener("click", function () {
+        const visible = transferBox.classList.toggle("visible");
+        transferToggle.setAttribute("aria-expanded", String(visible));
+        transferToggle.textContent = visible ? "Ocultar datos para la transferencia" : "Mostrar datos para la transferencia";
+      });
+    }
 
     function currentGuests() {
       return Array.from(guestList.querySelectorAll(".guest-row")).map(function (row) {
