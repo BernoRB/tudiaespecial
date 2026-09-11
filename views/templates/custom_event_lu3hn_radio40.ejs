@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%- include('../partials/meta-tags', {
+  title: "LU3HN - 40 años al aire",
+  description: "Radio Club Villa del Rosario celebra 40 años de historia. Confirmá tu asistencia a la Cena Aniversario.",
+  keywords: "LU3HN, Radio Club Villa del Rosario, 40 aniversario, cena aniversario",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  image: "https://tudiaespecial.com/images/events/lu3hn-40/hero-logo.jpeg",
+  type: "article"
+}) %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #020202;
+    --panel: #0a0908;
+    --panel-soft: #11100e;
+    --gold: #cba14a;
+    --gold-light: #f4d68c;
+    --red: #d22620;
+    --red-bright: #ff453d;
+    --paper: #fff8e8;
+    --muted: #c8c0b1;
+    --line: rgba(223, 188, 106, .31);
+    --line-soft: rgba(255, 255, 255, .09);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--paper);
+    font-family: "Manrope", sans-serif;
+    background:
+      linear-gradient(90deg, transparent 49.8%, rgba(210, 38, 32, .045) 50%, transparent 50.2%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.017) 0, rgba(255,255,255,.017) 1px, transparent 1px, transparent 5px),
+      var(--black);
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 50% -12%, rgba(203, 161, 74, .18), transparent 31%),
+      linear-gradient(110deg, transparent 0 14%, rgba(255,255,255,.025) 14.1% 14.2%, transparent 14.3% 85%, rgba(255,255,255,.025) 85.1% 85.2%, transparent 85.3%);
+  }
+  button, input, select, textarea { font: inherit; }
+  .page {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 560px);
+    margin: 0 auto;
+    padding: 14px 12px 68px;
+  }
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(180, 156, 111, .28);
+    background: #000;
+    box-shadow: 0 28px 80px rgba(0,0,0,.72), 0 0 38px rgba(157,130,84,.08);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero::before {
+    inset: 8px;
+    border: 1px solid rgba(190,170,132,.14);
+  }
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(210,38,32,.13), transparent 27%),
+      #000;
+  }
+  .hero-visual::after {
+    content: "";
+    position: absolute;
+    inset: 13%;
+    border-radius: 50%;
+    box-shadow: 0 0 70px rgba(157,130,84,.13), 0 0 110px rgba(210,38,32,.07);
+    pointer-events: none;
+  }
+  .hero-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 91%;
+    height: 91%;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 26px rgba(0,0,0,.86)) drop-shadow(0 0 15px rgba(157,130,84,.12));
+  }
+  .hero-copy {
+    position: relative;
+    padding: 28px 20px 32px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at top, rgba(157,130,84,.09), transparent 54%),
+      #030303;
+  }
+  .on-air {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 11px;
+    color: var(--red-bright);
+    font: 600 .72rem/1 "Manrope", sans-serif;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  .on-air-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--red-bright);
+    box-shadow: 0 0 4px var(--red-bright), 0 0 14px var(--red);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: .35; transform: scale(.82); } }
+  .hero-date {
+    margin: 0;
+    color: var(--gold-light);
+    font: 600 clamp(2.45rem, 13vw, 4.1rem)/.95 "Barlow Condensed", sans-serif;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px rgba(203,161,74,.28);
+  }
+  .hero-signal-line {
+    width: 84%;
+    height: 1px;
+    margin: 17px auto 0;
+    background: linear-gradient(90deg, transparent, var(--red), var(--gold-light), var(--red), transparent);
+    box-shadow: 0 0 12px rgba(255,69,61,.45);
+  }
+  .hero-invite {
+    margin: 13px 0 0;
+    color: var(--paper);
+    font: 500 1.04rem/1.4 "Manrope", sans-serif;
+    letter-spacing: .08em;
+  }
+  .frequency-scale {
+    height: 24px;
+    margin-top: 22px;
+    background:
+      linear-gradient(90deg, transparent, var(--gold), transparent) center bottom / 100% 1px no-repeat,
+      repeating-linear-gradient(90deg, transparent 0 11px, rgba(244,214,140,.55) 11px 12px) center bottom / 100% 9px no-repeat;
+    opacity: .68;
+  }
+  .countdown-wrap {
+    padding: 28px 8px 4px;
+    text-align: center;
+  }
+  .signal-label {
+    margin: 0 0 13px;
+    color: var(--muted);
+    font: 500 .72rem/1.2 "Manrope", sans-serif;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+  }
+  .count-unit {
+    padding: 14px 3px 12px;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid rgba(203,161,74,.34);
+    background: linear-gradient(180deg, rgba(203,161,74,.08), transparent);
+  }
+  .count-value {
+    display: block;
+    color: var(--paper);
+    font: 600 clamp(1.65rem, 8vw, 2.4rem)/1 "Barlow Condensed", sans-serif;
+  }
+  .count-name {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: .58rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .section {
+    position: relative;
+    margin-top: 24px;
+    padding: 34px 20px 30px;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    border-top-color: var(--line);
+    background:
+      linear-gradient(135deg, rgba(203,161,74,.05), transparent 35%),
+      var(--panel);
+    box-shadow: 0 20px 55px rgba(0,0,0,.42);
+  }
+  .section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 13%;
+    right: 13%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--red), var(--gold), transparent);
+  }
+  .section-heading { text-align: center; margin-bottom: 25px; }
+  .section-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    color: var(--gold-light);
+    border: 1px solid rgba(203,161,74,.48);
+    border-radius: 50%;
+    background: #050505;
+    box-shadow: 0 0 22px rgba(203,161,74,.13), inset 0 0 16px rgba(203,161,74,.06);
+  }
+  .section-icon svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .section-kicker {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--red-bright);
+    font: 600 .66rem/1.2 "Manrope", sans-serif;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .section-title {
+    margin: 0;
+    color: var(--paper);
+    font: 600 clamp(2.15rem, 10vw, 3rem)/1 "Barlow Condensed", sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+  .section-sub {
+    margin: 12px auto 0;
+    max-width: 430px;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.65;
+  }
+  .schedule { display: grid; gap: 12px; }
+  .schedule-item {
+    position: relative;
+    padding: 21px 16px 19px 20px;
+    text-align: left;
+    border-left: 3px solid var(--gold);
+    background: linear-gradient(90deg, rgba(203,161,74,.09), rgba(255,255,255,.018));
+  }
+  .schedule-item.dinner { border-left-color: var(--red); }
+  .schedule-kind {
+    color: var(--gold-light);
+    font: 600 1.35rem/1.1 "Barlow Condensed", sans-serif;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .schedule-time {
+    margin-top: 8px;
+    color: var(--paper);
+    font-size: .94rem;
+  }
+  .schedule-time strong { color: var(--red-bright); font-weight: 600; }
+  .venue-list { display: grid; gap: 18px; }
+  .venue {
+    border: 1px solid var(--line-soft);
+    background: var(--panel-soft);
+  }
+  .venue-info { padding: 22px 18px; text-align: center; }
+  .venue-tag {
+    color: var(--red-bright);
+    font-size: .64rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  .venue h3 {
+    margin: 7px 0 8px;
+    color: var(--gold-light);
+    font: 600 1.55rem/1.15 "Barlow Condensed", sans-serif;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .venue-address { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+  .map-frame { height: 210px; border-top: 1px solid var(--line-soft); }
+  .map-frame iframe { display: block; width: 100%; height: 100%; border: 0; filter: grayscale(.35) contrast(1.08); }
+  .action-btn {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 17px;
+    padding: 0 20px;
+    color: #090603;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 0;
+    color: #fff;
+    border: 1px solid rgba(255,69,61,.66);
+    background: linear-gradient(110deg, #7d110e, #d22620 52%, #7d110e);
+    box-shadow: 0 8px 24px rgba(210,38,32,.19), 0 0 16px rgba(210,38,32,.12);
+    cursor: pointer;
+  }
+  .action-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    padding: 22px 16px;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .price-label { color: var(--muted); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; }
+  .price-value { color: var(--gold-light); font: 700 2.45rem/1 "Barlow Condensed", sans-serif; }
+  .rsvp-grid { display: grid; gap: 14px; }
+  .field { display: grid; gap: 7px; text-align: left; }
+  .field label {
+    color: var(--gold-light);
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 13px;
+    color: var(--paper);
+    border: 1px solid rgba(244,214,140,.23);
+    border-radius: 0;
+    outline: 0;
+    background: #050505;
+  }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(203,161,74,.1); }
+  .guest-list { display: grid; gap: 14px; }
+  .guest-row {
+    display: grid;
+    gap: 13px;
+    padding: 18px 14px;
+    border: 1px solid var(--line-soft);
+    background: rgba(255,255,255,.018);
+  }
+  .guest-number {
+    color: var(--red-bright);
+    font: 600 .72rem/1 "Manrope", sans-serif;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  [hidden] { display: none !important; }
+  .submit-btn {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 18px;
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    border: 1px solid var(--red-bright);
+    background: linear-gradient(110deg, #8d100d, var(--red), #8d100d);
+    box-shadow: 0 0 24px rgba(210,38,32,.22);
+    cursor: pointer;
+  }
+  .rsvp-result { display: none; padding: 30px 12px 8px; text-align: center; }
+  .rsvp-result.visible { display: block; }
+  .rsvp-result h3 { margin: 0 0 9px; color: var(--gold-light); font: 600 2rem/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+  .rsvp-result p { margin: 0; color: var(--muted); line-height: 1.6; }
+  .spinner {
+    width: 34px;
+    height: 34px;
+    display: inline-block;
+    border: 2px solid rgba(244,214,140,.2);
+    border-top-color: var(--red-bright);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .footer-mark {
+    padding: 38px 8px 0;
+    text-align: center;
+    color: rgba(255,248,232,.35);
+    font-size: .62rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 760px) {
+    .page { width: min(100%, 680px); padding-top: 28px; }
+    .section { padding: 42px 38px 38px; }
+    .hero-copy { padding: 34px 28px 38px; }
+    .venue-info { padding: 26px 24px; }
+    .map-frame { height: 260px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<%
+  const data = event.custom_data || {};
+  const heroLogo = data.hero_logo || "/images/events/lu3hn-40/hero-logo-transparent-v2.png";
+  const venues = Array.isArray(data.venues) ? data.venues : [];
+  const schedule = Array.isArray(data.schedule) ? data.schedule : [];
+%>
+<main class="page">
+  <header class="hero">
+    <div class="hero-visual">
+      <img class="hero-image" src="<%= heroLogo %>" alt="40 aniversario de LU3HN Radio Club Villa del Rosario">
+    </div>
+    <div class="hero-copy">
+      <div class="on-air"><span class="on-air-dot"></span>Viernes</div>
+      <h1 class="hero-date">23 · 10 · 2026</h1>
+      <div class="hero-signal-line" aria-hidden="true"></div>
+      <p class="hero-invite">¡Te esperamos!</p>
+      <div class="frequency-scale" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <section class="countdown-wrap" aria-label="Cuenta regresiva">
+    <p class="signal-label">Comenzamos en</p>
+    <div class="countdown" id="countdown">
+      <div class="count-unit"><span class="count-value" id="days">00</span><span class="count-name">Días</span></div>
+      <div class="count-unit"><span class="count-value" id="hours">00</span><span class="count-name">Horas</span></div>
+      <div class="count-unit"><span class="count-value" id="minutes">00</span><span class="count-name">Minutos</span></div>
+      <div class="count-unit"><span class="count-value" id="seconds">00</span><span class="count-name">Segundos</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+      <span class="section-kicker">Viernes 23 de octubre</span>
+      <h2 class="section-title">¿Cuándo?</h2>
+    </div>
+    <div class="schedule">
+      <% schedule.forEach(function(item, index) { %>
+        <article class="schedule-item <%= index === 1 ? 'dinner' : '' %>">
+          <div class="schedule-kind"><%= item.title %></div>
+          <div class="schedule-time"><strong><%= item.time %></strong> · Para comenzar <%= item.start_time %></div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+      <h2 class="section-title">¿Dónde?</h2>
+    </div>
+    <div class="venue-list">
+      <% venues.forEach(function(venue) { %>
+        <article class="venue">
+          <div class="venue-info">
+            <div class="venue-tag"><%= venue.label %></div>
+            <h3><%= venue.name %></h3>
+            <% if (venue.address) { %><div class="venue-address"><%= venue.address %></div><% } %>
+          </div>
+          <div class="map-frame">
+            <iframe src="https://www.google.com/maps?q=<%= encodeURIComponent(venue.map_query) %>&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de <%= venue.name %>"></iframe>
+          </div>
+          <div class="venue-info" style="padding-top:0;">
+            <a class="action-btn" href="<%= venue.maps_url %>" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></svg>
+              Abrir Google Maps
+            </a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 10h4M7 14h2M16 9v6M14 11h4"/></svg></span>
+      <span class="section-kicker">Cena aniversario</span>
+      <h2 class="section-title">Valor de la tarjeta</h2>
+    </div>
+    <div class="price">
+      <span class="price-label">Por persona</span>
+      <strong class="price-value">$50.000</strong>
+    </div>
+  </section>
+
+  <section class="section" id="rsvp">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17v-5M8 19V9M12 21V6M16 19V9M20 17v-5"/><path d="M3 21h18"/></svg></span>
+      <span class="section-kicker">Cena Aniversario</span>
+      <h2 class="section-title">¿Nos acompañás?</h2>
+      <p class="section-sub">Completá los datos de quienes asistirán.</p>
+    </div>
+    <form action="/api/<%= event.slug %>/rsvp" method="post" id="rsvp-form">
+      <input type="hidden" name="contact_name" id="contact_name" value="Confirmación Cena Aniversario">
+      <textarea name="people_names" id="people_names" hidden></textarea>
+      <textarea name="food_preferences" id="food_preferences" hidden></textarea>
+      <div class="rsvp-grid">
+        <div class="field">
+          <label for="people_count">¿Cuántas personas?</label>
+          <input id="people_count" name="people_count" type="text" inputmode="numeric" pattern="[0-9]*" value="1" required>
+        </div>
+        <div class="field">
+          <label for="status">Asistencia a la cena</label>
+          <select id="status" name="status">
+            <option value="confirmed">Voy / Vamos</option>
+            <option value="declined">No puedo / No podemos asistir</option>
+          </select>
+        </div>
+        <div class="guest-list" id="guest-list"></div>
+        <div class="field">
+          <label for="comments">Comentarios</label>
+          <textarea id="comments" name="comments" placeholder="¿Algún comentario?"></textarea>
+        </div>
+      </div>
+      <button class="submit-btn" type="submit">Enviar confirmación</button>
+    </form>
+    <div class="rsvp-result" id="rsvp-result" aria-live="polite"></div>
+  </section>
+
+  <footer class="footer-mark">LU3HN · 1986—2026 · 40 años en la misma frecuencia</footer>
+</main>
+
+<script>
+  (function () {
+    const target = new Date("<%= data.countdown_iso || '2026-10-23T19:00:00-03:00' %>").getTime();
+    const pad = function (value) { return String(Math.max(0, value)).padStart(2, "0"); };
+    function updateCountdown() {
+      const distance = Math.max(0, target - Date.now());
+      document.getElementById("days").textContent = pad(Math.floor(distance / 86400000));
+      document.getElementById("hours").textContent = pad(Math.floor(distance / 3600000) % 24);
+      document.getElementById("minutes").textContent = pad(Math.floor(distance / 60000) % 60);
+      document.getElementById("seconds").textContent = pad(Math.floor(distance / 1000) % 60);
+    }
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+
+    const form = document.getElementById("rsvp-form");
+    const count = document.getElementById("people_count");
+    const status = document.getElementById("status");
+    const guestList = document.getElementById("guest-list");
+    const peopleNames = document.getElementById("people_names");
+    const foodPreferences = document.getElementById("food_preferences");
+    const contactName = document.getElementById("contact_name");
+    const result = document.getElementById("rsvp-result");
+
+    function currentGuests() {
+      return Array.from(guestList.querySelectorAll(".guest-row")).map(function (row) {
+        return {
+          name: row.querySelector(".guest-name").value,
+          menu: row.querySelector(".guest-menu").value
+        };
+      });
+    }
+    function renderGuests() {
+      const previous = currentGuests();
+      const digits = count.value.replace(/\D/g, "");
+      if (count.value !== digits) count.value = digits;
+      const total = Math.max(1, Math.min(30, Number(digits) || 1));
+      if (Number(digits) > 30) count.value = "30";
+      guestList.innerHTML = "";
+      for (let index = 0; index < total; index += 1) {
+        const saved = previous[index] || { name: "", menu: "Menu estándar" };
+        const row = document.createElement("div");
+        row.className = "guest-row";
+        row.innerHTML =
+          '<div class="guest-number">Persona ' + (index + 1) + '</div>' +
+          '<div class="field"><label>Nombre y apellido</label><input class="guest-name" type="text" required autocomplete="name"></div>' +
+          '<div class="field guest-meal"><label>Preferencia de comida</label><select class="guest-menu"><option value="Menu estándar">Menú estándar</option><option value="Restricciones alimentarias (Informar)">Restricciones alimentarias (Informar)</option></select></div>';
+        const nameInput = row.querySelector(".guest-name");
+        const menuSelect = row.querySelector(".guest-menu");
+        nameInput.value = saved.name;
+        menuSelect.value = saved.menu;
+        guestList.appendChild(row);
+      }
+      updateAttendanceFields();
+    }
+    function updateAttendanceFields() {
+      const declined = status.value === "declined";
+      guestList.querySelectorAll(".guest-meal").forEach(function (field) { field.hidden = declined; });
+      guestList.querySelectorAll(".guest-menu").forEach(function (field) { field.disabled = declined; });
+    }
+    function normalizeCount() {
+      count.value = String(Math.max(1, Math.min(30, Number(count.value) || 1)));
+      renderGuests();
+    }
+    function syncHiddenFields() {
+      const declined = status.value === "declined";
+      const guests = currentGuests();
+      peopleNames.value = guests.map(function (guest) { return guest.name.trim(); }).filter(Boolean).join("\n");
+      foodPreferences.value = declined ? "" : guests.map(function (guest) { return guest.menu; }).join("\n");
+      contactName.value = guests.find(function (guest) { return guest.name.trim(); })?.name.trim() || "Confirmación Cena Aniversario";
+    }
+    function showResult(loading) {
+      form.hidden = true;
+      result.classList.add("visible");
+      result.innerHTML = loading
+        ? '<span class="spinner"></span><p style="margin-top:14px;">Enviando respuesta...</p>'
+        : '<h3>Señal recibida</h3><p>Tu respuesta fue registrada correctamente.<br>¡Gracias por acompañarnos!</p>';
+    }
+
+    count.addEventListener("input", renderGuests);
+    count.addEventListener("change", normalizeCount);
+    count.addEventListener("blur", normalizeCount);
+    status.addEventListener("change", updateAttendanceFields);
+    renderGuests();
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      normalizeCount();
+      if (!form.reportValidity()) return;
+      syncHiddenFields();
+      showResult(true);
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new URLSearchParams(new FormData(form)),
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
+        });
+        if (!response.ok) throw new Error("No se pudo enviar");
+        window.setTimeout(function () { showResult(false); }, 800);
+      } catch (error) {
+        form.hidden = false;
+        result.classList.remove("visible");
+        result.innerHTML = "";
+        window.alert("No pudimos enviar la confirmación. Intentá nuevamente.");
+      }
+    });
+  })();
+</script>
+</body>
+</html>
