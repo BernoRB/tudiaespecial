@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%- include('../partials/meta-tags', {
+  title: "Diego - 50 años",
+  description: "Diego te invita a celebrar sus 50 años. Confirmá tu asistencia.",
+  keywords: "Diego, cumpleaños 50, invitación digital",
+  url: "https://tudiaespecial.com" + req.originalUrl,
+  image: "https://tudiaespecial.com/images/events/diego-50/hero-graphite-v2.webp",
+  type: "article"
+}) %>
+<meta name="theme-color" content="#101113">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #090a0b;
+    --panel: #111315;
+    --panel-raised: #17191c;
+    --silver: #c0c7cf;
+    --silver-bright: #f0f3f6;
+    --paper: #f2f2f3;
+    --muted: #bec2c8;
+    --line: rgba(218, 225, 233, .3);
+    --line-soft: rgba(218, 225, 233, .13);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--paper);
+    font-family: "Manrope", sans-serif;
+    background:
+      radial-gradient(ellipse at 50% 8%, rgba(189, 199, 211, .13), transparent 34rem),
+      radial-gradient(ellipse at 8% 72%, rgba(155, 167, 181, .065), transparent 28rem),
+      #090a0b;
+  }
+  body::before {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .22;
+    background:
+      radial-gradient(1px 1px at 8% 16%, rgba(255,255,255,.9) 50%, transparent 100%),
+      radial-gradient(1px 1px at 87% 24%, rgba(230,237,245,.8) 50%, transparent 100%),
+      radial-gradient(1px 1px at 18% 58%, rgba(255,255,255,.75) 50%, transparent 100%),
+      radial-gradient(1px 1px at 93% 72%, rgba(230,237,245,.7) 50%, transparent 100%),
+      radial-gradient(1px 1px at 76% 91%, rgba(255,255,255,.75) 50%, transparent 100%);
+    content: "";
+  }
+  button, input, select, textarea { font: inherit; }
+  .page {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 600px);
+    margin: 0 auto;
+    padding: 14px 13px 64px;
+  }
+  .hero {
+    position: relative;
+    width: min(100%, 490px);
+    aspect-ratio: 2 / 3;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #101113;
+    box-shadow: 0 28px 75px rgba(0, 0, 0, .7), 0 0 42px rgba(193, 204, 217, .1);
+  }
+  .hero::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 42px rgba(223, 231, 240, .12), inset 0 0 100px rgba(0, 0, 0, .2);
+    content: "";
+  }
+  .hero-image {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-copy {
+    position: absolute;
+    z-index: 2;
+    inset: 10% 9% 9%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-kicker {
+    margin: 0 0 12px;
+    color: #e0e5eb;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    text-shadow: 0 0 14px rgba(224, 231, 239, .62);
+  }
+  .hero-number {
+    margin: 0;
+    color: #eef1f4;
+    font: 500 clamp(7rem, 32vw, 11rem)/.77 "Barlow Condensed", sans-serif;
+    letter-spacing: .015em;
+    text-shadow: 0 1px 1px rgba(255,255,255,.72), 0 0 10px rgba(242,246,250,.85), 0 0 34px rgba(192,205,220,.65), 0 10px 35px rgba(0,0,0,.72);
+  }
+  .hero-years {
+    margin: 12px 0 0;
+    color: #d8dde3;
+    font: 500 clamp(1.25rem, 5vw, 1.75rem)/1 "Barlow Condensed", sans-serif;
+    letter-spacing: .36em;
+    text-transform: uppercase;
+    text-indent: .36em;
+    text-shadow: 0 0 15px rgba(210, 220, 230, .62);
+  }
+  .hero-rule {
+    width: min(58%, 180px);
+    height: 1px;
+    margin: 22px 0 15px;
+    background: linear-gradient(90deg, transparent, rgba(225,232,239,.92), #fff, rgba(225,232,239,.92), transparent);
+    box-shadow: 0 0 10px rgba(223, 232, 241, .42);
+  }
+  .hero-name {
+    margin: 0;
+    color: #f3f4f6;
+    font: italic 600 clamp(3.1rem, 13vw, 5rem)/.9 "Cormorant Garamond", serif;
+    letter-spacing: .025em;
+    text-shadow: 0 0 14px rgba(231, 237, 244, .72), 0 4px 20px rgba(0,0,0,.8);
+  }
+  .hero-date {
+    position: absolute;
+    right: 3%;
+    bottom: 2%;
+    left: 3%;
+    margin: 0;
+    color: #edf0f4;
+    font-size: clamp(.63rem, 2.5vw, .82rem);
+    font-weight: 600;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(225, 232, 240, .62);
+  }
+  .hero-invite {
+    margin: 22px 0 0;
+    color: var(--silver-bright);
+    font: italic 500 1.35rem/1.3 "Cormorant Garamond", serif;
+    letter-spacing: .04em;
+    text-align: center;
+    text-shadow: 0 0 14px rgba(215, 225, 236, .48);
+  }
+  .countdown-wrap {
+    padding: 32px 5px 3px;
+    text-align: center;
+  }
+  .eyebrow {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .23em;
+    text-transform: uppercase;
+  }
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+  }
+  .count-unit {
+    padding: 14px 3px 12px;
+    border-top: 1px solid rgba(224, 231, 239, .78);
+    border-bottom: 1px solid rgba(218, 225, 233, .23);
+    background: linear-gradient(180deg, rgba(205, 215, 227, .1), transparent);
+    box-shadow: 0 -3px 16px rgba(220, 230, 241, .045);
+  }
+  .count-value {
+    display: block;
+    color: #f4f6f8;
+    font: 600 clamp(1.65rem, 8vw, 2.35rem)/1 "Barlow Condensed", sans-serif;
+    text-shadow: 0 0 16px rgba(212, 223, 235, .45);
+  }
+  .count-name {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: .56rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .section {
+    position: relative;
+    margin-top: 24px;
+    padding: 32px 19px 28px;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    border-top-color: var(--line);
+    background: linear-gradient(145deg, rgba(199, 205, 213, .035), transparent 42%), var(--panel);
+    box-shadow: 0 18px 52px rgba(0, 0, 0, .34);
+  }
+  .section::before {
+    position: absolute;
+    top: 0;
+    right: 16%;
+    left: 16%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220,224,230,.65), transparent);
+    content: "";
+  }
+  .section-heading { margin-bottom: 23px; text-align: center; }
+  .section-icon {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 12px;
+    place-items: center;
+    color: var(--silver-bright);
+    border: 1px solid rgba(215, 224, 234, .56);
+    border-radius: 50%;
+    background: #111315;
+    box-shadow: 0 0 21px rgba(195, 208, 222, .12), inset 0 0 14px rgba(219, 229, 239, .08);
+  }
+  .section-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.55; }
+  .section-kicker {
+    display: block;
+    margin-bottom: 4px;
+    color: #d3d9e0;
+    font-size: .64rem;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .section-title {
+    margin: 0;
+    color: var(--silver-bright);
+    font: italic 600 clamp(2.2rem, 10vw, 3rem)/1 "Cormorant Garamond", serif;
+    letter-spacing: .01em;
+    text-shadow: 0 0 17px rgba(207, 220, 234, .38);
+  }
+  .section-sub {
+    max-width: 430px;
+    margin: 12px auto 0;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.65;
+  }
+  .schedule-item {
+    padding: 19px 16px;
+    text-align: center;
+    border: 1px solid var(--line-soft);
+    background: linear-gradient(100deg, rgba(207,213,221,.035), rgba(0,0,0,.08), rgba(207,213,221,.035));
+  }
+  .schedule-kind {
+    color: var(--silver-bright);
+    font: 500 1.4rem/1.15 "Barlow Condensed", sans-serif;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .schedule-time { margin-top: 9px; color: var(--muted); font-size: .9rem; }
+  .venue {
+    padding: 23px 15px 24px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    background: var(--panel-raised);
+  }
+  .venue-mark { color: #aeb4bc; }
+  .venue-mark svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+  .venue h3 {
+    margin: 10px 0 7px;
+    color: var(--silver-bright);
+    font: 500 1.75rem/1.1 "Barlow Condensed", sans-serif;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-shadow: 0 0 14px rgba(211, 222, 234, .28);
+  }
+  .venue-address { padding: 0 15px 19px; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+  .map-frame { height: 218px; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .map-frame iframe { display: block; width: 100%; height: 100%; border: 0; filter: grayscale(.58) contrast(1.06); }
+  .action-btn, .transfer-toggle, .submit-btn {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    color: #17191c;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 1px solid #dfe3e8;
+    background: linear-gradient(115deg, #b8c0ca, #f0f3f6 48%, #b2bac4);
+    box-shadow: 0 8px 23px rgba(0, 0, 0, .3), 0 0 17px rgba(209, 222, 236, .14);
+    cursor: pointer;
+  }
+  .action-btn { margin-top: 19px; padding: 0 19px; }
+  .action-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.9; }
+  .price-list { display: grid; gap: 0; border-top: 1px solid var(--line-soft); }
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 17px 3px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .price-label { color: var(--muted); font-size: .83rem; line-height: 1.45; }
+  .price-value { color: var(--silver-bright); font: 600 1.95rem/1 "Barlow Condensed", sans-serif; white-space: nowrap; }
+  .transfer-toggle {
+    width: 100%;
+    margin-top: 18px;
+    padding: 0 15px;
+  }
+  .transfer-box {
+    display: none;
+    margin-top: 12px;
+    padding: 17px 14px;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.75;
+    text-align: center;
+    border: 1px solid var(--line-soft);
+    background: #0b0c0e;
+  }
+  .transfer-box.visible { display: block; }
+  .transfer-box strong { color: var(--silver-bright); font-weight: 600; }
+  .rsvp-grid { display: grid; gap: 14px; }
+  .field { display: grid; gap: 7px; text-align: left; }
+  .field label {
+    color: #d2d6db;
+    font-size: .66rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 13px;
+    color: var(--paper);
+    border: 1px solid rgba(205, 211, 219, .22);
+    border-radius: 0;
+    outline: 0;
+    background: #090a0b;
+  }
+  .field textarea { min-height: 88px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--silver);
+    box-shadow: 0 0 0 2px rgba(205, 211, 219, .09);
+  }
+  .guest-list { display: grid; gap: 12px; }
+  .guest-row {
+    display: grid;
+    gap: 12px;
+    padding: 15px 13px;
+    border: 1px solid var(--line-soft);
+    background: rgba(255,255,255,.018);
+  }
+  .guest-number {
+    color: #c2c7cd;
+    font-size: .66rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  [hidden] { display: none !important; }
+  .submit-btn {
+    width: 100%;
+    margin-top: 17px;
+    letter-spacing: .14em;
+  }
+  .rsvp-result { display: none; padding: 30px 12px 8px; text-align: center; }
+  .rsvp-result.visible { display: block; }
+  .rsvp-result h3 { margin: 0 0 9px; color: var(--silver-bright); font: 500 2rem/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+  .rsvp-result p { margin: 0; color: var(--muted); line-height: 1.6; }
+  .spinner {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(205,211,219,.19);
+    border-top-color: var(--silver-bright);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .footer-mark {
+    padding: 34px 8px 0;
+    color: rgba(230,233,237,.36);
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  @media (min-width: 760px) {
+    .page { padding-top: 26px; }
+    .section { padding: 39px 34px 34px; }
+    .hero-invite { margin-top: 24px; }
+    .map-frame { height: 260px; }
+  }
+  .hero::after { z-index: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<%
+  const data = event.custom_data || {};
+  const mapQuery = "-31.5665436,-63.5499339";
+%>
+<main class="page">
+  <header class="hero">
+    <img class="hero-image" src="/images/events/diego-50/hero-graphite-v2.webp" alt="Placa negra y plateada por los 50 años de Diego">
+    <div class="hero-copy">
+      <p class="hero-kicker">Cumpleaños</p>
+      <h1 class="hero-number">50</h1>
+      <p class="hero-years">Años</p>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-name">Diego</p>
+      <p class="hero-date">Sábado · 17 de octubre · 21:30 hs</p>
+    </div>
+  </header>
+  <p class="hero-invite">¡Te esperamos!</p>
+
+  <section class="countdown-wrap" aria-label="Cuenta regresiva">
+    <p class="eyebrow">La celebración comienza en</p>
+    <div class="countdown" id="countdown">
+      <div class="count-unit"><span class="count-value" id="days">00</span><span class="count-name">Días</span></div>
+      <div class="count-unit"><span class="count-value" id="hours">00</span><span class="count-name">Horas</span></div>
+      <div class="count-unit"><span class="count-value" id="minutes">00</span><span class="count-name">Minutos</span></div>
+      <div class="count-unit"><span class="count-value" id="seconds">00</span><span class="count-name">Segundos</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M7 3v4M17 3v4M3 10h18M8 14h3M8 17h6"/></svg></span>
+      <h2 class="section-title">¿Cuándo?</h2>
+    </div>
+    <article class="schedule-item">
+      <div class="schedule-kind">17 de octubre</div>
+      <div class="schedule-time">21:30 hs</div>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+      <h2 class="section-title">¿Dónde?</h2>
+    </div>
+    <article class="venue">
+      <span class="venue-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg></span>
+      <h3>Salón Gazzo</h3>
+      <div class="venue-address">Ruta 13 km 34</div>
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps?q=<%= encodeURIComponent(mapQuery) %>&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Salón Gazzo, Ruta 13 km 34"></iframe>
+      </div>
+      <a class="action-btn" href="<%= event.maps_url %>" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></svg>
+        Abrir Google Maps
+      </a>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 10h4M7 14h2M16 9v6M14 11h4"/></svg></span>
+      <span class="section-kicker">Por persona</span>
+      <h2 class="section-title">Valor de la tarjeta</h2>
+    </div>
+    <div class="price-list">
+      <div class="price-row"><span class="price-label">Mayores</span><strong class="price-value">$35.000</strong></div>
+      <div class="price-row"><span class="price-label">Menores (5 a 12 años)</span><strong class="price-value">$22.000</strong></div>
+    </div>
+    <button class="transfer-toggle" id="transfer-toggle" type="button" aria-expanded="false" aria-controls="transfer-box">Ver datos para la transferencia</button>
+    <div class="transfer-box" id="transfer-box"><div><strong>Alias:</strong> dseventos</div></div>
+  </section>
+
+  <section class="section" id="rsvp">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8v6M23 11h-6"/></svg></span>
+      <span class="section-kicker">Cumpleaños de Diego</span>
+      <h2 class="section-title">¿Nos acompañás?</h2>
+      <p class="section-sub">Indicá el nombre y la preferencia de menú de cada persona.</p>
+    </div>
+    <form action="/api/<%= event.slug %>/rsvp" method="post" id="rsvp-form">
+      <input type="hidden" name="contact_name" id="contact_name" value="Confirmación cumpleaños Diego">
+      <textarea name="people_names" id="people_names" hidden></textarea>
+      <textarea name="food_preferences" id="food_preferences" hidden></textarea>
+      <div class="rsvp-grid">
+        <div class="field">
+          <label for="people_count">¿Cuántas personas?</label>
+          <input id="people_count" name="people_count" type="text" inputmode="numeric" pattern="[0-9]*" value="1" required>
+        </div>
+        <div class="field">
+          <label for="status">Asistencia</label>
+          <select id="status" name="status">
+            <option value="confirmed">Voy / Vamos</option>
+            <option value="declined">No puedo / No podemos asistir</option>
+          </select>
+        </div>
+        <div class="guest-list" id="guest-list"></div>
+        <div class="field">
+          <label for="comments">Comentarios</label>
+          <textarea id="comments" name="comments" placeholder="¿Algún comentario?"></textarea>
+        </div>
+      </div>
+      <button class="submit-btn" type="submit">Enviar confirmación</button>
+    </form>
+    <div class="rsvp-result" id="rsvp-result" aria-live="polite"></div>
+  </section>
+  <footer class="footer-mark">Diego · 50 años · 17.10.2026</footer>
+</main>
+
+<script>
+  (function () {
+    const target = new Date("<%= data.countdown_iso || '2026-10-17T21:30:00-03:00' %>").getTime();
+    const pad = function (value) { return String(Math.max(0, value)).padStart(2, "0"); };
+    function updateCountdown() {
+      const distance = Math.max(0, target - Date.now());
+      document.getElementById("days").textContent = pad(Math.floor(distance / 86400000));
+      document.getElementById("hours").textContent = pad(Math.floor(distance / 3600000) % 24);
+      document.getElementById("minutes").textContent = pad(Math.floor(distance / 60000) % 60);
+      document.getElementById("seconds").textContent = pad(Math.floor(distance / 1000) % 60);
+    }
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+
+    const form = document.getElementById("rsvp-form");
+    const count = document.getElementById("people_count");
+    const status = document.getElementById("status");
+    const guestList = document.getElementById("guest-list");
+    const peopleNames = document.getElementById("people_names");
+    const foodPreferences = document.getElementById("food_preferences");
+    const contactName = document.getElementById("contact_name");
+    const result = document.getElementById("rsvp-result");
+    const transferToggle = document.getElementById("transfer-toggle");
+    const transferBox = document.getElementById("transfer-box");
+
+    transferToggle.addEventListener("click", function () {
+      const visible = transferBox.classList.toggle("visible");
+      transferToggle.setAttribute("aria-expanded", String(visible));
+      transferToggle.textContent = visible ? "Ocultar datos para la transferencia" : "Ver datos para la transferencia";
+    });
+
+    function currentGuests() {
+      return Array.from(guestList.querySelectorAll(".guest-row")).map(function (row) {
+        return { name: row.querySelector(".guest-name").value, menu: row.querySelector(".guest-menu").value };
+      });
+    }
+    function renderGuests() {
+      const previous = currentGuests();
+      const digits = count.value.replace(/\D/g, "");
+      if (count.value !== digits) count.value = digits;
+      const total = Math.max(1, Math.min(30, Number(digits) || 1));
+      if (Number(digits) > 30) count.value = "30";
+      guestList.innerHTML = "";
+      for (let index = 0; index < total; index += 1) {
+        const saved = previous[index] || { name: "", menu: "Menu estandar" };
+        const row = document.createElement("div");
+        row.className = "guest-row";
+        row.innerHTML =
+          '<div class="guest-number">Persona ' + (index + 1) + '</div>' +
+          '<div class="field"><label>Nombre y apellido</label><input class="guest-name" type="text" required autocomplete="name"></div>' +
+          '<div class="field guest-meal"><label>Preferencia de menú</label><select class="guest-menu"><option value="Menu estandar">Menu estandar</option><option value="Restricciones alimentarias (informar)">Restricciones alimentarias (informar)</option></select></div>';
+        row.querySelector(".guest-name").value = saved.name;
+        row.querySelector(".guest-menu").value = saved.menu;
+        guestList.appendChild(row);
+      }
+      updateAttendanceFields();
+    }
+    function updateAttendanceFields() {
+      const declined = status.value === "declined";
+      guestList.querySelectorAll(".guest-meal").forEach(function (field) { field.hidden = declined; });
+      guestList.querySelectorAll(".guest-menu").forEach(function (field) { field.disabled = declined; });
+    }
+    function normalizeCount() {
+      count.value = String(Math.max(1, Math.min(30, Number(count.value) || 1)));
+      renderGuests();
+    }
+    function syncHiddenFields() {
+      const declined = status.value === "declined";
+      const guests = currentGuests();
+      peopleNames.value = guests.map(function (guest) { return guest.name.trim(); }).filter(Boolean).join("\n");
+      foodPreferences.value = declined ? "" : guests.map(function (guest) { return guest.menu; }).join("\n");
+      contactName.value = guests.find(function (guest) { return guest.name.trim(); })?.name.trim() || "Confirmación cumpleaños Diego";
+    }
+    function showResult(loading) {
+      form.hidden = true;
+      result.classList.add("visible");
+      if (loading) {
+        result.innerHTML = '<span class="spinner"></span><p style="margin-top:14px;">Enviando respuesta...</p>';
+      } else if (status.value === "declined") {
+        result.innerHTML = '<h3>Respuesta recibida</h3><p>Gracias por avisarnos.</p>';
+      } else {
+        result.innerHTML = '<h3>¡Gracias!</h3><p>Nos vemos para celebrar los 50 de Diego.</p>';
+      }
+    }
+
+    count.addEventListener("input", renderGuests);
+    count.addEventListener("change", normalizeCount);
+    count.addEventListener("blur", normalizeCount);
+    status.addEventListener("change", updateAttendanceFields);
+    renderGuests();
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      normalizeCount();
+      if (!form.reportValidity()) return;
+      syncHiddenFields();
+      showResult(true);
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new URLSearchParams(new FormData(form)),
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" }
+        });
+        if (!response.ok) throw new Error("No se pudo enviar");
+        window.setTimeout(function () { showResult(false); }, 650);
+      } catch (error) {
+        form.hidden = false;
+        result.classList.remove("visible");
+        result.innerHTML = "";
+        window.alert("No pudimos enviar la confirmación. Intentá nuevamente.");
+      }
+    });
+  })();
+</script>
+</body>
+</html>
