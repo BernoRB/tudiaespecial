@@ -146,7 +146,7 @@
               <% } %>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Personas</th>
               <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Estado</th>
-              <th class="names-col" style="padding:10px 10px;border-bottom:1px solid var(--border);">Nombres</th>
+              <th class="names-col" style="padding:10px 10px;border-bottom:1px solid var(--border);"><%= event.template_key === 'custom_event_daniel50' ? 'Apellido-Nombre' : 'Nombres' %></th>
               <% if (showGuestEntryType) { %>
                 <th style="padding:10px 10px;border-bottom:1px solid var(--border);">Tipo de entrada</th>
               <% } %>

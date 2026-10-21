@@ -36,6 +36,11 @@ function shouldHideAdminComments(event: any) {
   return event?.custom_data?.hide_admin_comments === true;
 }
 
+function formatDanielNames(value: unknown) {
+  return String(value || "").split(/\r?\n/)
+    .map((line) => line.replace(/\s+-\s+/, " ")).join("\n");
+}
+
 function expandRsvpsByGuest(rsvps: any[], eventLabels: Record<string, string>) {
   return rsvps.flatMap((rsvp: any) => {
     const eventLabel = eventLabels[String(rsvp.event_id)] || "";
@@ -153,18 +158,30 @@ function makeZip(files: Array<{ name: string; data: Buffer }>) {
   return Buffer.concat([...locals, ...centrals, end]);
 }
 
-function buildXlsx(rows: any[][]) {
+function buildXlsx(rows: any[][], wrapText = false) {
+  const widths = rows[0].map((heading) => {
+    if (heading === "Apellido-Nombre" || heading === "Comida") return 46;
+    if (heading === "Comentarios") return 50;
+    if (heading === "Personas") return 12;
+    return 24;
+  });
   const sheetRows = rows.map((row, rowIndex) => {
     const cells = row.map((cell, cellIndex) => {
       const col = String.fromCharCode(65 + cellIndex);
-      return `<c r="${col}${rowIndex + 1}" t="inlineStr"><is><t>${xmlEscape(cell)}</t></is></c>`;
+      return `<c r="${col}${rowIndex + 1}" t="inlineStr"${wrapText ? ' s="1"' : ''}><is><t${wrapText ? ' xml:space="preserve"' : ''}>${xmlEscape(cell)}</t></is></c>`;
     }).join("");
-    return `<row r="${rowIndex + 1}">${cells}</row>`;
+    const lineCount = Math.max(1, ...row.map((cell, index) => String(cell ?? "").split(/\r?\n/)
+      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / (widths[index] - 2))), 0)));
+    const height = Math.min(409, Math.max(30, lineCount * 18 + 12));
+    return `<row r="${rowIndex + 1}"${wrapText ? ` ht="${height}" customHeight="1"` : ''}>${cells}</row>`;
   }).join("");
+  const columns = wrapText ? `<cols>${widths.map((width, index) => `<col min="${index + 1}" max="${index + 1}" width="${width}" customWidth="1"/>`).join("")}</cols>` : "";
+  const styleContentType = wrapText ? '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' : '';
+  const styleRelationship = wrapText ? '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>' : '';
   const files = [
     {
       name: "[Content_Types].xml",
-      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`),
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>${styleContentType}</Types>`),
     },
     {
       name: "_rels/.rels",
@@ -176,13 +193,17 @@ function buildXlsx(rows: any[][]) {
     },
     {
       name: "xl/_rels/workbook.xml.rels",
-      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`),
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>${styleRelationship}</Relationships>`),
     },
     {
       name: "xl/worksheets/sheet1.xml",
-      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows}</sheetData></worksheet>`),
+      data: Buffer.from(`<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${columns}<sheetData>${sheetRows}</sheetData></worksheet>`),
     },
   ];
+  if (wrapText) files.push({
+    name: "xl/styles.xml",
+    data: Buffer.from('<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="1"><font><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'),
+  });
   return makeZip(files);
 }
 
@@ -312,6 +333,7 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
   const displayRsvps = showGuestEntryType ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
   const rsvpsWithEvent = displayRsvps.map((r: any) => ({
     ...r,
+    people_names: event.template_key === "custom_event_daniel50" ? formatDanielNames(r.people_names) : r.people_names,
     event_label: eventLabels[String(r.event_id)] || "",
     created_at_display: formatArgentinaDateTime(r.created_at),
   }));
@@ -375,15 +397,17 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
   if (selectedStatus === "confirmed" || selectedStatus === "declined") rsvpQuery.status = selectedStatus;
 
   const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
-  const exportRsvps = showGuestEntryType ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
+  const isDaniel = event.template_key === "custom_event_daniel50";
+  const exportEntryTypes = showGuestEntryType && !isDaniel;
+  const exportRsvps = exportEntryTypes ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
   const rows = [
     [
       "Invitacion",
       ...(showContactName ? ["Quien confirma"] : []),
       "Personas",
       "Estado",
-      "Nombres",
-      ...(showGuestEntryType ? ["Tipo de entrada"] : []),
+      event.template_key === "custom_event_daniel50" ? "Apellido-Nombre" : "Nombres",
+      ...(exportEntryTypes ? ["Tipo de entrada"] : []),
       ...(showFoodPreferences ? ["Comida"] : []),
       ...(showSongSuggestions ? ["Temas"] : []),
       ...(showAdminComments ? ["Comentarios"] : []),
@@ -394,15 +418,17 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       ...(showContactName ? [r.contact_name || ""] : []),
       r.people_count || "",
       r.status === "declined" ? "No asiste" : "Confirmado",
-      r.people_names || "",
-      ...(showGuestEntryType ? [r.entry_type || ""] : []),
+      isDaniel ? formatDanielNames(r.people_names).split(/\r?\n/)
+        .map((line) => line.trim().replace(/\s*\[\s*(MAYOR|MENOR)\s*\]/gi, " ($1)"))
+        .join(" \n") : (r.people_names || ""),
+      ...(exportEntryTypes ? [r.entry_type || ""] : []),
       ...(showFoodPreferences ? [r.food_preferences || ""] : []),
       ...(showSongSuggestions ? [r.song_suggestions || ""] : []),
       ...(showAdminComments ? [r.comments || ""] : []),
       formatArgentinaDateTime(r.created_at),
     ]),
   ];
-  const file = buildXlsx(rows);
+  const file = buildXlsx(rows, isDaniel);
   res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   const exportBase = event.rsvp_group_key === "isabella-15-2026" ? "isabella" : slug;
   res.setHeader("Content-Disposition", `attachment; filename="${exportBase}-invitados.xlsx"`);

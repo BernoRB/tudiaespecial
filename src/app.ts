@@ -9,6 +9,7 @@ dotenv.config();
 import publicRouter from "./routes/public";
 import eventsRouter from "./routes/events";
 import adminRouter from "./routes/admin";
+import daniel50Router from "./routes/daniel50";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(
 // Rutas
 app.use("/", publicRouter);
 app.use("/", adminRouter);
+app.use("/", daniel50Router);
 app.use("/", eventsRouter);
 
 // Fallback 404 básico
