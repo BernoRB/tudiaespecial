@@ -170,10 +170,7 @@ function buildXlsx(rows: any[][], wrapText = false) {
       const col = String.fromCharCode(65 + cellIndex);
       return `<c r="${col}${rowIndex + 1}" t="inlineStr"${wrapText ? ' s="1"' : ''}><is><t${wrapText ? ' xml:space="preserve"' : ''}>${xmlEscape(cell)}</t></is></c>`;
     }).join("");
-    const lineCount = Math.max(1, ...row.map((cell, index) => String(cell ?? "").split(/\r?\n/)
-      .reduce((sum, line) => sum + Math.max(1, Math.ceil(line.length / (widths[index] - 2))), 0)));
-    const height = Math.min(409, Math.max(30, lineCount * 18 + 12));
-    return `<row r="${rowIndex + 1}"${wrapText ? ` ht="${height}" customHeight="1"` : ''}>${cells}</row>`;
+    return `<row r="${rowIndex + 1}">${cells}</row>`;
   }).join("");
   const columns = wrapText ? `<cols>${widths.map((width, index) => `<col min="${index + 1}" max="${index + 1}" width="${width}" customWidth="1"/>`).join("")}</cols>` : "";
   const styleContentType = wrapText ? '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' : '';
