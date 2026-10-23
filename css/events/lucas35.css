@@ -95,6 +95,7 @@ h2 { margin: 0; font: 400 2.5rem/1.08 "Libre Caslon Display", serif; color: var(
 .bring-drinks { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 26px auto 29px; padding: 17px 10px; border-top: 1px solid #4f7862; border-bottom: 1px solid #4f7862; background: #20392d; max-width: 410px; color: #e5f4eb; }
 .bring-drinks strong { font-weight: 600; font-size: 1.14rem; }
 .bring-drinks svg { width: 24px; height: 24px; fill: none; stroke: #c8e2d3; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.confirmation-deadline { margin: -12px auto 0; max-width: 410px; color: #d2e7da; font-size: .95rem; font-weight: 500; line-height: 1.5; }
 .transfer { margin-top: 30px; }
 .transfer details { padding: 0; }
 .transfer summary { list-style: none; max-width: 100%; }
