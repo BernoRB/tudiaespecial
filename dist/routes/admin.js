@@ -369,8 +369,9 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req, res) => {
         rsvpQuery.status = selectedStatus;
     const rsvps = await db_1.Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
     const surnameFirstExport = ["custom_event_daniel50", "custom_event_lucas35"].includes(event.template_key);
-    const exportEntryTypes = showGuestEntryType;
-    const exportRsvps = exportEntryTypes ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
+    const isRadioClubExport = event.slug === "radio-club" && event.template_key === "custom_event_lu3hn_radio40";
+    const exportEntryTypes = showGuestEntryType && !isRadioClubExport;
+    const exportRsvps = (exportEntryTypes || isRadioClubExport) ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
     const rows = [
         [
             "Invitacion",
