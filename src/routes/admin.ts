@@ -397,8 +397,8 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
   if (selectedStatus === "confirmed" || selectedStatus === "declined") rsvpQuery.status = selectedStatus;
 
   const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
-  const useFamilyExport = ["custom_event_daniel50", "custom_event_lucas35"].includes(event.template_key);
-  const exportEntryTypes = showGuestEntryType && !useFamilyExport;
+  const surnameFirstExport = ["custom_event_daniel50", "custom_event_lucas35"].includes(event.template_key);
+  const exportEntryTypes = showGuestEntryType;
   const exportRsvps = exportEntryTypes ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
   const rows = [
     [
@@ -406,7 +406,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       ...(showContactName ? ["Quien confirma"] : []),
       "Personas",
       "Estado",
-      useFamilyExport ? "Apellido-Nombre" : "Nombres",
+      surnameFirstExport ? "Apellido-Nombre" : "Nombres",
       ...(exportEntryTypes ? ["Tipo de entrada"] : []),
       ...(showFoodPreferences ? ["Comida"] : []),
       ...(showSongSuggestions ? ["Temas"] : []),
@@ -418,9 +418,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       ...(showContactName ? [r.contact_name || ""] : []),
       r.people_count || "",
       r.status === "declined" ? "No asiste" : "Confirmado",
-      useFamilyExport ? formatDanielNames(r.people_names).split(/\r?\n/)
-        .map((line) => line.trim().replace(/\s*\[\s*(MAYOR|MENOR)\s*\]/gi, " ($1)"))
-        .join(" \n") : (r.people_names || ""),
+      surnameFirstExport ? formatDanielNames(r.people_names) : (r.people_names || ""),
       ...(exportEntryTypes ? [r.entry_type || ""] : []),
       ...(showFoodPreferences ? [r.food_preferences || ""] : []),
       ...(showSongSuggestions ? [r.song_suggestions || ""] : []),
@@ -428,7 +426,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       formatArgentinaDateTime(r.created_at),
     ]),
   ];
-  const file = buildXlsx(rows, useFamilyExport);
+  const file = buildXlsx(rows, surnameFirstExport);
   res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   const exportBase = event.rsvp_group_key === "isabella-15-2026" ? "isabella" : slug;
   res.setHeader("Content-Disposition", `attachment; filename="${exportBase}-invitados.xlsx"`);
