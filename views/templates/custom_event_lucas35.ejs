@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Caveat:wght@600&family=DM+Sans:wght@400;500;600;700&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/events/lucas35.css?v=4">
+<link rel="stylesheet" href="/css/events/lucas35.css?v=5">
 </head>
 <body>
 <main class="invitation">
@@ -70,8 +70,8 @@
       <% }); %>
     </ul>
     <p class="bring-drinks"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 10a3 3 0 0 1-6 0L8 3ZM12 16v5M8 21h8M9 7h6"/></svg><strong>Llevar bebida</strong></p>
-    <p class="confirmation-deadline">Confirmar hasta el 19 inclusive</p>
     <div class="transfer"><details><summary class="silver-button">Ver datos para la transferencia</summary><p class="transfer-account">Alias: <strong><%= event.custom_data?.transfer_account?.alias || '' %></strong></p></details></div>
+    <p class="confirmation-deadline"><em>Confirmar hasta el 19 inclusive</em></p>
   </section>
 
   <section class="section" id="rsvp">
