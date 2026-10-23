@@ -6,15 +6,23 @@
   --silver: #e0e4e2;
   --green: #84baa4;
   --line: rgba(178, 201, 189, .2);
+  --ambient-flecks: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='760' viewBox='0 0 600 760'%3E%3Cg fill='%23bbd5c7' fill-opacity='.16'%3E%3Cpath d='M23 87l1-3 1 3 3 1-3 1-1 3-1-3-3-1zM573 357l1-3 1 3 3 1-3 1-1 3-1-3-3-1zM47 615l1-2 1 2 2 1-2 1-1 2-1-2-2-1zM551 704l1-2 1 2 2 1-2 1-1 2-1-2-2-1z'/%3E%3C/g%3E%3Cg fill='%235c967c' fill-opacity='.22'%3E%3Cpath d='M52 239l1-2 1 2-1 2zM565 113l1-2 1 2-1 2zM18 452l1-2 1 2-1 2zM581 567l1-2 1 2-1 2z'/%3E%3C/g%3E%3C/svg%3E");
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #242628; color: var(--text); font-family: "DM Sans", sans-serif; }
+body {
+  margin: 0;
+  background-color: #0b100e;
+  background-image: var(--ambient-flecks), linear-gradient(132deg, rgba(32, 81, 59, .45), transparent 48%), linear-gradient(312deg, rgba(46, 75, 62, .26), transparent 55%);
+  background-size: 600px 760px, 100% 100%, 100% 100%;
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+}
 button, input, select, textarea { font: inherit; }
 button, a, input, select, textarea, summary { -webkit-tap-highlight-color: transparent; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .invitation { max-width: 600px; margin: 0 auto; background: var(--paper); overflow: hidden; }
-.hero { text-align: center; background: #101415; padding-bottom: 24px; }
+.hero { text-align: center; background: linear-gradient(155deg, rgba(31, 66, 49, .12), transparent 70%), #101415; padding-bottom: 24px; }
 .hero-art { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: contain; mask-image: linear-gradient(#000 0 80%, transparent 100%); -webkit-mask-image: linear-gradient(#000 0 80%, transparent 100%); }
 .hero-divider { width: 60%; height: 1px; margin: 0 auto 30px; background: linear-gradient(90deg, transparent, #739d8a, transparent); }
 .hero-date { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 0 24px; }
@@ -23,13 +31,21 @@ button, a, input, select, textarea, summary { -webkit-tap-highlight-color: trans
 .hero-date-copy span { display: block; }
 .hero-date-copy .month { font-size: 1.35rem; color: var(--silver); }
 .hero-welcome { margin: 27px 20px 0; font-size: 1.08rem; color: var(--muted); }
-.countdown-section { padding: 6px 24px 40px; text-align: center; }
+.countdown-section { padding: 6px 24px 40px; text-align: center; background: linear-gradient(35deg, rgba(31, 66, 49, .12), transparent 70%); }
 .countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; max-width: 450px; margin: 0 auto; }
 .count-unit { padding: 15px 0 12px; border-top: 1px solid #567463; border-bottom: 1px solid rgba(178,201,189,.12); }
 .count-value { display: block; font: 400 2.5rem/1 "Libre Caslon Display", serif; color: var(--silver); font-variant-numeric: tabular-nums; }
 .count-name { display: block; font-size: .62rem; text-transform: uppercase; margin-top: 9px; color: var(--muted); }
-.section { position: relative; padding: 47px 27px 49px; background: #151b1b; text-align: center; }
-.section:nth-of-type(odd) { background: #101415; }
+.section {
+  position: relative;
+  padding: 47px 27px 49px;
+  background-color: #141b18;
+  background-image: var(--ambient-flecks), linear-gradient(120deg, rgba(46, 91, 70, .17), transparent 65%);
+  background-size: 600px 760px, 100% 100%;
+  background-position: center top;
+  text-align: center;
+}
+.section:nth-of-type(odd) { background-color: #101513; background-image: var(--ambient-flecks), linear-gradient(300deg, rgba(46, 91, 70, .14), transparent 65%); background-position: center -300px, center; }
 .section::before { content: ""; position: absolute; height: 1px; top: 0; left: 8%; right: 8%; background: linear-gradient(90deg, transparent, rgba(180,202,190,.24), transparent); }
 .section-heading { margin-bottom: 26px; }
 .section-icon { display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto 16px; color: #a8c9b9; }
@@ -82,7 +98,7 @@ h2 { margin: 0; font: 400 2.5rem/1.08 "Libre Caslon Display", serif; color: var(
 @keyframes spin { to { transform: rotate(360deg); } }
 footer { padding: 25px 22px 30px; text-align: center; border-top: 1px solid var(--line); color: #9faea5; font-size: .75rem; }
 @media (min-width: 760px) {
-  .invitation { margin: 28px auto; border: 1px solid #46544b; box-shadow: 0 18px 55px rgba(0,0,0,.28); }
+  .invitation { margin: 28px auto; border: 1px solid #465b4e; box-shadow: 0 18px 55px rgba(0,0,0,.38), 0 0 45px rgba(35,75,52,.1); }
   .section { padding: 52px 42px 55px; }
   .countdown-section { padding: 9px 42px 44px; }
 }
