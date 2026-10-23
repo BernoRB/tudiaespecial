@@ -333,7 +333,7 @@ router.get("/:slug/admin", requireAdmin, async (req: Request, res: Response) => 
   const displayRsvps = showGuestEntryType ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
   const rsvpsWithEvent = displayRsvps.map((r: any) => ({
     ...r,
-    people_names: event.template_key === "custom_event_daniel50" ? formatDanielNames(r.people_names) : r.people_names,
+    people_names: ["custom_event_daniel50", "custom_event_lucas35"].includes(event.template_key) ? formatDanielNames(r.people_names) : r.people_names,
     event_label: eventLabels[String(r.event_id)] || "",
     created_at_display: formatArgentinaDateTime(r.created_at),
   }));
@@ -397,8 +397,8 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
   if (selectedStatus === "confirmed" || selectedStatus === "declined") rsvpQuery.status = selectedStatus;
 
   const rsvps = await Rsvp.find(rsvpQuery).sort({ created_at: -1 }).lean();
-  const isDaniel = event.template_key === "custom_event_daniel50";
-  const exportEntryTypes = showGuestEntryType && !isDaniel;
+  const useFamilyExport = ["custom_event_daniel50", "custom_event_lucas35"].includes(event.template_key);
+  const exportEntryTypes = showGuestEntryType && !useFamilyExport;
   const exportRsvps = exportEntryTypes ? expandRsvpsByGuest(rsvps, eventLabels) : rsvps;
   const rows = [
     [
@@ -406,7 +406,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       ...(showContactName ? ["Quien confirma"] : []),
       "Personas",
       "Estado",
-      event.template_key === "custom_event_daniel50" ? "Apellido-Nombre" : "Nombres",
+      useFamilyExport ? "Apellido-Nombre" : "Nombres",
       ...(exportEntryTypes ? ["Tipo de entrada"] : []),
       ...(showFoodPreferences ? ["Comida"] : []),
       ...(showSongSuggestions ? ["Temas"] : []),
@@ -418,7 +418,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       ...(showContactName ? [r.contact_name || ""] : []),
       r.people_count || "",
       r.status === "declined" ? "No asiste" : "Confirmado",
-      isDaniel ? formatDanielNames(r.people_names).split(/\r?\n/)
+      useFamilyExport ? formatDanielNames(r.people_names).split(/\r?\n/)
         .map((line) => line.trim().replace(/\s*\[\s*(MAYOR|MENOR)\s*\]/gi, " ($1)"))
         .join(" \n") : (r.people_names || ""),
       ...(exportEntryTypes ? [r.entry_type || ""] : []),
@@ -428,7 +428,7 @@ router.get("/:slug/admin/export.xlsx", requireAdmin, async (req: Request, res: R
       formatArgentinaDateTime(r.created_at),
     ]),
   ];
-  const file = buildXlsx(rows, isDaniel);
+  const file = buildXlsx(rows, useFamilyExport);
   res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   const exportBase = event.rsvp_group_key === "isabella-15-2026" ? "isabella" : slug;
   res.setHeader("Content-Disposition", `attachment; filename="${exportBase}-invitados.xlsx"`);

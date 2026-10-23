@@ -10,6 +10,7 @@ import publicRouter from "./routes/public";
 import eventsRouter from "./routes/events";
 import adminRouter from "./routes/admin";
 import daniel50Router from "./routes/daniel50";
+import lucas35Router from "./routes/lucas35";
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(
 app.use("/", publicRouter);
 app.use("/", adminRouter);
 app.use("/", daniel50Router);
+app.use("/", lucas35Router);
 app.use("/", eventsRouter);
 
 // Fallback 404 básico

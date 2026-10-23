@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<%- include('../partials/meta-tags', {
+  title: "Lucas - Mis 35",
+  description: "Te invito a celebrar mis 35 años. Sábado 21 de noviembre, 21:30 hs. Confirmá tu presencia.",
+  url: "https://tudiaespecial.com/lucas-35",
+  image: "https://tudiaespecial.com/images/events/lucas-35/hero-lucas-emerald-v1.webp",
+  type: "article"
+}) %>
+<meta name="theme-color" content="#101415">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/events/lucas35.css?v=1">
+</head>
+<body>
+<main class="invitation">
+  <header class="hero">
+    <h1 class="sr-only">Lucas · Mis 35 años</h1>
+    <img class="hero-art" src="/images/events/lucas-35/hero-lucas-emerald-v1.webp" alt="Mis 35, Lucas, en plata sobre negro y verde esmeralda" width="1024" height="1536" fetchpriority="high">
+    <div class="hero-divider" aria-hidden="true"></div>
+    <div class="hero-date">
+      <span class="hero-day">21</span>
+      <div class="hero-date-copy"><span>Sábado</span><span class="month">Noviembre</span><span>21:30 hs</span></div>
+    </div>
+    <p class="hero-welcome">¡Te espero para festejar!</p>
+  </header>
+
+  <section class="countdown-section" aria-label="Cuenta regresiva">
+    <div class="countdown">
+      <div class="count-unit"><span class="count-value" id="days">00</span><span class="count-name">Días</span></div>
+      <div class="count-unit"><span class="count-value" id="hours">00</span><span class="count-name">Horas</span></div>
+      <div class="count-unit"><span class="count-value" id="minutes">00</span><span class="count-name">Minutos</span></div>
+      <div class="count-unit"><span class="count-value" id="seconds">00</span><span class="count-name">Segundos</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 11h18M8 15h3M8 18h6"/></svg></span>
+      <h2>¿Cuándo?</h2>
+    </div>
+    <p class="date-full">Sábado 21 de noviembre</p><p class="event-time">21:30 hs</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+      <h2>¿Dónde?</h2>
+    </div>
+    <p class="venue-name"><%= event.venue_name %></p>
+    <p class="venue-address"><%= event.venue_address %></p>
+    <div class="map-frame"><iframe src="https://www.google.com/maps?q=Polideportivo+comunal+Oscar+Banegas,+Pedro+E.+Vivas,+C%C3%B3rdoba&amp;ftid=0x943327e4720f4297:0xb72a2848591b998e&amp;z=16&amp;output=embed" title="Ubicación del Polideportivo Comunal Oscar Banegas, Pedro E. Vivas" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    <a class="silver-button map-button" href="<%= event.maps_url %>" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3ZM9 3v15M15 6v15"/></svg>Abrir Google Maps</a>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4M15 15h2"/></svg></span>
+      <h2>Valor de la tarjeta</h2>
+    </div>
+    <ul class="prices">
+      <% (event.custom_data?.card_prices || []).forEach(function (price) { %>
+        <li><span class="price-label"><%= price.label %></span><strong class="price-amount"><%= price.value %></strong></li>
+      <% }); %>
+    </ul>
+    <p class="bring-drinks"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 10a3 3 0 0 1-6 0L8 3ZM12 16v5M8 21h8M9 7h6"/></svg><strong>Llevar bebida</strong></p>
+    <div class="transfer"><details><summary class="silver-button">Ver datos para la transferencia</summary><p class="transfer-account">Alias: <strong><%= event.custom_data?.transfer_account?.alias || '' %></strong></p></details></div>
+  </section>
+
+  <section class="section" id="rsvp">
+    <div class="section-heading" id="rsvp-heading">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM4 6l8 7 8-7M8 17l3-3M16 17l-3-3"/></svg></span>
+      <h2>¿Me acompañás?</h2>
+      <p class="section-sub">Confirmá tu presencia para compartir una gran noche.</p>
+    </div>
+    <form action="/api/lucas-35/rsvp" method="post" id="rsvp-form">
+      <input type="hidden" name="guests_json" id="guests_json">
+      <div class="rsvp-grid">
+        <div class="field"><label for="people_count">¿Cuántas personas?</label><input type="text" id="people_count" name="people_count" inputmode="numeric" pattern="[0-9]*" value="1" required></div>
+        <div class="field"><label for="status">Asistencia</label><select id="status" name="status"><option value="confirmed">Voy / Vamos</option><option value="declined">No puedo / No podemos asistir</option></select></div>
+        <div id="guest-list" class="guest-list"></div>
+        <div class="field"><label for="comments">Comentarios</label><textarea id="comments" name="comments" maxlength="3000" placeholder="¿Algún comentario?"></textarea></div>
+      </div>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <button class="silver-button submit-btn" type="submit">Enviar confirmación</button>
+    </form>
+    <div class="rsvp-result" id="rsvp-result" aria-live="polite" hidden></div>
+  </section>
+  <footer>Lucas · Mis 35 · 21.11.2026</footer>
+</main>
+<script>
+(function () {
+  const target = new Date("2026-11-21T21:30:00-03:00").getTime();
+  function updateCountdown() {
+    const diff = Math.max(0, target - Date.now());
+    const values = [Math.floor(diff / 86400000), Math.floor(diff / 3600000) % 24, Math.floor(diff / 60000) % 60, Math.floor(diff / 1000) % 60];
+    ["days", "hours", "minutes", "seconds"].forEach(function (id, index) { document.getElementById(id).textContent = String(values[index]).padStart(2, "0"); });
+  }
+  updateCountdown();
+  window.setInterval(updateCountdown, 1000);
+
+  const form = document.getElementById("rsvp-form");
+  const count = document.getElementById("people_count");
+  const attendance = document.getElementById("status");
+  const guestList = document.getElementById("guest-list");
+  const result = document.getElementById("rsvp-result");
+  const heading = document.getElementById("rsvp-heading");
+  const errorText = document.getElementById("form-error");
+  const guestData = [];
+  let sending = false;
+
+  function snapshotGuests() {
+    guestList.querySelectorAll(".guest-row").forEach(function (row, index) {
+      guestData[index] = { surname: row.querySelector(".guest-surname").value, givenName: row.querySelector(".guest-given-name").value, type: row.querySelector(".guest-type").value, menu: row.querySelector(".guest-menu").value };
+    });
+  }
+  function updateAttendance() {
+    const declined = attendance.value === "declined";
+    guestList.querySelectorAll(".guest-meal, .guest-type-field").forEach(function (field) { field.hidden = declined; });
+    guestList.querySelectorAll(".guest-menu, .guest-type").forEach(function (select) { select.disabled = declined; });
+  }
+  function renderGuests() {
+    snapshotGuests();
+    count.value = count.value.replace(/\D/g, "");
+    if (Number(count.value) > 30) count.value = "30";
+    const total = Math.max(1, Number(count.value) || 1);
+    guestList.replaceChildren();
+    for (let index = 0; index < total; index += 1) {
+      const saved = guestData[index] || { surname: "", givenName: "", type: "mayor", menu: "Menu estandar" };
+      const row = document.createElement("div");
+      row.className = "guest-row";
+      row.innerHTML = '<p class="guest-number">Persona ' + (index + 1) + '</p>' +
+        '<div class="field"><label for="surname-' + index + '">Apellido</label><input class="guest-surname" id="surname-' + index + '" type="text" maxlength="100" autocomplete="section-guest' + index + ' family-name" required pattern=".*\\S.*"></div>' +
+        '<div class="field"><label for="given-' + index + '">Nombre</label><input class="guest-given-name" id="given-' + index + '" type="text" maxlength="100" autocomplete="section-guest' + index + ' given-name" required pattern=".*\\S.*"></div>' +
+        '<div class="field guest-type-field"><label for="type-' + index + '">Tipo de invitación</label><select class="guest-type" id="type-' + index + '" required><option value="mayor">Mayor</option><option value="menor">Menor (5 a 12 años)</option></select></div>' +
+        '<div class="field guest-meal"><label for="menu-' + index + '">Preferencia de menú</label><select class="guest-menu" id="menu-' + index + '"><option value="Menu estandar">Menu estandar</option><option value="Restricciones alimentarias (informar)">Restricciones alimentarias (informar)</option></select></div>';
+      row.querySelector(".guest-surname").value = saved.surname;
+      row.querySelector(".guest-given-name").value = saved.givenName;
+      row.querySelector(".guest-type").value = saved.type;
+      row.querySelector(".guest-menu").value = saved.menu;
+      guestList.appendChild(row);
+    }
+    updateAttendance();
+  }
+  function normalizeCount() {
+    count.value = String(Math.max(1, Math.min(30, Number(count.value) || 1)));
+    renderGuests();
+  }
+  count.addEventListener("input", renderGuests);
+  count.addEventListener("blur", normalizeCount);
+  attendance.addEventListener("change", updateAttendance);
+  renderGuests();
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (sending) return;
+    normalizeCount();
+    if (!form.reportValidity()) return;
+    snapshotGuests();
+    document.getElementById("guests_json").value = JSON.stringify(guestData.slice(0, Number(count.value)));
+    const body = new URLSearchParams(new FormData(form));
+    sending = true;
+    errorText.hidden = true;
+    form.hidden = true;
+    heading.hidden = true;
+    result.hidden = false;
+    result.innerHTML = '<span class="spinner"></span><p>Guardando tu respuesta…</p>';
+    try {
+      const response = await fetch(form.action, { method: "POST", body, headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" } });
+      const payload = await response.json();
+      if (!response.ok || payload.ok !== true) throw new Error(payload.error || "No pudimos guardar tu respuesta.");
+      window.setTimeout(function () {
+        result.innerHTML = attendance.value === "declined"
+          ? '<h3>Gracias por avisarme</h3><p>Tu respuesta quedó registrada.</p>'
+          : '<h3>¡Nos vemos en la fiesta!</h3><p>Tu confirmación quedó registrada.<br>Gracias por compartir este momento conmigo.</p>';
+      }, 650);
+    } catch (error) {
+      sending = false;
+      form.hidden = false;
+      heading.hidden = false;
+      result.hidden = true;
+      result.replaceChildren();
+      errorText.textContent = error.message || "No pudimos enviar la respuesta. Intentá nuevamente.";
+      errorText.hidden = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

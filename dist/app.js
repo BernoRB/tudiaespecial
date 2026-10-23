@@ -13,6 +13,7 @@ const public_1 = __importDefault(require("./routes/public"));
 const events_1 = __importDefault(require("./routes/events"));
 const admin_1 = __importDefault(require("./routes/admin"));
 const daniel50_1 = __importDefault(require("./routes/daniel50"));
+const lucas35_1 = __importDefault(require("./routes/lucas35"));
 const app = (0, express_1.default)();
 // Configuración básica
 app.set("view engine", "ejs");
@@ -37,6 +38,7 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public"),
 app.use("/", public_1.default);
 app.use("/", admin_1.default);
 app.use("/", daniel50_1.default);
+app.use("/", lucas35_1.default);
 app.use("/", events_1.default);
 // Fallback 404 básico
 app.use((req, res) => {
