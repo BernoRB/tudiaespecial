@@ -13,7 +13,8 @@ function shouldHideContactName(event) {
 function shouldDisableEventCache(event) {
     return event?.slug === PICU_DB_SLUG
         || event?.template_key === "custom_quince_picu_royal_glow"
-        || event?.template_key === "custom_event_lu3hn_radio40";
+        || event?.template_key === "custom_event_lu3hn_radio40"
+        || (event?.slug === "lucas-35" && event?.template_key === "custom_event_lucas35");
 }
 function resolveEventSlug(slug) {
     return slug === PICU_PRIVATE_SLUG ? PICU_DB_SLUG : slug;

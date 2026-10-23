@@ -30,12 +30,38 @@ button, a, input, select, textarea, summary { -webkit-tap-highlight-color: trans
 .hero-date-copy { padding-left: 20px; border-left: 1px solid #5c806e; text-align: left; line-height: 1.6; font-size: .9rem; }
 .hero-date-copy span { display: block; }
 .hero-date-copy .month { font-size: 1.35rem; color: var(--silver); }
-.hero-welcome { margin: 27px 20px 0; font-size: 1.08rem; color: var(--muted); }
 .countdown-section { padding: 6px 24px 40px; text-align: center; background: linear-gradient(35deg, rgba(31, 66, 49, .12), transparent 70%); }
 .countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; max-width: 450px; margin: 0 auto; }
 .count-unit { padding: 15px 0 12px; border-top: 1px solid #567463; border-bottom: 1px solid rgba(178,201,189,.12); }
 .count-value { display: block; font: 400 2.5rem/1 "Libre Caslon Display", serif; color: var(--silver); font-variant-numeric: tabular-nums; }
 .count-name { display: block; font-size: .62rem; text-transform: uppercase; margin-top: 9px; color: var(--muted); }
+.party-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 35px 24px 38px;
+  border-top: 1px solid #648672;
+  border-bottom: 1px solid #648672;
+  background: linear-gradient(115deg, #193b2d, #244b39 55%, #163226);
+  text-align: center;
+}
+.party-banner::before, .party-banner::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -25%;
+  bottom: -25%;
+  width: 34px;
+  border-right: 1px solid rgba(207, 229, 213, .18);
+  border-left: 1px solid rgba(207, 229, 213, .09);
+  transform: rotate(22deg);
+  pointer-events: none;
+}
+.party-banner::before { left: 8px; }
+.party-banner::after { right: 8px; }
+.party-lineup { margin: 0; color: #edf2ee; font: 600 1.7rem/1.14 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.party-lineup strong { display: inline-block; margin-top: 3px; font-size: 2.5rem; font-weight: 700; }
+.party-invite { margin: 15px 0 0; color: #c2dfcc; font: 600 1.95rem/1.1 "Caveat", cursive; }
 .section {
   position: relative;
   padding: 47px 27px 49px;
@@ -45,7 +71,7 @@ button, a, input, select, textarea, summary { -webkit-tap-highlight-color: trans
   background-position: center top;
   text-align: center;
 }
-.section:nth-of-type(odd) { background-color: #101513; background-image: var(--ambient-flecks), linear-gradient(300deg, rgba(46, 91, 70, .14), transparent 65%); background-position: center -300px, center; }
+.section:nth-of-type(even) { background-color: #101513; background-image: var(--ambient-flecks), linear-gradient(300deg, rgba(46, 91, 70, .14), transparent 65%); background-position: center -300px, center; }
 .section::before { content: ""; position: absolute; height: 1px; top: 0; left: 8%; right: 8%; background: linear-gradient(90deg, transparent, rgba(180,202,190,.24), transparent); }
 .section-heading { margin-bottom: 26px; }
 .section-icon { display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto 16px; color: #a8c9b9; }

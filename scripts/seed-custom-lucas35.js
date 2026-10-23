@@ -34,8 +34,8 @@ const event = {
     transfer_account: { alias: "dseventos" },
     bring_drinks: true,
     card_prices: [
-      { label: "Mayores", value: "$44.000" },
-      { label: "Menores de 5 a 12 años", value: "$22.000" },
+      { label: "Mayores", value: "$45.000" },
+      { label: "Menores de 5 a 12 años", value: "$22.500" },
     ],
   },
   client_original_data: { source: "custom_codex_local_preview" },
