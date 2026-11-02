@@ -20,7 +20,8 @@ function shouldDisableEventCache(event: any) {
   return event?.slug === PICU_DB_SLUG
     || event?.template_key === "custom_quince_picu_royal_glow"
     || event?.template_key === "custom_event_lu3hn_radio40"
-    || (event?.slug === "lucas-35" && event?.template_key === "custom_event_lucas35");
+    || (event?.slug === "lucas-35" && event?.template_key === "custom_event_lucas35")
+    || (event?.slug === "daniel-50" && event?.template_key === "custom_event_daniel50");
 }
 
 function resolveEventSlug(slug: string) {
